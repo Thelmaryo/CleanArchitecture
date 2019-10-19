@@ -1,0 +1,43 @@
+﻿@model College.Models.DisciplinePortfolio
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="studentId" value="@ViewBag.StudentId" />
+
+    <div class="form-horizontal">
+        <h4>DisciplinePortfolio</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @for(int cont=0; cont < Model.Options.Count(); cont++)
+        {
+            <label>
+                @Html.CheckBox($"Options[{cont}].Checked")
+                @Html.Hidden($"Options[{cont}].Value", Model.Options[cont].Value)
+                @Model.Options[cont].Text
+            </label>
+            <br />
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

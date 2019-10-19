@@ -1,0 +1,50 @@
+﻿@model IEnumerable<College.Models.Grade>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Discipline)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Value)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinalExam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discipline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinalExam)
+            </td>
+            <td>
+                @switch (item.Status)
+                {
+                    case "Aprovado":<span class="label label-success"> Aprovado </span> break;
+                    case "Reprovado": <span class="label label-danger"> Reprovado </span>break;
+                    case "Matriculado": <span class="label label-primary"> Matriculado </span>break;
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Notas", "ShowGrades", new { disciplineId = item.DisciplineId, enrollmentId = ViewBag.EnrollmentId }, new { @class = "btn btn-default" })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "ChooseStudent";
+}
+
+<h4 class="text-danger">@ViewBag.Error</h4>
+@using (Html.BeginForm("Create", "Enrollment", FormMethod.Get))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">Curso</label>
+            <div class="col-md-10">
+                @Html.DropDownList("courseId", (SelectList)ViewBag.Courses, "-- Selecione --", new { @class = "form-control", required = "true" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Estudante (CPF)</label>
+            <div class="col-md-10">
+                @Html.Editor("CPF", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Salvar" class="btn btn-success" />
+        </div>
+    </div>
+}
+
+

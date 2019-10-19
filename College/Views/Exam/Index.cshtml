@@ -1,0 +1,55 @@
+﻿@model IEnumerable<College.Models.Exam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h4>Disciplina: @ViewBag.Discipline</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EnrollmentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Exam1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Exam2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Exam3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinalExam)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @{string student = (ViewBag.Students as Dictionary<Guid, string>).SingleOrDefault(x=>x.Key == item.EnrollmentId).Value;}
+            @student
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Exam1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Exam2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Exam3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinalExam)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "GiveGrade", new { id=item.Id }, new { @class = "btn btn-default" })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<College.Models.ActivityGrade>
+
+@{
+    ViewBag.Title = "Grades";
+}
+
+    <h2>Atividade: @ViewBag.Activity.Description - @ViewBag.Activity.Value pontos</h2>
+
+<p>
+    @Html.ActionLink("Voltar", "Index", new { disciplineId = ViewBag.Activity.DisciplineId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grade)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @{
+                var student = (ViewBag.Students as IEnumerable<College.Models.Student>).Single(x => x.Id == item.StudentId);
+            }
+            @student.FirstName @student.LastName
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Grade)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "GiveGrade", new { studentId = item.StudentId, activityId = item.ActivityId }, new { @class = "btn btn-default" })
+        </td>
+    </tr>
+}
+
+</table>

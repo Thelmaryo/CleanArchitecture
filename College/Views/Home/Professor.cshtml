@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Professor";
+}
+
+@if (ViewBag.Disciplines != null)
+{
+    <div class="jumbotron">
+        <h2>Disciplinas</h2>
+        <table class="table">
+            <tr>
+                <th>Disciplina</th>
+                <th>Ações</th>
+            </tr>
+            @foreach (College.Models.Discipline discipline in ViewBag.Disciplines)
+            {
+                <tr>
+                    <td><h4>@discipline.Name</h4></td>
+                    <td>
+                        @Html.ActionLink("Atividades", "Index", "Activity", new { disciplineId = discipline.Id }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Provas", "Index", "Exam", new { disciplineId = discipline.Id }, new { @class = "btn btn-default" })
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+}

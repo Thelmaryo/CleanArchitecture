@@ -1,0 +1,33 @@
+﻿@model IEnumerable<College.Models.Enrollment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "ChooseStudent")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @{ var student = (ViewBag.Students as IEnumerable<College.Models.Student>).Single(x => x.Id == item.StudentId); }
+            @student.FirstName @student.LastName
+        </td>
+        <td>
+            @Html.ActionLink("Confirm", "Confirm", new { id = item.Id }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Deny", "Deny", new { id = item.Id }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
