@@ -5,13 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace College.Entities.Evaluation.Entities
+namespace College.Entities.Enrollment.Entities
 {
-    public class Discipline : Entity
+    public class Student : Entity
     {
-        public Discipline(string name)
+        public Student(string name)
         {
             Name = name;
+        }
+        public Student()
+        {
+
         }
 
         public string Name { get; private set; }

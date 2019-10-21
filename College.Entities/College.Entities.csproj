@@ -37,8 +37,14 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity\Entities\Activity.cs" />
+    <Compile Include="Activity\Entities\Discipline.cs" />
+    <Compile Include="Enrollment\Entities\Enrollment.cs" />
+    <Compile Include="Enrollment\Entities\Student.cs" />
+    <Compile Include="Enrollment\Enumerators\EStatusEnrollment.cs" />
     <Compile Include="Evaluation\Entities\Activity.cs" />
-    <Compile Include="Evaluation\Entities\Discipline.cs" />
+    <Compile Include="Evaluation\Entities\Student.cs" />
+    <Compile Include="Evaluation\ValueObjects\Semester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Entity.cs" />
   </ItemGroup>
@@ -46,17 +52,9 @@
     <Folder Include="Account\Entities\" />
     <Folder Include="Account\Enumerators\" />
     <Folder Include="Account\ValueObjects\" />
-    <Folder Include="Activity\Entities\" />
-    <Folder Include="Activity\Enumerators\" />
-    <Folder Include="Activity\ValueObjects\" />
     <Folder Include="Course\Entities\" />
     <Folder Include="Course\Enumerators\" />
     <Folder Include="Course\ValueObjects\" />
-    <Folder Include="Enrollment\Entities\" />
-    <Folder Include="Enrollment\Enumerators\" />
-    <Folder Include="Enrollment\ValueObjects\" />
-    <Folder Include="Evaluation\Enumerators\" />
-    <Folder Include="Evaluation\ValueObjects\" />
     <Folder Include="Professor\Entities\" />
     <Folder Include="Professor\Enumerators\" />
     <Folder Include="Professor\ValueObjects\" />
