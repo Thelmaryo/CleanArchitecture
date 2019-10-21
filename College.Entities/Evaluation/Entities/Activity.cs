@@ -5,17 +5,22 @@ namespace College.Entities.Evaluation.Entities
 {
     public class Activity : Entity
     {
-        public Activity(Discipline discipline, string description, decimal value, DateTime date)
+        public Activity(Student student, string description, decimal value, decimal grade)
         {
-            Discipline = discipline;
+            if (grade > value)
+                Notifications.Add("Grade", $"A atividade vale {value} pontos");
+            Student = student;
             Description = description;
             Value = value;
-            Date = date;
+            Grade = grade;
         }
+        public Activity()
+        {
 
-        public Discipline Discipline { get; private set; }
+        }
+        public Student Student { get; private set; }
         public string Description { get; private set; }
         public decimal Value { get; private set; }
-        public DateTime Date { get; private set; }
+        public decimal Grade { get; private set; }
     }
 }
