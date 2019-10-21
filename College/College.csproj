@@ -216,12 +216,15 @@
     <Content Include="Views\Exam\GiveGrade.cshtml" />
     <Content Include="Views\Grade\Index.cshtml" />
     <Content Include="Views\Grade\ShowGrades.cshtml" />
+    <Content Include="Views\Student\Create.cshtml" />
+    <Content Include="Views\Student\Delete.cshtml" />
+    <Content Include="Views\Student\Details.cshtml" />
+    <Content Include="Views\Student\Edit.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ControllerBase\" />
-    <Folder Include="Views\Student\" />
-    <Folder Include="Views\Exam\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

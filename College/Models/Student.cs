@@ -28,7 +28,7 @@ namespace College.Models
         {
             if (_db.State == ConnectionState.Closed)
                 _db.Open();
-            var sql = "INSERT INTO [User] (Id, UserName, Password, Active, Role) VALUES (@Id, @UserName, @Password, 1, 'Student')";
+            var sql = "INSERT INTO [User] (Id, UserName, Password, Salt, Role, Active) VALUES (@Id, @UserName, @Password, @Salt, 'Student', 1)";
             SqlCommand command = new SqlCommand(sql, _db);
             Id = Guid.NewGuid();
             command.Parameters.AddWithValue("@Id", Id);

@@ -1,6 +1,5 @@
 ﻿using College.Helpers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
@@ -15,6 +14,7 @@ namespace College.Models
         [Display(Name = "Senha")]
         public string Password { get; set; }
         public bool Active { get; set; }
+        public string Salt { get; set; }
 
         private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-23IN36H; database=College; User Id=sa; Password=123");
 
@@ -55,6 +55,21 @@ namespace College.Models
             if (_db.State == ConnectionState.Open)
                 _db.Close();
             return Convert.ToInt32(dataTable.Rows[0]["Result"]) == 1;
+        }
+
+        public string GetSalt(string UserName)
+        {
+            if (_db.State == ConnectionState.Closed)
+                _db.Open();
+            var sql = "SELECT Salt FROM [User] WHERE UserName = @UserName";
+            SqlCommand command = new SqlCommand(sql, _db);
+            command.Parameters.AddWithValue("@UserName", UserName);
+            SqlDataReader dataReader = command.ExecuteReader();
+            DataTable dataTable = new DataTable();
+            dataTable.Load(dataReader);
+            if (_db.State == ConnectionState.Open)
+                _db.Close();
+            return dataTable.Rows[0]["Salt"].ToString();
         }
     }
 }

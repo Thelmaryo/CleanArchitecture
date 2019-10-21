@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "College", "College\College.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "College.Entities", "College.Entities\College.Entities.csproj", "{BC617097-03FF-45C8-944C-3D41027F8F72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "College.UseCases", "College.UseCases\College.UseCases.csproj", "{803A2266-4C3D-4977-A1FE-2137687C9C17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BC617097-03FF-45C8-944C-3D41027F8F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC617097-03FF-45C8-944C-3D41027F8F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC617097-03FF-45C8-944C-3D41027F8F72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{803A2266-4C3D-4977-A1FE-2137687C9C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{803A2266-4C3D-4977-A1FE-2137687C9C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{803A2266-4C3D-4977-A1FE-2137687C9C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{803A2266-4C3D-4977-A1FE-2137687C9C17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

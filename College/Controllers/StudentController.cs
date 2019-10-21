@@ -1,6 +1,7 @@
 ﻿using College.Models;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
@@ -43,7 +44,8 @@ namespace College.Controllers
         {
             try
             {
-                if(student.FirstName.Length < 3 || student.FirstName == null)
+                student.Password = student.CPF.Replace("-", "").Replace(".", "");
+                if (student.FirstName.Length < 3 || student.FirstName == null)
                 {
                     ModelState.AddModelError("FirstName", "O Nome deve ter no minimo 3 caracteres");
                     return View(student);
@@ -101,6 +103,24 @@ namespace College.Controllers
                     ModelState.AddModelError("Email", "O Email é campo obrigatorio!");
                     return View(student);
                 }
+
+                // Cria um salt aleatório de 64 bits
+                byte[] salt = new byte[8];
+                using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+                {
+                    // Enche o array com um valor aleatório
+                    rngCsp.GetBytes(salt);
+                }
+                // Escolha o valor mais alto que seja "tolerável"
+                // 100 000 era um valor razoável em 2011, não sei se é suficiente hoje
+                int myIterations = 100000;
+                Rfc2898DeriveBytes k = new Rfc2898DeriveBytes(student.Password, salt, myIterations);
+                student.Salt = String.Join(",", salt);
+
+                student.Password = Convert.ToBase64String(k.GetBytes(32));
+                // Codifica esse Password de alguma forma e salva no BD
+                // (lembre-se de salvar o salt também! você precisará dele para comparação)
+
                 // TODO: Add insert logic here
                 student.Create();
                 return RedirectToAction("Index");

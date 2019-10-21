@@ -35,12 +35,13 @@ namespace College.Models
         {
             if(_db.State == ConnectionState.Closed)
                 _db.Open();
-            var sql = "INSERT INTO [User] (Id, UserName, Password, Active, Role) VALUES (@Id, @UserName, @Password, 1, 'Professor')";
+            var sql = "INSERT INTO [User] (Id, UserName, Password, Active, Salt, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
             SqlCommand command = new SqlCommand(sql, _db);
             Id = Guid.NewGuid();
             command.Parameters.AddWithValue("@Id", Id);
             command.Parameters.AddWithValue("@UserName", Email);
             command.Parameters.AddWithValue("@Password", Password);
+            command.Parameters.AddWithValue("@Salt", Salt);
             command.ExecuteNonQuery();
             sql = "INSERT INTO Professor (Id, FirstName, LastName, Degree, CPF, Email, Phone) VALUES (@Id, @FirstName, @LastName, @Degree, @CPF, @Email, @Phone)";
             command = new SqlCommand(sql, _db);

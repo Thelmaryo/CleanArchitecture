@@ -4,6 +4,7 @@ using College.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -98,6 +99,24 @@ namespace College.Controllers
                     return View(professor);
                 }
                 professor.Password = professor.CPF.Replace("-", "").Replace(".", "");
+
+                // Cria um salt aleatório de 64 bits
+                byte[] salt = new byte[8];
+                using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+                {
+                    // Enche o array com um valor aleatório
+                    rngCsp.GetBytes(salt);
+                }
+                // Escolha o valor mais alto que seja "tolerável"
+                // 100 000 era um valor razoável em 2011, não sei se é suficiente hoje
+                int myIterations = 100000;
+                Rfc2898DeriveBytes k = new Rfc2898DeriveBytes(professor.Password, salt, myIterations);
+                professor.Salt = String.Join(",", salt);
+
+                professor.Password = Convert.ToBase64String(k.GetBytes(32));
+                // Codifica esse Password de alguma forma e salva no BD
+                // (lembre-se de salvar o salt também! você precisará dele para comparação)
+
                 professor.Create();
                 return RedirectToAction("Index");
             }
