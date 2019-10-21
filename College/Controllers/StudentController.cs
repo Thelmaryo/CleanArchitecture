@@ -43,17 +43,17 @@ namespace College.Controllers
         {
             try
             {
-                if(student.FirstName.Length + 1 < 3 || student.FirstName == null)
+                if(student.FirstName.Length < 3 || student.FirstName == null)
                 {
                     ModelState.AddModelError("FirstName", "O Nome deve ter no minimo 3 caracteres");
                     return View(student);
                 }
-                if (student.LastName.Length + 1 < 3 || student.LastName == null)
+                if (student.LastName.Length < 3 || student.LastName == null)
                 {
                     ModelState.AddModelError("LastName", "O Sobrenome deve ter no minimo 3 caracteres");
                     return View(student);
                 }
-                if (student.Phone.Length + 1 < 8 || student.Phone == null)
+                if (student.Phone.Length < 8 || student.Phone == null)
                 {
                     ModelState.AddModelError("Telefone", "O Telefone deve ter no minimo 8 caracteres");
                     return View(student);
@@ -128,17 +128,17 @@ namespace College.Controllers
         {
             try
             {
-                if (student.FirstName.Length + 1 < 3 || student.FirstName == null)
+                if (student.FirstName.Length < 3 || student.FirstName == null)
                 {
                     ModelState.AddModelError("FirstName", "O Nome deve ter no minimo 3 caracteres");
                     return View(student);
                 }
-                if (student.LastName.Length + 1 < 3 || student.LastName == null)
+                if (student.LastName.Length < 3 || student.LastName == null)
                 {
                     ModelState.AddModelError("LastName", "O Sobrenome deve ter no minimo 3 caracteres");
                     return View(student);
                 }
-                if (student.Phone.Length + 1 < 8 || student.Phone == null)
+                if (student.Phone.Length < 8 || student.Phone == null)
                 {
                     ModelState.AddModelError("Telefone", "O Telefone deve ter no minimo 8 caracteres");
                     return View(student);
