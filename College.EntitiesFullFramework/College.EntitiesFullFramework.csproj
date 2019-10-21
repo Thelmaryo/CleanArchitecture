@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ECB5549E-9083-4393-8E64-01A31CCC89FD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>College.EntitiesFullFramework</RootNamespace>
+    <AssemblyName>College.EntitiesFullFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activity\Entities\Activity.cs" />
+    <Compile Include="Activity\Entities\Discipline.cs" />
+    <Compile Include="Enrollment\Entities\Enrollment.cs" />
+    <Compile Include="Enrollment\Entities\Student.cs" />
+    <Compile Include="Enrollment\Enumerators\EStatusEnrollment.cs" />
+    <Compile Include="Account\Entities\User.cs" />
+    <Compile Include="Course\Entities\Course.cs" />
+    <Compile Include="Evaluation\Entities\Activity.cs" />
+    <Compile Include="Evaluation\Entities\Student.cs" />
+    <Compile Include="Evaluation\ValueObjects\Semester.cs" />
+    <Compile Include="Evaluation\Entities\Discipline.cs" />
+    <Compile Include="Professor\Entities\Professor.cs" />
+    <Compile Include="Professor\Enumerators\EDegree.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\CPF.cs" />
+    <Compile Include="Shared\Email.cs" />
+    <Compile Include="Shared\ValueObject.cs" />
+    <Compile Include="Shared\Entity.cs" />
+    <Compile Include="Student\Entities\Course.cs" />
+    <Compile Include="Student\Entities\Student.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Account\Enumerators\" />
+    <Folder Include="Account\ValueObjects\" />
+    <Folder Include="Activity\Enumerators\" />
+    <Folder Include="Activity\ValueObjects\" />
+    <Folder Include="Course\Enumerators\" />
+    <Folder Include="Course\ValueObjects\" />
+    <Folder Include="Enrollment\ValueObjects\" />
+    <Folder Include="Evaluation\Enumerators\" />
+    <Folder Include="Professor\ValueObjects\" />
+    <Folder Include="Student\Enumerators\" />
+    <Folder Include="Student\ValueObjects\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

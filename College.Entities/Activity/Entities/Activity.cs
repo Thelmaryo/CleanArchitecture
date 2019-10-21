@@ -8,7 +8,7 @@ namespace College.Entities.Activity.Entities
         public Activity(Discipline discipline, string description, DateTime date, decimal value, decimal pointsAlreadyDistributed)
         {
             if(pointsAlreadyDistributed + value > 100)
-                Notifications.Add("Grade", $"A nota total não pode ultrapassar 100 ponts. Já foram distribuídos {pointsAlreadyDistributed} pontos.");
+                Notifications.Add("Grade", $"A nota total não pode ultrapassar 100 pontos. Já foram distribuídos {pointsAlreadyDistributed} pontos.");
             Discipline = discipline;
             Description = description;
             Value = value;
