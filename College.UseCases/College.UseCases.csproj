@@ -1,7 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Account\Handlers\" />
+    <Folder Include="Activity\Handlers\" />
+    <Folder Include="Activity\Inputs\" />
+    <Folder Include="Activity\Results\" />
+    <Folder Include="Course\Handlers\" />
+    <Folder Include="Enrollment\Handlers\" />
+    <Folder Include="Enrollment\Results\" />
+    <Folder Include="Evaluation\Handlers\" />
+    <Folder Include="Evaluation\Results\" />
+    <Folder Include="Professor\Handlers\" />
+    <Folder Include="Student\Handlers\" />
+  </ItemGroup>
 
 </Project>
