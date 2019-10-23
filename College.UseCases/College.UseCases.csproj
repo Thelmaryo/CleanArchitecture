@@ -5,17 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Account\Handlers\" />
-    <Folder Include="Activity\Handlers\" />
-    <Folder Include="Activity\Inputs\" />
-    <Folder Include="Activity\Results\" />
-    <Folder Include="Course\Handlers\" />
-    <Folder Include="Enrollment\Handlers\" />
-    <Folder Include="Enrollment\Results\" />
-    <Folder Include="Evaluation\Handlers\" />
-    <Folder Include="Evaluation\Results\" />
-    <Folder Include="Professor\Handlers\" />
-    <Folder Include="Student\Handlers\" />
+    <Folder Include="AccountContext\Handlers\" />
+    <Folder Include="ActivityContext\Inputs\" />
+    <Folder Include="ActivityContext\Results\" />
+    <Folder Include="CourseContext\Handlers\" />
+    <Folder Include="EnrollmentContext\Handlers\" />
+    <Folder Include="EnrollmentContext\Results\" />
+    <Folder Include="EvaluationContext\Handlers\" />
+    <Folder Include="EvaluationContext\Results\" />
+    <Folder Include="ProfessorContext\Handlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\College.Entities\College.Entities.csproj" />
   </ItemGroup>
 
 </Project>

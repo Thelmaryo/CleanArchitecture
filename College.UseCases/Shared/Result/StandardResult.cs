@@ -5,6 +5,10 @@ namespace College.UseCases.Shared.Result
 {
     public class StandardResult : ICommandResult
     {
-        IDictionary<string, string> Notifications { get; set; }
+        public IDictionary<string, string> Notifications { get; set; }
+        public StandardResult()
+        {
+            Notifications = new Dictionary<string, string>();
+        }
     }
 }
