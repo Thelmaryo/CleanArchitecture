@@ -6,7 +6,8 @@ namespace College.Entities.ProfessorContext.Entities
 {
     public class Professor : User
     {
-        public Professor(string firstName, string lastName, string cpf, string email, string phone, EDegree degree) : base(email, cpf)
+        public Professor(){}
+        public Professor(string firstName, string lastName, string cpf, string email, string phone, EDegree degree, string password) : base(email, password)
         {
 
             if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
@@ -32,6 +33,31 @@ namespace College.Entities.ProfessorContext.Entities
             Phone = phone;
             Degree = degree;
         }
+        
+        public Professor(string firstName, string lastName, string email, string phone, EDegree degree) : base(email)
+        {
+
+            if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
+            {
+                Notifications.Add("FirstName", "O Nome deve ter no minimo 3 caracteres");
+            }
+            if (string.IsNullOrEmpty(lastName) || lastName.Length < 3)
+            {
+                Notifications.Add("LastName", "O Sobrenome deve ter no minimo 3 caracteres");
+            }
+            if (string.IsNullOrEmpty(phone) || phone.Length < 8)
+            {
+                Notifications.Add("Telefone", "O Telefone deve ter no minimo 8 caracteres");
+            }
+
+            Email = new Email(email);
+            Notifications.Add("Email", Email.Notification);
+
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Degree = degree;
+        }
 
         public string Name { get => $"{FirstName} {LastName}"; }
 
@@ -47,11 +73,6 @@ namespace College.Entities.ProfessorContext.Entities
 
         public EDegree Degree { get; private set; }
 
-        // Editar apenas EDegree da Professor
-        public void UpdateEntity(EDegree degree)
-        {
-            Degree = degree;
-        }
         // Editar Professor
         public void UpdateEntity(string firstName, string lastName, string cpf, string email, string phone, EDegree degree)
         {

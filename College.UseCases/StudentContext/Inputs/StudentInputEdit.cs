@@ -3,8 +3,10 @@ using System;
 
 namespace College.UseCases.StudentContext.Inputs
 {
-    public class StudentInputRegister : ICommand
+    public class StudentInputEdit : ICommand
     {
+        public Guid StudentId { get; set; }
+        // Id Course
         public Guid CourseId { get; set; }
         // Name Course
         public string Name { get; set; }
@@ -14,8 +16,6 @@ namespace College.UseCases.StudentContext.Inputs
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public string CPF { get; set; }
 
         public string Email { get; set; }
 

@@ -37,5 +37,38 @@ namespace College.UseCases.StudentContext.Handlers
             }
             return result;
         }
+
+        public ICommandResult Handle(StudentInputEdit command)
+        {
+            var course = new Course(command.CourseId);
+
+            var student = new Student(course, command.Birthdate, command.FirstName, command.LastName,
+                command.Email, command.Phone, command.Gender, command.Country, command.City, command.Address);
+            student.EditId(command.StudentId);
+            var result = new StandardResult();
+            if (student.Notifications.Count == 0)
+            {
+                _SREP.Edit(student);
+                result.Notifications.Add("Success", "O Acadêmico foi Editado");
+            }
+            else
+            {
+                foreach (var notification in student.Notifications)
+                    result.Notifications.Add(notification);
+            }
+            return result;
+        }
+
+        public ICommandResult Handle(StudentInputDelete command)
+        {
+            _SREP.Delete(command.StudentId);
+            var result = new StandardResult();
+            if (_SREP.Get(command.StudentId) != null)
+                result.Notifications.Add("Error", "Não foi possivel deletar Discente!");
+            else
+                result.Notifications.Add("Success", "Discente Deletado");
+
+            return result;
+        }
     }
 }

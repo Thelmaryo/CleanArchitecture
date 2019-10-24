@@ -12,9 +12,9 @@
     <Folder Include="AccountContext\Handlers\" />
     <Folder Include="ActivityContext\Results\" />
     <Folder Include="CourseContext\Handlers\" />
+    <Folder Include="EnrollmentContext\Handlers\" />
     <Folder Include="EnrollmentContext\Results\" />
     <Folder Include="EvaluationContext\Results\" />
-    <Folder Include="ProfessorContext\Handlers\" />
   </ItemGroup>
 
   <ItemGroup>
