@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace College.Entities.Shared
+﻿namespace College.Entities.Shared
 {
     public abstract class ValueObject
     {

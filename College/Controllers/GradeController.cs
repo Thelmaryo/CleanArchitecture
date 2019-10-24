@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -53,7 +52,7 @@ namespace College.Controllers
             }
             else
             {
-                foreach(Grade g in grades)
+                foreach (Grade g in grades)
                 {
                     if (g.Value >= 60 || (g.Value >= 40 && g.Value < 60 && g.FinalExam >= 60))
                         g.Status = "Aprovado";

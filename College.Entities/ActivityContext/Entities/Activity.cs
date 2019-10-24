@@ -1,14 +1,16 @@
-﻿using College.Entities.Shared;
+﻿using College.Entities.ActivityContext.Interfaces;
+using College.Entities.Shared;
 using System;
 
 namespace College.Entities.ActivityContext.Entities
 {
-    public class Activity : Entity
+    public class Activity : Entity, IActivity
     {
-        public Activity(Discipline discipline, string description, DateTime date, decimal value, decimal pointsAlreadyDistributed)
+        public Activity(Discipline discipline, string description, DateTime date, decimal value, decimal pointsAlreadyDistributed, Guid? id)
         {
-            if(pointsAlreadyDistributed + value > 100)
+            if (pointsAlreadyDistributed + value > 100)
                 Notifications.Add("Grade", $"A nota total não pode ultrapassar 100 pontos. Já foram distribuídos {pointsAlreadyDistributed} pontos.");
+            if (id != null) Id = (Guid)id;
             Discipline = discipline;
             Description = description;
             Value = value;

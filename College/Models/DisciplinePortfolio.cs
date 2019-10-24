@@ -1,8 +1,5 @@
 ﻿using College.Helpers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace College.Models
 {
@@ -17,7 +14,8 @@ namespace College.Models
             Options = new List<Checkbox>();
             foreach (var discipline in disciplines)
             {
-                Options.Add(new Checkbox {
+                Options.Add(new Checkbox
+                {
                     Checked = false,
                     Text = discipline.Name,
                     Value = discipline.Id.ToString()

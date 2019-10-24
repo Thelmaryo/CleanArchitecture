@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace College.Entities.Shared
 {
@@ -15,7 +14,7 @@ namespace College.Entities.Shared
             }
             Address = address;
         }
-        
+
         public string Address { get; private set; }
     }
 }

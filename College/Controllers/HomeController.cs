@@ -1,9 +1,7 @@
 ﻿using College.Helpers;
 using College.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -42,7 +40,7 @@ namespace College.Controllers
             ViewBag.Disciplines = discipline.GetByEnrollment(enrollment.Id);
             ViewBag.StatusEnrollment = enrollment.Status;
             List<Enrollment> enrollments = enrollment.GetByStudent(User.Id).OrderBy(x => x.Begin).ToList();
-            enrollments.RemoveAll(x=>x.Id == enrollment.Id);
+            enrollments.RemoveAll(x => x.Id == enrollment.Id);
             ViewBag.Enrollments = enrollments;
             return View();
         }

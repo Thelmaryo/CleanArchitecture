@@ -1,9 +1,7 @@
 ﻿using College.Helpers;
 using College.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -39,7 +37,7 @@ namespace College.Controllers
                 return RedirectToAction("Index", "Home");
             Student student = new Student();
             student.Get(CPF);
-            if(student.Id == Guid.Empty)
+            if (student.Id == Guid.Empty)
             {
                 TempData["Error"] = "CPF Inválido";
                 return RedirectToAction("ChooseStudent");
@@ -88,11 +86,12 @@ namespace College.Controllers
                 Id = id
             };
             enrollment.Confirm();
-            Exam exam = new Exam {
+            Exam exam = new Exam
+            {
                 EnrollmentId = id
             };
             Discipline discipline = new Discipline();
-            foreach( var d in discipline.GetByEnrollment(id))
+            foreach (var d in discipline.GetByEnrollment(id))
             {
                 exam.DisciplineId = d.Id;
                 exam.Create();

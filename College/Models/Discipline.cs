@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace College.Models
 {
@@ -108,7 +106,7 @@ namespace College.Models
             SqlDataReader dataReader = command.ExecuteReader();
             DataTable dataTable = new DataTable();
             dataTable.Load(dataReader);
-            if(dataTable.Rows.Count > 0)
+            if (dataTable.Rows.Count > 0)
             {
                 Id = Guid.Parse(dataTable.Rows[0]["Id"].ToString());
                 Name = dataTable.Rows[0]["Name"].ToString();
@@ -117,7 +115,7 @@ namespace College.Models
                 ProfessorId = Guid.Parse(dataTable.Rows[0]["ProfessorId"].ToString());
                 WeeklyWorkload = Convert.ToInt32(dataTable.Rows[0]["WeeklyWorkload"]);
             }
-            
+
             if (_db.State == ConnectionState.Open)
                 _db.Close();
         }

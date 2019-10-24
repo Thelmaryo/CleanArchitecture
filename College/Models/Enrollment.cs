@@ -5,12 +5,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace College.Models
 {
-    public class Enrollment 
+    public class Enrollment
     {
         public Guid Id { get; set; }
         [Display(Name = "Acadêmico")]
@@ -36,7 +34,7 @@ namespace College.Models
             command.Parameters.AddWithValue("@End", End);
             command.Parameters.AddWithValue("@Status", EStatusEnrollment.PreEnrollment);
             command.ExecuteNonQuery();
-            foreach(var discipline in disciplines)
+            foreach (var discipline in disciplines)
             {
                 sql = "INSERT INTO StudentDiscipline (Id, EnrollmentId, DisciplineId, [Status]) VALUES (@Id, @EnrollmentId, @DisciplineId, @Status)";
                 command = new SqlCommand(sql, _db);
@@ -143,7 +141,7 @@ namespace College.Models
             SqlDataReader dataReader = command.ExecuteReader();
             DataTable dataTable = new DataTable();
             dataTable.Load(dataReader);
-            if(dataTable.Rows.Count > 0)
+            if (dataTable.Rows.Count > 0)
             {
                 Id = Guid.Parse(dataTable.Rows[0]["Id"].ToString());
                 Begin = Convert.ToDateTime(dataTable.Rows[0]["Begin"]);

@@ -5,10 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ActivityContext\Inputs\" />
+    <None Remove="ActivityContext\Handlers\ActivityCommandHandler.cs~RFb23bd1a.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AccountContext\Handlers\" />
     <Folder Include="ActivityContext\Results\" />
+    <Folder Include="CourseContext\Handlers\" />
     <Folder Include="EnrollmentContext\Handlers\" />
     <Folder Include="EvaluationContext\Handlers\" />
+    <Folder Include="EnrollmentContext\Results\" />
     <Folder Include="EvaluationContext\Results\" />
   </ItemGroup>
 

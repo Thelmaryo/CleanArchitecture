@@ -1,8 +1,6 @@
 ﻿using College.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -16,7 +14,7 @@ namespace College.Controllers
             var exam = new Exam();
             IEnumerable<Exam> exams = exam.GetByDiscipline(disciplineId);
             Dictionary<Guid, string> studentsDictionary = new Dictionary<Guid, string>();
-            foreach(var e in exams)
+            foreach (var e in exams)
             {
                 Enrollment enrollment = new Enrollment();
                 enrollment.Get(e.EnrollmentId);
@@ -28,7 +26,7 @@ namespace College.Controllers
             discipline.Get(disciplineId);
             ViewBag.Students = studentsDictionary;
             ViewBag.Discipline = discipline.Name;
-            
+
             return View(exams);
         }
 

@@ -1,8 +1,6 @@
 ﻿using College.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -13,7 +11,7 @@ namespace College.Controllers
         public ActionResult Index(Guid disciplineId)
         {
             if (!User.IsInRole("Professor"))
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             Discipline discipline = new Discipline();
             discipline.Get(disciplineId);
             ViewBag.DisciplineId = disciplineId;
@@ -53,7 +51,7 @@ namespace College.Controllers
             ViewBag.Student = student.FirstName + " " + student.LastName;
             var grade = new ActivityGrade();
             grade.GetByStudent(studentId, activityId);
-            if(grade.Id == Guid.Empty)
+            if (grade.Id == Guid.Empty)
                 return View(new ActivityGrade { ActivityId = activityId, StudentId = studentId });
             return View(grade);
         }
