@@ -39,7 +39,7 @@ namespace College.UseCases.ActivityContext.Handlers
             var result = new StandardResult();
             if (activity.Notifications.Count == 0)
             {
-                _AREP.Edit(activity);
+                _AREP.Update(activity);
                 result.Notifications.Add("Success", "A atividade foi atualizada.");
             }
             else

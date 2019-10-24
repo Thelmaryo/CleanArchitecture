@@ -1,8 +1,9 @@
 ﻿using College.UseCases.Shared.Commands;
+using System;
 
 namespace College.UseCases.ProfessorContext.Inputs
 {
-    public class ProfessorInputEdit : ICommand
+    public class ProfessorInputUpdate : ICommand
     {
         public Guid ProfessorId { get; set; }
         public string FirstName { get; set; }

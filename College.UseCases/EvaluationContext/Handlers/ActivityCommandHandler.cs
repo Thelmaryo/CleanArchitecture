@@ -38,7 +38,7 @@ namespace College.UseCases.EvaluationContext.Handlers
             var result = new StandardResult();
             if (activity.Notifications.Count == 0)
             {
-                _AREP.Edit(activity);
+                _AREP.Update(activity);
                 result.Notifications.Add("Success", "A nota foi atualizada.");
             }
             else

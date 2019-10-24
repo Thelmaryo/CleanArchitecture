@@ -36,17 +36,16 @@ namespace College.UseCases.ProfessorContext.Handlers
             return result;
         }
 
-        public ICommandResult Handle(ProfessorInputEdit command)
+        public ICommandResult Handle(ProfessorInputUpdate command)
         {
             EDegree degree = (EDegree)command.Degree;
 
             var professor = new Professor(command.FirstName, command.LastName,
                 command.Email, command.Phone, degree);
-            professor.EditId(command.ProfessorId);
             var result = new StandardResult();
             if (professor.Notifications.Count == 0)
             {
-                _PREP.Edit(professor);
+                _PREP.Update(professor);
                 result.Notifications.Add("Success", "O Professor foi Editado");
             }
             else

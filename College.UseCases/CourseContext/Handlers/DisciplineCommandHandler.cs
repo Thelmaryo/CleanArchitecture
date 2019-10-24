@@ -33,13 +33,13 @@ namespace College.UseCases.CourseContext.Handlers
             return result;
         }
 
-        public ICommandResult Handle(DisciplineInputEdit command)
+        public ICommandResult Handle(DisciplineInputUpdate command)
         {
             var discipline = new Discipline(command.Name, command.CourseId, command.ProfessorId, command.WeeklyWorkload, command.Period);
             var result = new StandardResult();
             if (discipline.Notifications.Count == 0)
             {
-                _DREP.Edit(discipline);
+                _DREP.Update(discipline);
                 result.Notifications.Add("Success", "O Acadêmico foi Editado");
             }
             else
