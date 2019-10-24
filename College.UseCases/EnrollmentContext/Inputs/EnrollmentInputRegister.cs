@@ -5,11 +5,11 @@ namespace College.UseCases.EnrollmentContext.Inputs
 {
     public class EnrollmentInputRegister : ICommand
     {
-        // Name Student
-        public string Name { get; set; }
+        public Guid StudentId { get; set; }
+        public string StudentName { get; set; }
         public DateTime Begin { get; set; }
         public DateTime End { get; set; }
-        // EStatusEnrollment
-        public int Status { get; set; }
+        public int EnrollmentStatus { get; set; }
+        public Guid[] Disciplines { get; set; }
     }
 }

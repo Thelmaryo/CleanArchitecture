@@ -1,10 +1,6 @@
 ﻿using College.Enumerators;
-using College.Helpers;
 using College.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -59,13 +55,13 @@ namespace College.Controllers
                 int professorWorkload = professor.GetWorkload() + discipline.WeeklyWorkload;
                 if (professor.Degree == EDegree.Bachelor)
                 {
-                    if(professorWorkload > 40)
+                    if (professorWorkload > 40)
                     {
                         ModelState.AddModelError("ProfessorId", "A carga horária máxima do professor (40h) não pode ser excedida");
                         return View(discipline);
                     }
                 }
-                else if(professor.Degree == EDegree.Master)
+                else if (professor.Degree == EDegree.Master)
                 {
                     if (professorWorkload > 30)
                     {

@@ -76,7 +76,7 @@ namespace College.Models
             SqlDataReader dataReader = command.ExecuteReader();
             DataTable dataTable = new DataTable();
             dataTable.Load(dataReader);
-            if(dataTable.Rows.Count > 0)
+            if (dataTable.Rows.Count > 0)
             {
                 Id = Guid.Parse(dataTable.Rows[0]["Id"].ToString());
                 DisciplineId = Guid.Parse(dataTable.Rows[0]["DisciplineId"].ToString());
@@ -84,7 +84,7 @@ namespace College.Models
                 Value = Convert.ToDecimal(dataTable.Rows[0]["Value"]);
                 Date = Convert.ToDateTime(dataTable.Rows[0]["Date"]);
             }
-            
+
             if (_db.State == ConnectionState.Open)
                 _db.Close();
         }

@@ -1,4 +1,4 @@
-﻿using College.Entities.ActivityContext.Entities;
+﻿using College.Entities.ActivityContext.Interfaces;
 using College.Entities.EvaluationContext.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -7,10 +7,10 @@ namespace College.UseCases.ActivityContext.Repositories
 {
     public interface IActivityRepository
     {
-        public void Create(Activity activity);
-        public void Edit(Activity activity);
+        public void Create(IActivity activity);
+        public void Edit(IActivity activity);
         public void Delete(Guid id);
-        public Activity Get(Guid id);
-        public IEnumerable<Activity> GetByDiscipline(Guid id, Semester semester);
+        public IActivity Get(Guid id);
+        public IEnumerable<IActivity> GetByDiscipline(Guid id, Semester semester);
     }
 }

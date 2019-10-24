@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -40,7 +39,7 @@ namespace College.Controllers
             var names = Enum.GetNames(typeof(EDegree));
             var values = Enum.GetValues(typeof(EDegree));
             List<ComboboxItem> combobox = new List<ComboboxItem>();
-            for (int index=0; index < names.Count(); index++)
+            for (int index = 0; index < names.Count(); index++)
             {
                 var value = values.GetValue(index).ToString();
                 combobox.Add(new ComboboxItem(names[index], value));
@@ -84,7 +83,7 @@ namespace College.Controllers
                     ModelState.AddModelError("Telefone", "O Telefone deve ter no minimo 8 caracteres");
                     return View(professor);
                 }
-                
+
 
                 Regex rg = new Regex(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
 
@@ -120,7 +119,7 @@ namespace College.Controllers
                 professor.Create();
                 return RedirectToAction("Index");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return View(professor);
             }

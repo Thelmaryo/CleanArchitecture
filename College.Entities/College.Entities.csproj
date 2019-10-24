@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <FileUpgradeFlags>
@@ -6,4 +6,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="ActivityContext\Entities\Exam1.cs~RFb05a2ed.TMP" />
+  </ItemGroup>
 </Project>

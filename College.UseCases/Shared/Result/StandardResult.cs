@@ -1,4 +1,4 @@
-﻿using College.UseCases.Commands;
+﻿using College.UseCases.Shared.Commands;
 using System.Collections.Generic;
 
 namespace College.UseCases.Shared.Result

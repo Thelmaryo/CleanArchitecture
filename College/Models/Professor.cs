@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace College.Models
 {
@@ -33,7 +31,7 @@ namespace College.Models
 
         public void Create()
         {
-            if(_db.State == ConnectionState.Closed)
+            if (_db.State == ConnectionState.Closed)
                 _db.Open();
             var sql = "INSERT INTO [User] (Id, UserName, Password, Active, Salt, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
             SqlCommand command = new SqlCommand(sql, _db);
@@ -100,9 +98,10 @@ namespace College.Models
             SqlDataReader dataReader = command.ExecuteReader();
             DataTable dataTable = new DataTable();
             dataTable.Load(dataReader);
-            foreach(DataRow dataRow in dataTable.Rows)
+            foreach (DataRow dataRow in dataTable.Rows)
             {
-                var professor = new Professor {
+                var professor = new Professor
+                {
                     Id = Guid.Parse(dataRow["Id"].ToString()),
                     FirstName = dataRow["FirstName"].ToString(),
                     LastName = dataRow["LastName"].ToString(),

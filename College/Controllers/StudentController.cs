@@ -83,7 +83,7 @@ namespace College.Controllers
                     return View(student);
                 }
 
-                if(student.Address == string.Empty || student.Address == null)
+                if (student.Address == string.Empty || student.Address == null)
                 {
                     ModelState.AddModelError("Address", "O endereço é campo obrigatorio!");
                     return View(student);

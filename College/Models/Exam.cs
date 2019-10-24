@@ -61,7 +61,7 @@ namespace College.Models
 
         public void Delete()
         {
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
         }
         public void Get(Guid id)
         {
@@ -118,7 +118,7 @@ namespace College.Models
         }
 
         public void GetByStudent(Guid enrollmentId, Guid disciplineId)
-        { 
+        {
             if (_db.State == ConnectionState.Closed)
                 _db.Open();
             var sql = "SELECT * FROM Exam WHERE DisciplineId = @DisciplineId AND EnrollmentId = @EnrollmentId";

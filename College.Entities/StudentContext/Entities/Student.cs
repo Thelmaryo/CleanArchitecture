@@ -20,7 +20,7 @@ namespace College.Entities.StudentContext.Entities
             {
                 Notifications.Add("Telefone", "O Telefone deve ter no minimo 8 caracteres");
             }
-            
+
             if (string.IsNullOrEmpty(city))
             {
                 Notifications.Add("City", "A cidade é campo obrigatorio!");

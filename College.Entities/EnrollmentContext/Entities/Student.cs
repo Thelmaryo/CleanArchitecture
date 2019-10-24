@@ -1,16 +1,13 @@
 ﻿using College.Entities.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace College.Entities.EnrollmentContext.Entities
 {
     public class Student : Entity
     {
-        public Student(string name)
+        public Student(Guid id, string name)
         {
+            Id = id;
             Name = name;
         }
         public Student()

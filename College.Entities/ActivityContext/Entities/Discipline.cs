@@ -1,12 +1,14 @@
 ﻿using College.Entities.Shared;
+using System;
 
 namespace College.Entities.ActivityContext.Entities
 {
     public class Discipline : Entity
     {
-        public Discipline(string name)
+        public Discipline(Guid id, string name)
         {
-            Name = name; 
+            Id = id;
+            Name = name;
         }
         public Discipline()
         {
