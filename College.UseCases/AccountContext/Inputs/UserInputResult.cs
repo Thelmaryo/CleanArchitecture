@@ -1,6 +1,8 @@
-﻿namespace College.UseCases.AccountContext.Inputs
+﻿using College.UseCases.Shared.Commands;
+
+namespace College.UseCases.AccountContext.Inputs
 {
-    public class UserInputResult
+    public class UserInputResult : ICommand
     {
         public string UserName { get; set; }
         public string Password { get; set; }

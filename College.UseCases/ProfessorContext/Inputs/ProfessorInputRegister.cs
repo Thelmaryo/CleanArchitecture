@@ -1,4 +1,4 @@
-﻿using College.UseCases.Commands;
+﻿using College.UseCases.Shared.Commands;
 
 namespace College.UseCases.ProfessorContext.Inputs
 {

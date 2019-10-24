@@ -1,11 +1,8 @@
 ﻿using College.Entities.StudentContext.Entities;
-using College.UseCases.Commands;
+using College.UseCases.Shared.Commands;
 using College.UseCases.Shared.Result;
 using College.UseCases.StudentContext.Inputs;
 using College.UseCases.StudentContext.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace College.UseCases.StudentContext.Handlers
 {
