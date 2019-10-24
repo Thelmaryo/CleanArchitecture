@@ -25,7 +25,7 @@ namespace College.Controllers
                 return RedirectToAction("Index", "Home");
             var student = new Student();
             student.Get(id);
-            ViewBag.Course = new Course().List().Where(x => x.Id == student.CourseId).FirstOrDefault().Name;
+            ViewBag.Course = new Course().List().SingleOrDefault(x => x.Id == student.CourseId).Name;
             return View(student);
         }
 

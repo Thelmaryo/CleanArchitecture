@@ -9,21 +9,14 @@ namespace College.UseCases.StudentContext.Queries
     {
         private readonly IStudentRepository _SREP;
 
-        public StudentQueryHandler(IStudentRepository sREP)
+        public StudentQueryHandler(IStudentRepository SREP)
         {
-            _SREP = sREP;
+            _SREP = SREP;
         }
         public StudentResultQueryGet Handle(StudentInputGetById command)
         {
             var result = new StudentResultQueryGet();
-            var student = _SREP.Get(command.StudentId);
-            if (student != null)
-            {
-                result.Student = student;
-                result.Notifications.Add("Error", "Não foi possivel deletar Discente!");
-            }
-            else
-                result.Notifications.Add("Success", "Discente Deletado");
+            result.Student = _SREP.Get(command.StudentId);
 
             return result;
         }
@@ -32,12 +25,6 @@ namespace College.UseCases.StudentContext.Queries
         {
             var result = new StudentResultQueryList();
             result.Student = _SREP.List();
-            if (result.Student != null)
-            {
-                result.Notifications.Add("Success", "Lista Criada com sucesso");
-            }
-            else
-                result.Notifications.Add("Error", "Erro na criação da Lista");
 
             return result;
         }
@@ -45,14 +32,7 @@ namespace College.UseCases.StudentContext.Queries
         public StudentResultQueryGet Handle(StudentInputGetByCPF command)
         {
             var result = new StudentResultQueryGet();
-            var student = _SREP.Get(command.StudentCPF);
-            if (student != null)
-            {
-                result.Student = student;
-                result.Notifications.Add("Error", "Não foi possivel deletar Discente!");
-            }
-            else
-                result.Notifications.Add("Success", "Discente Deletado");
+            result.Student = _SREP.Get(command.StudentCPF);
 
             return result;
         }
@@ -61,12 +41,6 @@ namespace College.UseCases.StudentContext.Queries
         {
             var result = new StudentResultQueryList();
             result.Student = _SREP.GetByDiscipline(command.DisciplineId);
-            if (result.Student != null)
-            {
-                result.Notifications.Add("Success", "Lista Criada com sucesso");
-            }
-            else
-                result.Notifications.Add("Error", "Erro na criação da Lista");
 
             return result;
         }

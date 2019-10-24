@@ -42,9 +42,7 @@ namespace College.UseCases.StudentContext.Handlers
         {
             var course = new Course(command.CourseId);
 
-            var student = new Student(course, command.Birthdate, command.FirstName, command.LastName,
-                command.Email, command.Phone, command.Gender, command.Country, command.City, command.Address);
-            student.EditId(command.StudentId);
+            var student = new Student(course, command.Birthdate, command.FirstName, command.LastName, command.Email, command.Phone, command.Gender, command.Country, command.City, command.Address, command.StudentId);
             var result = new StandardResult();
             if (student.Notifications.Count == 0)
             {

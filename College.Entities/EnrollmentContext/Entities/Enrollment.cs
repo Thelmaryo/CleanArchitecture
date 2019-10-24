@@ -14,6 +14,12 @@ namespace College.Entities.EnrollmentContext.Entities
             End = end;
             Status = status;
         }
+        public Enrollment(DateTime begin, DateTime end, EStatusEnrollment status)
+        {
+            Begin = begin;
+            End = end;
+            Status = status;
+        }
         public Enrollment()
         {
 

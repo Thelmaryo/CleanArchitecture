@@ -12,9 +12,5 @@ namespace College.Entities.Shared
             Id = Guid.NewGuid();
             Notifications = new Dictionary<string, string>();
         }
-        public void EditId(Guid id)
-        {
-            Id = id;
-        }
     }
 }

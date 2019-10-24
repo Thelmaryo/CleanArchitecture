@@ -2,6 +2,7 @@
 using College.UseCases.Shared.Result;
 using College.UseCases.CourseContext.Inputs;
 using College.UseCases.CourseContext.Repositories;
+using College.Entities.CourseContext.Entities;
 
 namespace College.UseCases.CourseContext.Handlers
 {
@@ -35,7 +36,6 @@ namespace College.UseCases.CourseContext.Handlers
         public ICommandResult Handle(DisciplineInputEdit command)
         {
             var discipline = new Discipline(command.Name, command.CourseId, command.ProfessorId, command.WeeklyWorkload, command.Period);
-            discipline.EditId(command.DisciplineId);
             var result = new StandardResult();
             if (discipline.Notifications.Count == 0)
             {

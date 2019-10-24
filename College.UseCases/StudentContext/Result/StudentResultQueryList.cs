@@ -4,7 +4,7 @@ using College.UseCases.Shared.Commands;
 
 namespace College.UseCases.StudentContext.Result
 {
-    public class StudentResultQueryList : ICommandResult
+    public class StudentResultQueryList : IQueryResult
     {
         public IDictionary<string, string> Notifications { get; set; }
 

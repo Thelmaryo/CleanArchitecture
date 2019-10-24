@@ -4,10 +4,8 @@ using System.Collections.Generic;
 
 namespace College.UseCases.ProfessorContext.Result
 {
-    public class ProfessorResultQueryList : ICommandResult
+    public class ProfessorResultQueryList : IQueryResult
     {
-        public IDictionary<string, string> Notifications { get; set; }
-
         public IEnumerable<Professor> Professor { get; set; }
     }
 }

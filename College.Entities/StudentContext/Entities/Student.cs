@@ -6,7 +6,9 @@ namespace College.Entities.StudentContext.Entities
 {
     public class Student : User
     {
+        // Dapper
         public Student(){}
+        // Create
         public Student(Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password) : base(email, password)
         {
             if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
@@ -68,8 +70,8 @@ namespace College.Entities.StudentContext.Entities
 
         public string Address { get; private set; }
 
-        // Editar Student
-        public Student(Course course, DateTime birthdate, string firstName, string lastName, string email, string phone, string gender, string country, string city, string address) : base(email)
+        // Editar
+        public Student(Course course, DateTime birthdate, string firstName, string lastName, string email, string phone, string gender, string country, string city, string address, Guid? id) : base(email)
         {
             if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
             {
@@ -92,6 +94,8 @@ namespace College.Entities.StudentContext.Entities
             {
                 Notifications.Add("Country", "O país é campo obrigatorio!");
             }
+            if (id != null)
+                Id = (Guid)id;
 
             Email = new Email(email);
             Notifications.Add("Email", Email.Notification);

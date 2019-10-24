@@ -1,12 +1,10 @@
-﻿using College.UseCases.Shared.Commands;
-using System.Collections.Generic;
+﻿using College.Entities.CourseContext.Entities;
+using College.UseCases.Shared.Commands;
 
 namespace College.UseCases.CourseContext.Result
 {
-    public class DisciplineResultQueryGet : ICommandResult
+    public class DisciplineResultQueryGet : IQueryResult
     {
-        public IDictionary<string, string> Notifications { get; set; }
-
         public Discipline Discipline { get; set; }
     }
 }

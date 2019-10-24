@@ -1,4 +1,4 @@
-﻿using College.Entities.ActivityContext.Entities;
+﻿using College.Entities.CourseContext.Entities;
 using System;
 using System.Collections.Generic;
 

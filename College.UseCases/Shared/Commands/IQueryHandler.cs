@@ -1,6 +1,6 @@
 ﻿namespace College.UseCases.Shared.Commands
 {
-    public interface IQueryHandler<T, R> where T: ICommand where R : ICommandResult
+    public interface IQueryHandler<T, R> where T: ICommand where R : IQueryResult
     {
         public R Handle(T command);
     }

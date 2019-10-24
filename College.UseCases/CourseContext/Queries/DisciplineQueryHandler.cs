@@ -16,14 +16,7 @@ namespace College.UseCases.CourseContext.Queries
         public DisciplineResultQueryGet Handle(DisciplineInputGet command)
         {
             var result = new DisciplineResultQueryGet();
-            var discipline = _DREP.Get(command.DisciplineId);
-            if (discipline != null)
-            {
-                result.Discipline = discipline;
-                result.Notifications.Add("Error", "Não foi possivel deletar Discente!");
-            }
-            else
-                result.Notifications.Add("Success", "Discente Deletado");
+            result.Discipline = _DREP.Get(command.DisciplineId);
 
             return result;
         }
@@ -32,12 +25,6 @@ namespace College.UseCases.CourseContext.Queries
         {
             var result = new DisciplineResultQueryList();
             result.Discipline = _DREP.List();
-            if (result.Discipline != null)
-            {
-                result.Notifications.Add("Success", "Lista Criada com sucesso");
-            }
-            else
-                result.Notifications.Add("Error", "Erro na criação da Lista");
 
             return result;
         }
@@ -45,12 +32,6 @@ namespace College.UseCases.CourseContext.Queries
         {
             var result = new DisciplineResultQueryList();
             result.Discipline = _DREP.GetConcluded(command.StudentId);
-            if (result.Discipline != null)
-            {
-                result.Notifications.Add("Success", "Lista Criada com sucesso");
-            }
-            else
-                result.Notifications.Add("Error", "Erro na criação da Lista");
 
             return result;
         }
@@ -58,12 +39,6 @@ namespace College.UseCases.CourseContext.Queries
         {
             var result = new DisciplineResultQueryList();
             result.Discipline = _DREP.GetByCourse(command.CourseId);
-            if (result.Discipline != null)
-            {
-                result.Notifications.Add("Success", "Lista Criada com sucesso");
-            }
-            else
-                result.Notifications.Add("Error", "Erro na criação da Lista");
 
             return result;
         }
@@ -71,12 +46,6 @@ namespace College.UseCases.CourseContext.Queries
         {
             var result = new DisciplineResultQueryList();
             result.Discipline = _DREP.GetByEnrollment(command.EnrollmentId);
-            if (result.Discipline != null)
-            {
-                result.Notifications.Add("Success", "Lista Criada com sucesso");
-            }
-            else
-                result.Notifications.Add("Error", "Erro na criação da Lista");
 
             return result;
         }
