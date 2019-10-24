@@ -1,8 +1,9 @@
-﻿using System;
+﻿using College.UseCases.Shared.Commands;
+using System;
 
 namespace College.UseCases.EnrollmentContext.Inputs
 {
-    public class EnrollmentInputRegister
+    public class EnrollmentInputRegister : ICommand
     {
         // Name Student
         public string Name { get; set; }

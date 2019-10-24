@@ -1,4 +1,4 @@
-﻿namespace College.UseCases.Commands
+﻿namespace College.UseCases.Shared.Commands
 {
     public interface ICommandHandler<T> where T: ICommand
     {
