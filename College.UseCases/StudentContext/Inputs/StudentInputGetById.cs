@@ -3,7 +3,7 @@ using System;
 
 namespace College.UseCases.StudentContext.Inputs
 {
-    public class StudentInputList : ICommand
+    public class StudentInputGetById : ICommand
     {
         public Guid StudentId { get; set; }
     }

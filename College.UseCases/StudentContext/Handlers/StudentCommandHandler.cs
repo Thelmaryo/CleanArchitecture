@@ -41,16 +41,15 @@ namespace College.UseCases.StudentContext.Handlers
         public ICommandResult Handle(StudentInputEdit command)
         {
             var course = new Course(command.CourseId);
-            // TO DO: Cryptography
+
             var student = new Student(course, command.Birthdate, command.FirstName, command.LastName,
                 command.Email, command.Phone, command.Gender, command.Country, command.City, command.Address);
+            student.EditId(command.StudentId);
             var result = new StandardResult();
-            if (_SREP.Get(student.CPF.Number) != null)
-                result.Notifications.Add("CPF", "CPF já foi cadastrado!");
             if (student.Notifications.Count == 0)
             {
-                _SREP.Create(student);
-                result.Notifications.Add("Success", "O Acadêmico foi salvo");
+                _SREP.Edit(student);
+                result.Notifications.Add("Success", "O Acadêmico foi Editado");
             }
             else
             {

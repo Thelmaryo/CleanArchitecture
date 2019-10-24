@@ -5,7 +5,6 @@ namespace College.UseCases.StudentContext.Inputs
 {
     public class StudentInputRegister : ICommand
     {
-        // Id Course
         public Guid CourseId { get; set; }
         // Name Course
         public string Name { get; set; }

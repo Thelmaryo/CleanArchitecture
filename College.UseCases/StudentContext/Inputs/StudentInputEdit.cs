@@ -5,6 +5,7 @@ namespace College.UseCases.StudentContext.Inputs
 {
     public class StudentInputEdit : ICommand
     {
+        public Guid StudentId { get; set; }
         // Id Course
         public Guid CourseId { get; set; }
         // Name Course
