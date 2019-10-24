@@ -4,6 +4,11 @@ namespace College.Entities.AccountContext.Entities
 {
     public class User : Entity
     {
+        public User(){}
+        public User(string userName)
+        {
+            UserName = userName;
+        }
         public User(string userName, string password)
         {
 

@@ -37,5 +37,39 @@ namespace College.UseCases.StudentContext.Handlers
             }
             return result;
         }
+
+        public ICommandResult Handle(StudentInputEdit command)
+        {
+            var course = new Course(command.CourseId);
+            // TO DO: Cryptography
+            var student = new Student(course, command.Birthdate, command.FirstName, command.LastName,
+                command.Email, command.Phone, command.Gender, command.Country, command.City, command.Address);
+            var result = new StandardResult();
+            if (_SREP.Get(student.CPF.Number) != null)
+                result.Notifications.Add("CPF", "CPF já foi cadastrado!");
+            if (student.Notifications.Count == 0)
+            {
+                _SREP.Create(student);
+                result.Notifications.Add("Success", "O Acadêmico foi salvo");
+            }
+            else
+            {
+                foreach (var notification in student.Notifications)
+                    result.Notifications.Add(notification);
+            }
+            return result;
+        }
+
+        public ICommandResult Handle(StudentInputDelete command)
+        {
+            _SREP.Delete(command.StudentId);
+            var result = new StandardResult();
+            if (_SREP.Get(command.StudentId) != null)
+                result.Notifications.Add("Error", "Não foi possivel deletar Discente!");
+            else
+                result.Notifications.Add("Success", "Discente Deletado");
+
+            return result;
+        }
     }
 }

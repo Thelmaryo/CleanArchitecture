@@ -6,6 +6,7 @@ namespace College.Entities.StudentContext.Entities
 {
     public class Student : User
     {
+        public Student(){}
         public Student(Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password) : base(email, password)
         {
             if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
@@ -68,9 +69,8 @@ namespace College.Entities.StudentContext.Entities
         public string Address { get; private set; }
 
         // Editar Student
-        public void UpdateEntity(Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address)
+        public Student(Course course, DateTime birthdate, string firstName, string lastName, string email, string phone, string gender, string country, string city, string address) : base(email)
         {
-
             if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
             {
                 Notifications.Add("FirstName", "O Nome deve ter no minimo 3 caracteres");
@@ -95,8 +95,6 @@ namespace College.Entities.StudentContext.Entities
 
             Email = new Email(email);
             Notifications.Add("Email", Email.Notification);
-            CPF = new CPF(cpf);
-            Notifications.Add("CPF", Email.Notification);
 
             Course = course;
             Birthdate = birthdate;
@@ -108,5 +106,6 @@ namespace College.Entities.StudentContext.Entities
             City = city;
             Address = address;
         }
+
     }
 }
