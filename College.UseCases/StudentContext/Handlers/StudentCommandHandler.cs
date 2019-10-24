@@ -10,9 +10,9 @@ namespace College.UseCases.StudentContext.Handlers
     {
         private readonly IStudentRepository _SREP;
 
-        public StudentCommandHandler(IStudentRepository sREP)
+        public StudentCommandHandler(IStudentRepository SREP)
         {
-            _SREP = sREP;
+            _SREP = SREP;
         }
 
         public ICommandResult Handle(StudentInputRegister command)
