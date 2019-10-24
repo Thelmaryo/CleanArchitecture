@@ -1,9 +1,10 @@
-﻿using College.Entities.Shared;
+﻿using College.Entities.EvaluationContext.Interfaces;
+using College.Entities.Shared;
 using System;
 
 namespace College.Entities.EvaluationContext.Entities
 {
-    public class Activity : Entity
+    public class Activity : ActivityBase
     {
         public Activity(Student student, string description, decimal value, decimal grade)
         {
@@ -11,16 +12,15 @@ namespace College.Entities.EvaluationContext.Entities
                 Notifications.Add("Grade", $"A atividade vale {value} pontos");
             Student = student;
             Description = description;
-            Value = value;
+            _Value = value;
             Grade = grade;
         }
         public Activity()
         {
 
         }
-        public Student Student { get; private set; }
-        public string Description { get; private set; }
-        public decimal Value { get; private set; }
-        public decimal Grade { get; private set; }
+        private decimal _Value { get; set; }
+        protected override decimal GetValue() => _Value;
+        
     }
 }
