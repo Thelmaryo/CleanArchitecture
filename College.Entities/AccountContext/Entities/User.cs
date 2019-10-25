@@ -15,7 +15,7 @@ namespace College.Entities.AccountContext.Entities
             UserName = userName;
             Password = password;
         }
-        public User(string userName, string password, bool active, string salt)
+        public User(string userName, string password, string salt, bool active)
         {
 
             UserName = userName;

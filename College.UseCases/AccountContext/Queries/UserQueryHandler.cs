@@ -10,17 +10,17 @@ namespace College.UseCases.AccountContext.Queries
     public class UserQueryHandler : IQueryHandler<UserInputLogin, UserResultQueryLogin>
     {
         readonly IUserRepository _UREP;
-        readonly IEncrypt _encrypt;
+        readonly IEncryptor _encryptor;
 
-        public UserQueryHandler(IUserRepository UREP, IEncrypt encrypt)
+        public UserQueryHandler(IUserRepository UREP, IEncryptor encryptor)
         {
             _UREP = UREP;
-            _encrypt = encrypt;
+            _encryptor = encryptor;
         }
         public UserResultQueryLogin Handle(UserInputLogin command)
         {
             var result = new UserResultQueryLogin();
-            var password = _encrypt.Encrypt(command.UserName, command.Password);
+            var password = _encryptor.Encrypt(command.UserName, command.Password);
             var user = new User(command.UserName, password);
 
             result.UserId = _UREP.Login(user);

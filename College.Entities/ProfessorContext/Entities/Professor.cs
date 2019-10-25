@@ -8,7 +8,7 @@ namespace College.Entities.ProfessorContext.Entities
     public class Professor : User
     {
         public Professor(){}
-        public Professor(string firstName, string lastName, string cpf, string email, string phone, EDegree degree, string password) : base(email, password)
+        public Professor(string firstName, string lastName, string cpf, string email, string phone, EDegree degree, string password, string salt) : base(email, password, salt, true)
         {
             if (password != string.Empty) Password = password;
             Email = new Email(email);

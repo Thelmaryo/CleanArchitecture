@@ -2,6 +2,7 @@
 using College.Entities.ProfessorContext.Enumerators;
 using College.UseCases.ProfessorContext.Inputs;
 using College.UseCases.ProfessorContext.Repositories;
+using College.UseCases.Services;
 using College.UseCases.Shared.Commands;
 using College.UseCases.Shared.Result;
 
@@ -9,19 +10,21 @@ namespace College.UseCases.ProfessorContext.Handlers
 {
     public class ProfessorCommandHandler : ICommandHandler<ProfessorInputRegister>
     {
-        private readonly IProfessorRepository _PREP;
+        readonly IProfessorRepository _PREP;
+        IEncryptor _encryptor;
 
-        public ProfessorCommandHandler(IProfessorRepository PREP)
+        public ProfessorCommandHandler(IProfessorRepository PREP, IEncryptor encryptor)
         {
             _PREP = PREP;
+            _encryptor = encryptor;
         }
         public ICommandResult Handle(ProfessorInputRegister command)
         {
-            string password = command.CPF.Replace("-", "").Replace(".", "");
-            EDegree degree = (EDegree)command.Degree;
-            // TO DO: Cryptography
+            string password = _encryptor.Encrypt(command.CPF.Replace("-", "").Replace(".", ""), out string salt);
+
             var professor = new Professor(command.FirstName, command.LastName, command.CPF,
-                command.Email, command.Phone, degree, password);
+                command.Email, command.Phone, (EDegree)command.Degree, password, salt);
+
             var result = new StandardResult();
             result.AddRange(professor.Notifications);
             if (result.Notifications.Count == 0)

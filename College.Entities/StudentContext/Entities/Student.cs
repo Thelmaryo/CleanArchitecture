@@ -9,7 +9,7 @@ namespace College.Entities.StudentContext.Entities
         // Dapper
         public Student(){}
         // Create
-        public Student(Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password) : base(email, password)
+        public Student(Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password, string salt) : base(email, password, salt, true)
         {
             Email = new Email(email);
             Notifications.Add("Email", Email.Notification);
