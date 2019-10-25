@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AccountContext\Handlers\" />
     <Folder Include="CourseContext\Handlers\" />
     <Folder Include="EnrollmentContext\Handlers\" />
     <Folder Include="EvaluationContext\Handlers\" />

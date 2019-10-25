@@ -17,8 +17,8 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
-            string userName = user.GetSalt(user.UserName);
-            if (string.IsNullOrEmpty(userName))
+            string _salt = user.GetSalt(user.UserName);
+            if (string.IsNullOrEmpty(_salt))
             {
                 ViewBag.Error = "O Usuario não existe.";
                 return View(user);
@@ -26,7 +26,7 @@ namespace College.Controllers
             // DESCRIPTOGRAFA
             byte[] SALT = new byte[8];
             int i = 0;
-            var salt = userName.Split(',');
+            var salt = _salt.Split(',');
             foreach (var stringSalt in salt)
             {
                 SALT[i] = Convert.ToByte(stringSalt);

@@ -21,8 +21,8 @@ namespace College.Infra.ActivityContext
 
         public void Create(Activity activity)
         {
-            sql = "INSERT INTO Activity (Id, DisciplineId, Description, Value, [Date]) VALUES (@Id, @DisciplineId, @Description, @Value, @Date)";
             using var db = _db.GetCon();
+            sql = "INSERT INTO Activity (Id, DisciplineId, Description, Value, [Date]) VALUES (@Id, @DisciplineId, @Description, @Value, @Date)";
             db.Execute(sql, new
             {
                 activity.Id,
@@ -35,15 +35,15 @@ namespace College.Infra.ActivityContext
 
         public void Delete(Guid id)
         {
-            sql = "DELETE FROM Activity WHERE Id = @Id";
             using var db = _db.GetCon();
+            sql = "DELETE FROM Activity WHERE Id = @Id";
             db.Execute(sql, new { Id = id });
         }
 
         public void Update(Activity activity)
         {
-            sql = "UPDATE Activity SET Description = @Description, Value = @Value, [Date] = @Date WHERE Id = @Id";
             using var db = _db.GetCon();
+            sql = "UPDATE Activity SET Description = @Description, Value = @Value, [Date] = @Date WHERE Id = @Id";
             db.Execute(sql, new
             {
                 activity.Id,
@@ -55,8 +55,8 @@ namespace College.Infra.ActivityContext
 
         public Activity Get(Guid id)
         {
-            sql = "SELECT * FROM Activity a INNER JOIN Discipline d ON (d.Id = a.DisciplineId) WHERE a.Id = @Id";
             using var db = _db.GetCon();
+            sql = "SELECT * FROM Activity a INNER JOIN Discipline d ON (d.Id = a.DisciplineId) WHERE a.Id = @Id";
             return db.Query<Activity, Discipline, Activity>(sql, param: new { Id = id }, 
                 map: (activity, discipline) => {
                     activity.UpdateDiscipline(discipline);
@@ -66,8 +66,8 @@ namespace College.Infra.ActivityContext
 
         public IEnumerable<Activity> GetByDiscipline(Guid id, Semester semester)
         {
-            sql = "SELECT * FROM Activity a INNER JOIN Discipline d ON (d.Id = a.DisciplineId) WHERE a.DisciplineId = @Id AND a.[Date] BETWEEN @Begin AND @End";
             using var db = _db.GetCon();
+            sql = "SELECT * FROM Activity a INNER JOIN Discipline d ON (d.Id = a.DisciplineId) WHERE a.DisciplineId = @Id AND a.[Date] BETWEEN @Begin AND @End";
             return db.Query<Activity, Discipline, Activity>(sql, 
                 param: new { 
                     Id = id,

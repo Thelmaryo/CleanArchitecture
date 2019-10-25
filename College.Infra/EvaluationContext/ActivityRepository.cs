@@ -17,8 +17,8 @@ namespace College.Infra.EvaluationContext
         }
         public void Create(Activity activity)
         {
-            sql = "INSERT INTO StudentActivity (Id, StudentId, ActivityId, Grade) VALUES (@Id, @StudentId, @ActivityId, @Grade)";
             using var db = _db.GetCon();
+            sql = "INSERT INTO StudentActivity (Id, StudentId, ActivityId, Grade) VALUES (@Id, @StudentId, @ActivityId, @Grade)";
             db.Execute(sql, new { 
                 Id = Guid.NewGuid(),
                 ActivityId = activity.Id,
@@ -29,8 +29,8 @@ namespace College.Infra.EvaluationContext
 
         public Activity GetByStudent(Guid studentId, Guid activityId)
         {
-            sql = "SELECT * FROM StudentActivity sa INNER JOIN Student s ON (s.Id = sa.StudentId) WHERE sa.StudentId = @StudentId AND sa.ActivityId = @ActivityId";
             using var db = _db.GetCon();
+            sql = "SELECT * FROM StudentActivity sa INNER JOIN Student s ON (s.Id = sa.StudentId) WHERE sa.StudentId = @StudentId AND sa.ActivityId = @ActivityId";
             return db.Query<Activity, Student, Activity>(sql,
                 param: new
                 {
@@ -46,8 +46,8 @@ namespace College.Infra.EvaluationContext
 
         public void Update(Activity activity)
         {
-            sql = "UPDATE StudentActivity SET Grade = @Grade WHERE StudentId = @StudentId AND ActivityId = @ActivityId";
             using var db = _db.GetCon();
+            sql = "UPDATE StudentActivity SET Grade = @Grade WHERE StudentId = @StudentId AND ActivityId = @ActivityId";
             db.Execute(sql, new
             {
                 ActivityId = activity.Id,
