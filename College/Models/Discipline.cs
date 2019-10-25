@@ -153,7 +153,7 @@ namespace College.Models
             if (_db.State == ConnectionState.Closed)
                 _db.Open();
             var Disciplines = new List<Discipline>();
-            var sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.Id = @Id AND s.[Status] = @Status";
+            var sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.StudentId = @Id AND s.[Status] = @Status";
             SqlCommand command = new SqlCommand(sql, _db);
             command.Parameters.AddWithValue("@Id", studentId);
             command.Parameters.AddWithValue("@Status", EStatusDiscipline.Pass);

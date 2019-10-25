@@ -75,7 +75,7 @@ namespace College.Infra.ProfessorContext
                         cpf = new CPF(cpf.Number);
                         email = new Email(email.Address);
                         eDegree = (EDegree)professor.Degree;
-                        professor = new Professor(professor.FirstName, professor.LastName, professor.Email.Address, professor.Phone, eDegree);
+                        professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, professor.Email.Address, professor.Phone, eDegree);
 
                         return professor;
                     }, new { Id = id },
@@ -111,7 +111,7 @@ namespace College.Infra.ProfessorContext
                         cpf = new CPF(cpf.Number);
                         email = new Email(email.Address);
                         eDegree = (EDegree)professor.Degree;
-                        professor = new Professor(professor.FirstName, professor.LastName, professor.Email.Address, professor.Phone, eDegree);
+                        professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, professor.Email.Address, professor.Phone, eDegree);
 
                         return professor;
                     }, splitOn: "Id, CPF, Email, Degree");

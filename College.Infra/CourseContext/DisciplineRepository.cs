@@ -1,4 +1,5 @@
 ﻿using College.Entities.CourseContext.Entities;
+using College.Infra.CourseContext.Enumerators;
 using College.Infra.DataSource;
 using College.UseCases.CourseContext.Repositories;
 using Dapper;
@@ -99,13 +100,11 @@ namespace College.Infra.CourseContext
                 return db.Query<Discipline>(sql, new { ProfessorId = id });
             }
         }
-        // ??? No lugar de studentId não é o EnrollmentId?
-        // ??? Onde é colocado o enum de EStatusDiscipline?
         public IEnumerable<Discipline> GetConcluded(Guid studentId)
         {
             using (var db = _db.GetCon())
             {
-                var sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.Id = @Id AND s.[Status] = @Status";
+                var sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.StudentId = @Id AND s.[Status] = @Status";
                 return db.Query<Discipline>(sql, new { Id = studentId, Status = EStatusDiscipline.Pass });
             }
         }

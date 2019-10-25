@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="AccountContext\" />
-    <Folder Include="CourseContext\" />
     <Folder Include="EnrollmentContext\" />
     <Folder Include="ProfessorContext\" />
     <Folder Include="StudentContext\" />
