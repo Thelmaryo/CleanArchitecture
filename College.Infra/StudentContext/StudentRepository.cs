@@ -13,6 +13,7 @@ namespace College.Infra.StudentContext
     public class StudentRepository : IStudentRepository
     {
         IDB _db;
+        string sql;
         public StudentRepository(IDB db)
         {
             _db = db;
@@ -21,8 +22,8 @@ namespace College.Infra.StudentContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "INSERT INTO [User] (Id, UserName, Password, Salt, Role, Active) VALUES (@Id, @UserName, @Password, @Salt, 'Student', 1)";
-                db.Execute(sql, new
+                sql = "INSERT INTO [User] (Id, UserName, Password, Salt, Role, Active) VALUES (@Id, @UserName, @Password, @Salt, 'Student', 1)";
+                db.Execute(sql, param: new
                 {
                     student.Id,
                     student.UserName,
@@ -31,7 +32,7 @@ namespace College.Infra.StudentContext
                 });
 
                 sql = "INSERT INTO Student (Id, CourseId, Birthdate, FirstName, LastName, CPF, Email, Phone, Gender, Country, City, Address) VALUES (@Id, @CourseId, @Birthdate, @FirstName, @LastName, @CPF, @Email, @Phone, @Gender, @Country, @City, @Address)";
-                db.Execute(sql, new
+                db.Execute(sql, param: new
                 {
                     student.Id,
                     student.Course.CourseId,
@@ -53,11 +54,11 @@ namespace College.Infra.StudentContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "DELETE FROM Student WHERE Id = @Id";
-                db.Execute(sql, new { Id = id });
+                sql = "DELETE FROM Student WHERE Id = @Id";
+                db.Execute(sql, param: new { Id = id });
 
                 sql = "DELETE FROM [User] WHERE Id = @Id";
-                db.Execute(sql, new { Id = id });
+                db.Execute(sql, param: new { Id = id });
             }
         }
 
@@ -65,21 +66,22 @@ namespace College.Infra.StudentContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]		 " +
-                        "       ,[FirstName] " +
-                        "       ,[LastName]	 " +
-                        "       ,[Phone]	 " +
-                        "       ,[Birthdate] " +
-                        "       ,[Gender]	 " +
-                        "       ,[Country]	 " +
-                        "       ,[City]		 " +
-                        "       ,[Address]	 " +
-                        "       ,[CourseId]	 " +
-                        "       ,[CPF]		 " +
-                        "       ,[Email]	 " +
-                        "   FROM [Student]	 " +
-                        "	WHERE Id = @Id	 ";
-                var student = db.Query<Student, Course, Email, CPF, Student>(sql,
+                sql = " SELECT [Id]		 " +
+                    "       ,[FirstName] " +
+                    "       ,[LastName]	 " +
+                    "       ,[Phone]	 " +
+                    "       ,[Birthdate] " +
+                    "       ,[Gender]	 " +
+                    "       ,[Country]	 " +
+                    "       ,[City]		 " +
+                    "       ,[Address]	 " +
+                    "       ,[CourseId]	 " +
+                    "       ,[CPF]		 " +
+                    "       ,[Email]	 " +
+                    "   FROM [Student]	 " +
+                    "	WHERE Id = @Id	 ";
+                var students = db.Query<Student, Course, Email, CPF, Student>(sql,
+                    param: new { Id = id },
                     map: (student, course, email, cpf) =>
                     {
                         course = new Course(course.CourseId);
@@ -88,9 +90,9 @@ namespace College.Infra.StudentContext
                         student = new Student(course, student.Birthdate, student.FirstName, student.LastName, email.Address, student.Phone, student.Gender, student.Country, student.City, student.Address, student.Id);
 
                         return student;
-                    }, new { Id = id },
+                    },
                 splitOn: "Id, CourseId, CPF, Email");
-                return student.FirstOrDefault();
+                return students.SingleOrDefault();
             }
         }
 
@@ -98,21 +100,22 @@ namespace College.Infra.StudentContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]		 " +
-                        "       ,[FirstName] " +
-                        "       ,[LastName]	 " +
-                        "       ,[Phone]	 " +
-                        "       ,[Birthdate] " +
-                        "       ,[Gender]	 " +
-                        "       ,[Country]	 " +
-                        "       ,[City]		 " +
-                        "       ,[Address]	 " +
-                        "       ,[CourseId]	 " +
-                        "       ,[CPF]		 " +
-                        "       ,[Email]	 " +
-                        "   FROM [Student]	 " +
-                        "	WHERE CPF = @CPF	 ";
-                var student = db.Query<Student, Course, Email, CPF, Student>(sql,
+                sql = " SELECT [Id]		 " +
+                    "       ,[FirstName] " +
+                    "       ,[LastName]	 " +
+                    "       ,[Phone]	 " +
+                    "       ,[Birthdate] " +
+                    "       ,[Gender]	 " +
+                    "       ,[Country]	 " +
+                    "       ,[City]		 " +
+                    "       ,[Address]	 " +
+                    "       ,[CourseId]	 " +
+                    "       ,[CPF]		 " +
+                    "       ,[Email]	 " +
+                    "   FROM [Student]	 " +
+                    "	WHERE CPF = @CPF	 ";
+                var students = db.Query<Student, Course, Email, CPF, Student>(sql,
+                    param: new { CPF = CPF },
                     map: (student, course, email, cpf) =>
                     {
                         course = new Course(course.CourseId);
@@ -121,9 +124,9 @@ namespace College.Infra.StudentContext
                         student = new Student(course, student.Birthdate, student.FirstName, student.LastName, email.Address, student.Phone, student.Gender, student.Country, student.City, student.Address, student.Id);
 
                         return student;
-                    }, new { CPF = CPF },
+                    },
                 splitOn: "Id, CourseId, CPF, Email");
-                return student.FirstOrDefault();
+                return students.SingleOrDefault();
             }
         }
 
@@ -131,26 +134,27 @@ namespace College.Infra.StudentContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]		 " +
-                        "       ,[FirstName] " +
-                        "       ,[LastName]	 " +
-                        "       ,[Phone]	 " +
-                        "       ,[Birthdate] " +
-                        "       ,[Gender]	 " +
-                        "       ,[Country]	 " +
-                        "       ,[City]		 " +
-                        "       ,[Address]	 " +
-                        "       ,[CourseId]	 " +
-                        "       ,[CPF]		 " +
-                        "       ,[Email]	 " +
-                        "   FROM [Student] s " +
-                        " INNER JOIN Enrollment e ON (s.Id = e.StudentId) 							   " +
-                        " INNER JOIN StudentDiscipline sd ON (e.Id = sd.EnrollmentId) 				   " +
-                        " WHERE sd.DisciplineId = @Id 												   " +
-                        " AND e.Status = @EnrollmentSatus 											   " +
-                        " AND e.Id = (SELECT ee.Id FROM Enrollment ee WHERE ee.StudentId = e.StudentId " +
-                        " AND GETDATE() BETWEEN ee.[Begin] AND ee.[End])							   ";
-                var student = db.Query<Student, Course, Email, CPF, Student>(sql,
+                sql = " SELECT [Id]		 " +
+                    "       ,[FirstName] " +
+                    "       ,[LastName]	 " +
+                    "       ,[Phone]	 " +
+                    "       ,[Birthdate] " +
+                    "       ,[Gender]	 " +
+                    "       ,[Country]	 " +
+                    "       ,[City]		 " +
+                    "       ,[Address]	 " +
+                    "       ,[CourseId]	 " +
+                    "       ,[CPF]		 " +
+                    "       ,[Email]	 " +
+                    "   FROM [Student] s " +
+                    " INNER JOIN Enrollment e ON (s.Id = e.StudentId) 							   " +
+                    " INNER JOIN StudentDiscipline sd ON (e.Id = sd.EnrollmentId) 				   " +
+                    " WHERE sd.DisciplineId = @Id 												   " +
+                    " AND e.Status = @EnrollmentSatus 											   " +
+                    " AND e.Id = (SELECT ee.Id FROM Enrollment ee WHERE ee.StudentId = e.StudentId " +
+                    " AND GETDATE() BETWEEN ee.[Begin] AND ee.[End])							   ";
+                var students = db.Query<Student, Course, Email, CPF, Student>(sql, 
+                    param: new { Id = id, EnrollmentSatus = EStatusEnrollment.Confirmed },
                     map: (student, course, email, cpf) =>
                     {
                         course = new Course(course.CourseId);
@@ -159,9 +163,9 @@ namespace College.Infra.StudentContext
                         student = new Student(course, student.Birthdate, student.FirstName, student.LastName, email.Address, student.Phone, student.Gender, student.Country, student.City, student.Address, student.Id);
 
                         return student;
-                    }, new { Id = id, EnrollmentSatus = EStatusEnrollment.Confirmed },
+                    },
                 splitOn: "Id, CourseId, CPF, Email");
-                return student;
+                return students;
             }
         }
 
@@ -169,20 +173,20 @@ namespace College.Infra.StudentContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]		 " +
-                        "       ,[FirstName] " +
-                        "       ,[LastName]	 " +
-                        "       ,[Phone]	 " +
-                        "       ,[Birthdate] " +
-                        "       ,[Gender]	 " +
-                        "       ,[Country]	 " +
-                        "       ,[City]		 " +
-                        "       ,[Address]	 " +
-                        "       ,[CourseId]	 " +
-                        "       ,[CPF]		 " +
-                        "       ,[Email]	 " +
-                        "   FROM [Student]	 ";
-                var student = db.Query<Student, Course, Email, CPF, Student>(sql,
+                sql = " SELECT [Id]		 " +
+                    "       ,[FirstName] " +
+                    "       ,[LastName]	 " +
+                    "       ,[Phone]	 " +
+                    "       ,[Birthdate] " +
+                    "       ,[Gender]	 " +
+                    "       ,[Country]	 " +
+                    "       ,[City]		 " +
+                    "       ,[Address]	 " +
+                    "       ,[CourseId]	 " +
+                    "       ,[CPF]		 " +
+                    "       ,[Email]	 " +
+                    "   FROM [Student]	 ";
+                var students = db.Query<Student, Course, Email, CPF, Student>(sql,
                     map: (student, course, email, cpf) =>
                      {
                          course = new Course(course.CourseId);
@@ -192,7 +196,7 @@ namespace College.Infra.StudentContext
 
                          return student;
                      });
-                return student;
+                return students;
             }
         }
 
@@ -200,8 +204,8 @@ namespace College.Infra.StudentContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "UPDATE Student SET CourseId=@CourseId, Birthdate=@Birthdate, FirstName=@FirstName, LastName=@LastName, CPF=@CPF, Email=@Email, Phone=@Phone, Gender=@Gender, Country=@Country, City=@City, Address=@Address WHERE Id = @Id";
-                db.Execute(sql, new
+                sql = "UPDATE Student SET CourseId=@CourseId, Birthdate=@Birthdate, FirstName=@FirstName, LastName=@LastName, CPF=@CPF, Email=@Email, Phone=@Phone, Gender=@Gender, Country=@Country, City=@City, Address=@Address WHERE Id = @Id";
+                db.Execute(sql, param: new
                 {
                     student.Course.CourseId,
                     student.Birthdate,

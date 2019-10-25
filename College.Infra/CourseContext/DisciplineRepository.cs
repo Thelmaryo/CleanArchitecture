@@ -11,7 +11,7 @@ namespace College.Infra.CourseContext
     public class DisciplineRepository : IDisciplineRepository
     {
         IDB _db;
-
+        string sql;
         public DisciplineRepository(IDB db)
         {
             _db = db;
@@ -21,9 +21,9 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "INSERT INTO Discipline (Id, Name, CourseId, ProfessorId, WeeklyWorkload, Period) VALUES (@Id, @Name, @CourseId, @ProfessorId, @WeeklyWorkload, @Period)";
+                sql = "INSERT INTO Discipline (Id, Name, CourseId, ProfessorId, WeeklyWorkload, Period) VALUES (@Id, @Name, @CourseId, @ProfessorId, @WeeklyWorkload, @Period)";
                 db.Execute(sql,
-                    new
+                    param: new
                     {
                         discipline.Id,
                         discipline.Name,
@@ -39,8 +39,8 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "DELETE FROM Discipline WHERE Id = @Id";
-                db.Execute(sql, new { Id = id });
+                sql = "DELETE FROM Discipline WHERE Id = @Id";
+                db.Execute(sql, param: new { Id = id });
             }
         }
 
@@ -48,15 +48,17 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]			  " +
-                        "       ,[CourseId]		  " +
-                        "       ,[ProfessorId]	  " +
-                        "       ,[Name]			  " +
-                        "       ,[WeeklyWorkload] " +
-                        "       ,[Period]		  " +
-                        "   FROM [Discipline]	  " +
-                        "   WHERE Id = @Id		  ";
-                return db.QueryFirstOrDefault<Discipline>(sql, new { Id = id });
+                sql = " SELECT [Id]			  " +
+                    "       ,[CourseId]		  " +
+                    "       ,[ProfessorId]	  " +
+                    "       ,[Name]			  " +
+                    "       ,[WeeklyWorkload] " +
+                    "       ,[Period]		  " +
+                    "   FROM [Discipline]	  " +
+                    "   WHERE Id = @Id		  ";
+                var discipline = db.QuerySingleOrDefault<Discipline>(sql, param: new { Id = id });
+
+                return discipline;
             }
         }
 
@@ -64,15 +66,17 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]			  " +
-                        "       ,[CourseId]		  " +
-                        "       ,[ProfessorId]	  " +
-                        "       ,[Name]			  " +
-                        "       ,[WeeklyWorkload] " +
-                        "       ,[Period]		  " +
-                        "   FROM [Discipline]	  " +
-                        "   WHERE CourseId = @CourseId";
-                return db.Query<Discipline>(sql, new { CourseId = id });
+                sql = " SELECT [Id]			  " +
+                    "       ,[CourseId]		  " +
+                    "       ,[ProfessorId]	  " +
+                    "       ,[Name]			  " +
+                    "       ,[WeeklyWorkload] " +
+                    "       ,[Period]		  " +
+                    "   FROM [Discipline]	  " +
+                    "   WHERE CourseId = @CourseId";
+                var disciplines = db.Query<Discipline>(sql, param: new { CourseId = id });
+
+                return disciplines;
             }
         }
 
@@ -80,8 +84,10 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.Id = @Id";
-                return db.Query<Discipline>(sql, new { Id = id });
+                sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.Id = @Id";
+                var disciplines = db.Query<Discipline>(sql, param: new { Id = id });
+
+                return disciplines;
             }
         }
 
@@ -89,23 +95,27 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]			  " +
-                        "       ,[CourseId]		  " +
-                        "       ,[ProfessorId]	  " +
-                        "       ,[Name]			  " +
-                        "       ,[WeeklyWorkload] " +
-                        "       ,[Period]		  " +
-                        "   FROM [Discipline]	  " +
-                        "   WHERE ProfessorId = @ProfessorId";
-                return db.Query<Discipline>(sql, new { ProfessorId = id });
+                sql = " SELECT [Id]			  " +
+                    "       ,[CourseId]		  " +
+                    "       ,[ProfessorId]	  " +
+                    "       ,[Name]			  " +
+                    "       ,[WeeklyWorkload] " +
+                    "       ,[Period]		  " +
+                    "   FROM [Discipline]	  " +
+                    "   WHERE ProfessorId = @ProfessorId";
+                var disciplines = db.Query<Discipline>(sql, param: new { ProfessorId = id });
+
+                return disciplines;
             }
         }
         public IEnumerable<Discipline> GetConcluded(Guid studentId)
         {
             using (var db = _db.GetCon())
             {
-                var sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.StudentId = @Id AND s.[Status] = @Status";
-                return db.Query<Discipline>(sql, new { Id = studentId, Status = EStatusDiscipline.Pass });
+                sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.StudentId = @Id AND s.[Status] = @Status";
+                var disciplines = db.Query<Discipline>(sql, param: new { Id = studentId, Status = EStatusDiscipline.Pass });
+
+                return disciplines;
             }
         }
 
@@ -113,14 +123,15 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]			  " +
-                        "       ,[CourseId]		  " +
-                        "       ,[ProfessorId]	  " +
-                        "       ,[Name]			  " +
-                        "       ,[WeeklyWorkload] " +
-                        "       ,[Period]		  " +
-                        "   FROM [Discipline]	  ";
-                return db.Query<Discipline>(sql);
+                sql = " SELECT [Id]			  " +
+                    "       ,[CourseId]		  " +
+                    "       ,[ProfessorId]	  " +
+                    "       ,[Name]			  " +
+                    "       ,[WeeklyWorkload] " +
+                    "       ,[Period]		  " +
+                    "   FROM [Discipline]	  ";
+                var disciplines = db.Query<Discipline>(sql);
+                return disciplines;
             }
         }
 
@@ -128,9 +139,9 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "UPDATE Discipline SET Name = @Name, ProfessorId = @ProfessorId, WeeklyWorkload = @WeeklyWorkload, Period = @Period WHERE Id = @Id";
+                sql = "UPDATE Discipline SET Name = @Name, ProfessorId = @ProfessorId, WeeklyWorkload = @WeeklyWorkload, Period = @Period WHERE Id = @Id";
                 db.Execute(sql,
-                    new
+                    param: new
                     {
                         discipline.Name,
                         discipline.ProfessorId,

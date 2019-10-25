@@ -2,7 +2,6 @@
 using College.UseCases.EnrollmentContext.Inputs;
 using College.UseCases.EnrollmentContext.Repositories;
 using College.UseCases.EnrollmentContext.Result;
-using College.UseCases.StudentContext.Repositories;
 
 namespace College.UseCases.EnrollmentContext.Queries
 {

@@ -3,9 +3,7 @@ using College.Infra.DataSource;
 using College.UseCases.EvaluationContext.Repositories;
 using Dapper;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace College.Infra.EvaluationContext
 {

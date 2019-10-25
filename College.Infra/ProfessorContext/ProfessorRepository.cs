@@ -13,6 +13,7 @@ namespace College.Infra.ProfessorContext
     public class ProfessorRepository : IProfessorRepository
     {
         IDB _db;
+        string sql;
         public ProfessorRepository(IDB db)
         {
             _db = db;
@@ -21,8 +22,8 @@ namespace College.Infra.ProfessorContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "INSERT INTO [User] (Id, UserName, Password, Active, Salt, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
-                db.Execute(sql, new
+                sql = "INSERT INTO [User] (Id, UserName, Password, Active, Salt, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
+                db.Execute(sql, param: new
                 {
                     professor.Id,
                     professor.UserName,
@@ -31,7 +32,7 @@ namespace College.Infra.ProfessorContext
                 });
 
                 sql = "INSERT INTO Professor (Id, FirstName, LastName, Degree, CPF, Email, Phone) VALUES (@Id, @FirstName, @LastName, @Degree, @CPF, @Email, @Phone)";
-                db.Execute(sql, new
+                db.Execute(sql, param: new
                 {
                     professor.Id,
                     professor.FirstName,
@@ -48,8 +49,8 @@ namespace College.Infra.ProfessorContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "UPDATE [User] Set Active = 0 WHERE Id = @Id";
-                db.Execute(sql, new
+                sql = "UPDATE [User] Set Active = 0 WHERE Id = @Id";
+                db.Execute(sql, param: new
                 {
                     Id = id
                 });
@@ -60,16 +61,17 @@ namespace College.Infra.ProfessorContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]		 " +
-                        "       ,[FirstName] " +
-                        "       ,[LastName]	 " +
-                        "       ,[Phone]	 " +
-                        "       ,[CPF]		 " +
-                        "       ,[Email]	 " +
-                        "       ,[Degree]	 " +
-                        "   FROM [Professor] " +
-                        "   WHERE Id = @Id	 ";
-                var professor = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
+                sql = " SELECT [Id]		 " +
+                    "       ,[FirstName] " +
+                    "       ,[LastName]	 " +
+                    "       ,[Phone]	 " +
+                    "       ,[CPF]		 " +
+                    "       ,[Email]	 " +
+                    "       ,[Degree]	 " +
+                    "   FROM [Professor] " +
+                    "   WHERE Id = @Id	 ";
+                var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
+                    param: new { Id = id },
                     map: (professor, cpf, email, eDegree) =>
                     {
                         cpf = new CPF(cpf.Number);
@@ -78,9 +80,9 @@ namespace College.Infra.ProfessorContext
                         professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, professor.Email.Address, professor.Phone, eDegree);
 
                         return professor;
-                    }, new { Id = id },
+                    },
                 splitOn: "Id, CPF, Email, Degree");
-                return professor.FirstOrDefault();
+                return professors.SingleOrDefault();
             }
         }
 
@@ -89,7 +91,8 @@ namespace College.Infra.ProfessorContext
             using (var db = _db.GetCon())
             {
                 var sql = "SELECT SUM(WeeklyWorkload) AS Workload FROM Discipline WHERE ProfessorId = @Id";
-                return db.QueryFirstOrDefault<int>(sql, new { Id = professorId });
+                var workload = db.QuerySingleOrDefault<int>(sql, param: new { Id = professorId });
+                return workload;
             }
         }
 
@@ -97,15 +100,15 @@ namespace College.Infra.ProfessorContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = " SELECT [Id]		 " +
-                        "       ,[FirstName] " +
-                        "       ,[LastName]	 " +
-                        "       ,[Phone]	 " +
-                        "       ,[CPF]		 " +
-                        "       ,[Email]	 " +
-                        "       ,[Degree]	 " +
-                        "   FROM [Professor] ";
-                var professor = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
+                sql = " SELECT [Id]		 " +
+                    "       ,[FirstName] " +
+                    "       ,[LastName]	 " +
+                    "       ,[Phone]	 " +
+                    "       ,[CPF]		 " +
+                    "       ,[Email]	 " +
+                    "       ,[Degree]	 " +
+                    "   FROM [Professor] ";
+                var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
                     map: (professor, cpf, email, eDegree) =>
                     {
                         cpf = new CPF(cpf.Number);
@@ -115,7 +118,7 @@ namespace College.Infra.ProfessorContext
 
                         return professor;
                     }, splitOn: "Id, CPF, Email, Degree");
-                return professor;
+                return professors;
             }
         }
 
@@ -123,8 +126,8 @@ namespace College.Infra.ProfessorContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "UPDATE Professor SET FirstName = @FirstName, LastName = @LastName, CPF = @CPF, Email = @Email, Phone = @Phone, Degree = @Degree WHERE Id = @Id";
-                db.Execute(sql, new
+                sql = "UPDATE Professor SET FirstName = @FirstName, LastName = @LastName, CPF = @CPF, Email = @Email, Phone = @Phone, Degree = @Degree WHERE Id = @Id";
+                db.Execute(sql, param: new
                 {
                     professor.FirstName,
                     professor.LastName,
