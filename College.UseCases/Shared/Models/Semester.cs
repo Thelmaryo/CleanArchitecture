@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace College.Entities.EvaluationContext.ValueObjects
+namespace College.UseCases.Shared
 {
     public class Semester
     {

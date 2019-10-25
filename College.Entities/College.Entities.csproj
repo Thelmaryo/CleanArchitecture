@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -8,5 +14,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="ActivityContext\Entities\Exam1.cs~RFb05a2ed.TMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AccountContext\Enumerators\" />
+    <Folder Include="AccountContext\ValueObjects\" />
+    <Folder Include="EnrollmentContext\ValueObjects\" />
+    <Folder Include="EvaluationContext\ValueObjects\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿using College.UseCases.ActivityContext.Dictionaries;
+﻿using College.Entities.ActivityContext.Entities;
 using College.UseCases.ActivityContext.Inputs;
 using College.UseCases.ActivityContext.Repositories;
 using College.UseCases.Shared.Commands;
@@ -10,7 +10,6 @@ namespace College.UseCases.ActivityContext.Handlers
         ICommandHandler<ActivityInputDelete>
     {
         private readonly IActivityRepository _AREP;
-
         public ActivityCommandHandler(IActivityRepository AREP)
         {
             _AREP = AREP;
@@ -18,34 +17,26 @@ namespace College.UseCases.ActivityContext.Handlers
 
         public ICommandResult Handle(ActivityInputRegister command)
         {
-            var activity = ActivityTypeDictionary.GetActivity(command);
+            var activity = new Activity(new Discipline(command.Activity.DisciplineId), command.Activity.Description, command.Activity.Date, command.Activity.Value, command.DistributedPoints, null);
             var result = new StandardResult();
-            if (activity.Notifications.Count == 0)
+            result.AddRange(activity.Notifications);
+            if (result.Notifications.Count == 0)
             {
                 _AREP.Create(activity);
                 result.Notifications.Add("Success", "A atividade foi criada.");
-            }
-            else
-            {
-                foreach (var notification in activity.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }
 
         public ICommandResult Handle(ActivityInputUpdate command)
         {
-            var activity = ActivityTypeDictionary.GetActivity(command);
+            var activity = new Activity(new Discipline(command.Activity.DisciplineId), command.Activity.Description, command.Activity.Date, command.Activity.Value, command.DistributedPoints, command.Id);
             var result = new StandardResult();
-            if (activity.Notifications.Count == 0)
+            result.AddRange(activity.Notifications);
+            if (result.Notifications.Count == 0)
             {
                 _AREP.Update(activity);
                 result.Notifications.Add("Success", "A atividade foi atualizada.");
-            }
-            else
-            {
-                foreach (var notification in activity.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }

@@ -20,15 +20,11 @@ namespace College.UseCases.CourseContext.Handlers
             // TO DO: Cryptography
             var discipline = new Discipline(command.Name, command.CourseId, command.ProfessorId, command.WeeklyWorkload, command.Period);
             var result = new StandardResult();
-            if (discipline.Notifications.Count == 0)
+            result.AddRange(discipline.Notifications);
+            if (result.Notifications.Count == 0)
             {
                 _DREP.Create(discipline);
                 result.Notifications.Add("Success", "O Acadêmico foi salvo");
-            }
-            else
-            {
-                foreach (var notification in discipline.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }
@@ -37,15 +33,11 @@ namespace College.UseCases.CourseContext.Handlers
         {
             var discipline = new Discipline(command.Name, command.CourseId, command.ProfessorId, command.WeeklyWorkload, command.Period);
             var result = new StandardResult();
-            if (discipline.Notifications.Count == 0)
+            result.AddRange(discipline.Notifications);
+            if (result.Notifications.Count == 0)
             {
                 _DREP.Update(discipline);
                 result.Notifications.Add("Success", "O Acadêmico foi Editado");
-            }
-            else
-            {
-                foreach (var notification in discipline.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }

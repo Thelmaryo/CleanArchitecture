@@ -1,10 +1,9 @@
-﻿using College.Entities.ActivityContext.Interfaces;
-using College.Entities.Shared;
+﻿using College.Entities.Shared;
 using System;
 
 namespace College.Entities.ActivityContext.Entities
 {
-    public class Activity : Entity, IActivity
+    public class Activity : Entity
     {
         public Activity(Discipline discipline, string description, DateTime date, decimal value, decimal pointsAlreadyDistributed, Guid? id)
         {

@@ -25,15 +25,11 @@ namespace College.UseCases.StudentContext.Handlers
             var result = new StandardResult();
             if (_SREP.Get(student.CPF.Number) != null)
                 result.Notifications.Add("CPF", "CPF já foi cadastrado!");
-            if (student.Notifications.Count == 0)
+            result.AddRange(student.Notifications);
+            if (result.Notifications.Count == 0)
             {
                 _SREP.Create(student);
                 result.Notifications.Add("Success", "O Acadêmico foi salvo");
-            }
-            else
-            {
-                foreach (var notification in student.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }
@@ -44,15 +40,11 @@ namespace College.UseCases.StudentContext.Handlers
 
             var student = new Student(course, command.Birthdate, command.FirstName, command.LastName, command.Email, command.Phone, command.Gender, command.Country, command.City, command.Address, command.StudentId);
             var result = new StandardResult();
+            result.AddRange(student.Notifications);
             if (student.Notifications.Count == 0)
             {
                 _SREP.Update(student);
                 result.Notifications.Add("Success", "O Acadêmico foi Editado");
-            }
-            else
-            {
-                foreach (var notification in student.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }

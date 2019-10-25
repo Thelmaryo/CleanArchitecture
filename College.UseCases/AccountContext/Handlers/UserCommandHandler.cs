@@ -22,16 +22,10 @@ namespace College.UseCases.AccountContext.Handlers
             //TO DO Authentication
 
             var result = new StandardResult();
-            if (user.Notifications.Count == 0)
-            {
+            result.AddRange(user.Notifications);
+            if (result.Notifications.Count == 0)
                 result.Notifications.Add("Success", "O Acadêmico foi salvo");
-            }
-            else
-            {
-                foreach (var notification in user.Notifications)
-                    result.Notifications.Add(notification);
-            }
-            throw new System.NotImplementedException();
+            return result;
         }
 
         public ICommandResult Handle(UserInputIsInRole command)
