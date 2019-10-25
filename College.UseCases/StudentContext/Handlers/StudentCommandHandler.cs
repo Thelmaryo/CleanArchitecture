@@ -34,7 +34,7 @@ namespace College.UseCases.StudentContext.Handlers
             return result;
         }
 
-        public ICommandResult Handle(StudentInputEdit command)
+        public ICommandResult Handle(StudentInputUpdate command)
         {
             var course = new Course(command.CourseId);
 
@@ -43,7 +43,7 @@ namespace College.UseCases.StudentContext.Handlers
             result.AddRange(student.Notifications);
             if (student.Notifications.Count == 0)
             {
-                _SREP.Edit(student);
+                _SREP.Update(student);
                 result.Notifications.Add("Success", "O Acadêmico foi Editado");
             }
             return result;

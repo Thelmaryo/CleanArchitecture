@@ -7,7 +7,7 @@ namespace College.UseCases.StudentContext.Repositories
     public interface IStudentRepository
     {
         public void Create(Student student);
-        public void Edit(Student student);
+        public void Update(Student student);
         public void Delete(Guid id);
         public Student Get(Guid id);
         public Student Get(string CPF);

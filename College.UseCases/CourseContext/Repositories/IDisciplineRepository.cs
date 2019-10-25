@@ -7,7 +7,7 @@ namespace College.UseCases.CourseContext.Repositories
     public interface IDisciplineRepository
     {
         public void Create(Discipline discipline);
-        public void Edit(Discipline discipline);
+        public void Update(Discipline discipline);
         public void Delete(Guid id);
         public Discipline Get(Guid id);
         public IEnumerable<Discipline> List();

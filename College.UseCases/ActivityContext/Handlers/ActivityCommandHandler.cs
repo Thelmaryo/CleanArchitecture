@@ -35,7 +35,7 @@ namespace College.UseCases.ActivityContext.Handlers
             result.AddRange(activity.Notifications);
             if (result.Notifications.Count == 0)
             {
-                _AREP.Edit(activity);
+                _AREP.Update(activity);
                 result.Notifications.Add("Success", "A atividade foi atualizada.");
             }
             return result;
