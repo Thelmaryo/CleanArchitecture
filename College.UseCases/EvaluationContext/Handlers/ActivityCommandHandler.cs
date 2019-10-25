@@ -1,4 +1,4 @@
-﻿using College.UseCases.EvaluationContext.Dictionaries;
+﻿using College.Entities.EvaluationContext.Entities;
 using College.UseCases.EvaluationContext.Inputs;
 using College.UseCases.EvaluationContext.Repositories;
 using College.UseCases.Shared.Commands;
@@ -17,34 +17,26 @@ namespace College.UseCases.EvaluationContext.Handlers
 
         public ICommandResult Handle(ActivityInputGiveGrade command)
         {
-            var activity = ActivityTypeDictionary.GetActivity(command);
+            var activity = new Activity(command.ActivityId, command.StudentId, command.Grade, command.Value);
             var result = new StandardResult();
-            if (activity.Notifications.Count == 0)
+            result.AddRange(activity.Notifications);
+            if (result.Notifications.Count == 0)
             {
                 _AREP.Create(activity);
                 result.Notifications.Add("Success", "A nota foi lançada.");
-            }
-            else
-            {
-                foreach (var notification in activity.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }
 
         public ICommandResult Handle(ActivityInputUpdateGrade command)
         {
-            var activity = ActivityTypeDictionary.GetActivity(command);
+            var activity = new Activity(command.ActivityId, command.StudentId, command.Grade, command.Value);
             var result = new StandardResult();
-            if (activity.Notifications.Count == 0)
+            result.AddRange(activity.Notifications);
+            if (result.Notifications.Count == 0)
             {
                 _AREP.Edit(activity);
                 result.Notifications.Add("Success", "A nota foi atualizada.");
-            }
-            else
-            {
-                foreach (var notification in activity.Notifications)
-                    result.Notifications.Add(notification);
             }
             return result;
         }

@@ -10,6 +10,10 @@ namespace College.Entities.ActivityContext.Entities
             Id = id;
             Name = name;
         }
+        public Discipline(Guid id)
+        {
+            Id = id;
+        }
         public Discipline()
         {
 

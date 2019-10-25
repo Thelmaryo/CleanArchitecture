@@ -11,28 +11,6 @@ namespace College.Entities.StudentContext.Entities
         // Create
         public Student(Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password) : base(email, password)
         {
-            if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
-            {
-                Notifications.Add("FirstName", "O Nome deve ter no minimo 3 caracteres");
-            }
-            if (string.IsNullOrEmpty(lastName) || lastName.Length < 3)
-            {
-                Notifications.Add("LastName", "O Sobrenome deve ter no minimo 3 caracteres");
-            }
-            if (string.IsNullOrEmpty(phone) || phone.Length < 8)
-            {
-                Notifications.Add("Telefone", "O Telefone deve ter no minimo 8 caracteres");
-            }
-
-            if (string.IsNullOrEmpty(city))
-            {
-                Notifications.Add("City", "A cidade é campo obrigatorio!");
-            }
-            if (string.IsNullOrEmpty(country))
-            {
-                Notifications.Add("Country", "O país é campo obrigatorio!");
-            }
-
             Email = new Email(email);
             Notifications.Add("Email", Email.Notification);
             CPF = new CPF(cpf);
@@ -46,6 +24,7 @@ namespace College.Entities.StudentContext.Entities
             Country = country;
             City = city;
             Address = address;
+            Validation();
         }
 
         public Course Course { get; private set; }
@@ -73,27 +52,6 @@ namespace College.Entities.StudentContext.Entities
         // Editar
         public Student(Course course, DateTime birthdate, string firstName, string lastName, string email, string phone, string gender, string country, string city, string address, Guid? id) : base(email)
         {
-            if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
-            {
-                Notifications.Add("FirstName", "O Nome deve ter no minimo 3 caracteres");
-            }
-            if (string.IsNullOrEmpty(lastName) || lastName.Length < 3)
-            {
-                Notifications.Add("LastName", "O Sobrenome deve ter no minimo 3 caracteres");
-            }
-            if (string.IsNullOrEmpty(phone) || phone.Length < 8)
-            {
-                Notifications.Add("Telefone", "O Telefone deve ter no minimo 8 caracteres");
-            }
-
-            if (string.IsNullOrEmpty(city))
-            {
-                Notifications.Add("City", "A cidade é campo obrigatorio!");
-            }
-            if (string.IsNullOrEmpty(country))
-            {
-                Notifications.Add("Country", "O país é campo obrigatorio!");
-            }
             if (id != null)
                 Id = (Guid)id;
 
@@ -109,6 +67,21 @@ namespace College.Entities.StudentContext.Entities
             Country = country;
             City = city;
             Address = address;
+            Validation();
+        }
+
+        private void Validation()
+        {
+            if (string.IsNullOrEmpty(FirstName) || FirstName.Length < 3)
+                Notifications.Add("FirstName", "O Nome deve ter no minimo 3 caracteres");
+            if (string.IsNullOrEmpty(LastName) || LastName.Length < 3)
+                Notifications.Add("LastName", "O Sobrenome deve ter no minimo 3 caracteres");
+            if (string.IsNullOrEmpty(Phone) || Phone.Length < 8)
+                Notifications.Add("Telefone", "O Telefone deve ter no minimo 8 caracteres");
+            if (string.IsNullOrEmpty(City))
+                Notifications.Add("City", "A cidade é campo obrigatorio!");
+            if (string.IsNullOrEmpty(Country))
+                Notifications.Add("Country", "O país é campo obrigatorio!");
         }
 
     }

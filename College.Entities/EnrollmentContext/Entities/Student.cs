@@ -10,6 +10,12 @@ namespace College.Entities.EnrollmentContext.Entities
             Id = id;
             Name = name;
         }
+
+        public Student(Guid id)
+        {
+            Id = id;
+        }
+
         public Student()
         {
 

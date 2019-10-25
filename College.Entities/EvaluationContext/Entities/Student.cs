@@ -10,9 +10,9 @@ namespace College.Entities.EvaluationContext.Entities
             Id = id;
             Name = name;
         }
-        public Student()
+        public Student(Guid id)
         {
-
+            Id = id;
         }
 
         public string Name { get; private set; }

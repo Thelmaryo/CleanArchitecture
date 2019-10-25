@@ -1,15 +1,15 @@
 ﻿using College.Entities.ActivityContext.Entities;
+using College.UseCases.Shared.Commands;
 using System;
 using System.Collections.Generic;
 
-namespace College.Entities.ActivityContext.Interfaces
+namespace College.UseCases.ActivityContext.Interfaces
 {
     public interface IActivity
     {
         string Description { get; }
-        Discipline Discipline { get; }
+        Guid DisciplineId { get; }
         decimal Value { get; }
         DateTime Date { get; }
-        IDictionary<string, string> Notifications { get; }
     }
 }

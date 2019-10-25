@@ -1,18 +1,18 @@
-﻿using College.Entities.ActivityContext.Interfaces;
+﻿using College.Entities.ActivityContext.Entities;
 using College.Entities.Shared;
+using College.UseCases.ActivityContext.Interfaces;
 using System;
 
-namespace College.Entities.ActivityContext.Entities
+namespace College.UseCases.ActivityContext.Models
 {
-    public class FinalExam : Entity, IActivity
+    public class FinalExam : IActivity
     {
-        public FinalExam(Discipline discipline, Guid? id)
+        public FinalExam(Guid disciplineId)
         {
-            if (id != null) Id = (Guid)id;
-            Discipline = discipline;
+            DisciplineId = disciplineId;
         }
 
-        public Discipline Discipline { get; private set; }
+        public Guid DisciplineId { get; private set; }
         public DateTime Date
         {
             get
