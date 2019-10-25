@@ -5,7 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.30" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AccountContext\" />
+    <Folder Include="ActivityContext\" />
+    <Folder Include="EvaluationContext\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\College.UseCases\College.UseCases.csproj" />
   </ItemGroup>
 
 </Project>
