@@ -32,6 +32,7 @@ namespace College.Models
             command.Parameters.AddWithValue("@Id", Id);
             command.Parameters.AddWithValue("@UserName", Email);
             command.Parameters.AddWithValue("@Password", Password);
+            command.Parameters.AddWithValue("@Salt", Salt);
             command.ExecuteNonQuery();
             sql = "INSERT INTO Student (Id, CourseId, Birthdate, FirstName, LastName, CPF, Email, Phone, Gender, Country, City, Address) VALUES (@Id, @CourseId, @Birthdate, @FirstName, @LastName, @CPF, @Email, @Phone, @Gender, @Country, @City, @Address)";
             command = new SqlCommand(sql, _db);
