@@ -1,5 +1,4 @@
 ﻿using College.UseCases.Shared.Commands;
-using College.UseCases.Shared.Enumerators;
 using System;
 
 namespace College.UseCases.EvaluationContext.Inputs

@@ -1,7 +1,5 @@
 ﻿using College.UseCases.ActivityContext.Interfaces;
 using College.UseCases.Shared.Commands;
-using College.UseCases.Shared.Enumerators;
-using System;
 
 namespace College.UseCases.ActivityContext.Inputs
 {

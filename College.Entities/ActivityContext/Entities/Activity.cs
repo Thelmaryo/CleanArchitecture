@@ -15,9 +15,11 @@ namespace College.Entities.ActivityContext.Entities
             Value = value;
             Date = date;
         }
-        public Activity()
-        {
+        public Activity() {}
 
+        public void UpdateDiscipline(Discipline discipline)
+        {
+            Discipline = discipline;
         }
 
         public Discipline Discipline { get; private set; }

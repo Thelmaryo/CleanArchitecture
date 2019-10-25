@@ -26,6 +26,11 @@ namespace College.Entities.EvaluationContext.Entities
             Value = value;
         }
 
+        public void UpdateStudent(Student student)
+        {
+            Student = student;
+        }
+
         public Student Student { get; private set; }
         public string Description { get; private set; }
         public decimal Grade { get; private set; }
