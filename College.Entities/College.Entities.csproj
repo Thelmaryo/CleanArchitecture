@@ -13,12 +13,20 @@
     <UpgradeBackupLocation />
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="ActivityContext\Entities\Exam1.cs~RFb05a2ed.TMP" />
+    <Compile Remove="AccountContext\Enumerators\**" />
+    <Compile Remove="AccountContext\ValueObjects\**" />
+    <Compile Remove="EnrollmentContext\ValueObjects\**" />
+    <Compile Remove="EvaluationContext\ValueObjects\**" />
+    <EmbeddedResource Remove="AccountContext\Enumerators\**" />
+    <EmbeddedResource Remove="AccountContext\ValueObjects\**" />
+    <EmbeddedResource Remove="EnrollmentContext\ValueObjects\**" />
+    <EmbeddedResource Remove="EvaluationContext\ValueObjects\**" />
+    <None Remove="AccountContext\Enumerators\**" />
+    <None Remove="AccountContext\ValueObjects\**" />
+    <None Remove="EnrollmentContext\ValueObjects\**" />
+    <None Remove="EvaluationContext\ValueObjects\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccountContext\Enumerators\" />
-    <Folder Include="AccountContext\ValueObjects\" />
-    <Folder Include="EnrollmentContext\ValueObjects\" />
-    <Folder Include="EvaluationContext\ValueObjects\" />
+    <None Remove="ActivityContext\Entities\Exam1.cs~RFb05a2ed.TMP" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using College.Helpers;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace College.Models
 {
@@ -22,6 +23,7 @@ namespace College.Models
                 });
             }
         }
+        [Display(Name = "Opções de Curso")]
         public List<Checkbox> Options { get; set; }
     }
 }

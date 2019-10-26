@@ -10,7 +10,6 @@ namespace College.Entities.CourseContext.Entities
             Name = name;
         }
 
-        [Display(Name = "Nome")]
         public string Name { get; private set; }
 
         // Editar Course

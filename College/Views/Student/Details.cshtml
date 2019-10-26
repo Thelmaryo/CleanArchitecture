@@ -15,7 +15,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Birthdate)
+            @Model.Birthdate.ToString("dd/MM/yyyy")
         </dd>
 
         <dt>
@@ -92,7 +92,6 @@
         <dt>
             Curso
         </dt>
-
         <dd>
             @ViewBag.Course
         </dd>
