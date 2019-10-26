@@ -1,6 +1,7 @@
 ﻿using College.Enumerators;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -8,19 +9,28 @@ namespace College.Models
 {
     public class Student : User, IRepository
     {
+        [Display(Name = "Course")]
         public Guid CourseId { get; set; }
+        [Display(Name = "Data de Nascimento")]
         public DateTime Birthdate { get; set; }
+        [Display(Name = "Nome")]
         public string FirstName { get; set; }
+        [Display(Name = "Sobrenome")]
         public string LastName { get; set; }
         public string CPF { get; set; }
         public string Email { get; set; }
+        [Display(Name = "Telefone")]
         public string Phone { get; set; }
+        [Display(Name = "Gênero")]
         public string Gender { get; set; }
+        [Display(Name = "País")]
         public string Country { get; set; }
+        [Display(Name = "Cidade")]
         public string City { get; set; }
+        [Display(Name = "Endereço")]
         public string Address { get; set; }
 
-        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-23IN36H; database=College; User Id=sa; Password=123");
+        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-N1T1LL1; database=College; User Id=sa; Password=123");
 
         public void Create()
         {

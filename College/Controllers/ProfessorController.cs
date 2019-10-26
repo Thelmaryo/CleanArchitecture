@@ -164,17 +164,17 @@ namespace College.Controllers
                 }
                 ViewBag.Degrees = new SelectList(combobox, "Value", "Text");
                 // TODO: Add insert logic here
-                if (professor.FirstName.Length <= 3)
+                if (professor.FirstName.Length < 3)
                 {
                     ModelState.AddModelError("FirstName", "O Nome deve ter no minimo 3 caracteres");
                     return View(professor);
                 }
-                if (professor.LastName.Length <= 3)
+                if (professor.LastName.Length < 3)
                 {
                     ModelState.AddModelError("LastName", "O Sobrenome deve ter no minimo 3 caracteres");
                     return View(professor);
                 }
-                if (professor.Phone.Length <= 8)
+                if (professor.Phone.Length < 8)
                 {
                     ModelState.AddModelError("Telefone", "O Telefone deve ter no minimo 8 caracteres");
                     return View(professor);

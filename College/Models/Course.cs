@@ -12,7 +12,7 @@ namespace College.Models
         public Guid Id { get; set; }
         [Display(Name = "Nome")]
         public string Name { get; set; }
-        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-23IN36H; database=College; User Id=sa; Password=123");
+        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-N1T1LL1; database=College; User Id=sa; Password=123");
         public IEnumerable<Course> List()
         {
             if (_db.State == ConnectionState.Closed)

@@ -42,6 +42,8 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Create(Student student)
         {
+            ViewBag.
+                ListarCurso = new SelectList(new Course().List().OrderBy(x => x.Name), "Id", "Name");
             try
             {
                 student.Password = student.CPF.Replace("-", "").Replace(".", "");
@@ -146,6 +148,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Edit(Student student)
         {
+            ViewBag.ListarCurso = new SelectList(new Course().List().OrderBy(x => x.Name), "Id", "Name");
             try
             {
                 if (student.FirstName.Length < 3 || student.FirstName == null)
