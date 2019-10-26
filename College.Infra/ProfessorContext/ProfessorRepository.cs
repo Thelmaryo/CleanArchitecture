@@ -37,8 +37,8 @@ namespace College.Infra.ProfessorContext
                 professor.FirstName,
                 professor.LastName,
                 professor.Degree,
-                professor.CPF,
-                professor.Email,
+                CPF = professor.CPF.Number,
+                Email = professor.Email.Address,
                 professor.Phone
             });
         }
@@ -60,8 +60,8 @@ namespace College.Infra.ProfessorContext
                 "       ,[FirstName] " +
                 "       ,[LastName]	 " +
                 "       ,[Phone]	 " +
-                "       ,[CPF]		 " +
-                "       ,[Email]	 " +
+                "       ,[CPF] AS Number		 " +
+                "       ,[Email] AS Address	 " +
                 "       ,[Degree]	 " +
                 "   FROM [Professor] " +
                 "   WHERE Id = @Id	 ";
@@ -69,14 +69,10 @@ namespace College.Infra.ProfessorContext
                 param: new { Id = id },
                 map: (professor, cpf, email, eDegree) =>
                 {
-                    cpf = new CPF(cpf.Number);
-                    email = new Email(email.Address);
-                    eDegree = (EDegree)professor.Degree;
-                    professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, professor.Email.Address, professor.Phone, eDegree);
-
+                    professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, eDegree);
                     return professor;
                 },
-            splitOn: "Id, CPF, Email, Degree");
+            splitOn: "Id, Number, Address, Degree");
             return professors.SingleOrDefault();
         }
 

@@ -28,7 +28,7 @@ namespace Cryptography.EncryptContext
         // Retorna uma senha encriptografada com base em um sal já existente
         public string Encrypt(string password, string salt)
         {
-
+            throw new NotImplementedException();
         }
 
     }

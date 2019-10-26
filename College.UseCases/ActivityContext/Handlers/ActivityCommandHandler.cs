@@ -1,8 +1,10 @@
 ﻿using College.Entities.ActivityContext.Entities;
 using College.UseCases.ActivityContext.Inputs;
 using College.UseCases.ActivityContext.Repositories;
+using College.UseCases.Shared;
 using College.UseCases.Shared.Commands;
 using College.UseCases.Shared.Result;
+using System.Linq;
 
 namespace College.UseCases.ActivityContext.Handlers
 {
@@ -17,6 +19,7 @@ namespace College.UseCases.ActivityContext.Handlers
 
         public ICommandResult Handle(ActivityInputRegister command)
         {
+            decimal points = _AREP.GetByDiscipline(command.Activity.DisciplineId, new Semester()).Sum(x => x.Value);
             var activity = new Activity(new Discipline(command.Activity.DisciplineId), command.Activity.Description, command.Activity.Date, command.Activity.Value, command.DistributedPoints, null);
             var result = new StandardResult();
             result.AddRange(activity.Notifications);
