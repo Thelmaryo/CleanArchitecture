@@ -26,9 +26,21 @@ namespace Cryptography.EncryptContext
             return Password;
         }
         // Retorna uma senha encriptografada com base em um sal já existente
-        public string Encrypt(string password, string salt)
+        public string Encrypt(string password, string _salt)
         {
-            throw new NotImplementedException();
+            // DESCRIPTOGRAFA
+            byte[] salt = new byte[8];
+            int i = 0;
+            var saltStringArray = _salt.Split(',');
+            foreach (var stringSalt in saltStringArray)
+            {
+                salt[i] = Convert.ToByte(stringSalt);
+                i++;
+            }
+            int myIterations = 100000;
+            Rfc2898DeriveBytes k = new Rfc2898DeriveBytes(password, salt, myIterations);
+            string Password = Convert.ToBase64String(k.GetBytes(32));
+            return Password;
         }
 
     }

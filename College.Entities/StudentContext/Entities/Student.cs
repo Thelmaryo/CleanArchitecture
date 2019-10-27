@@ -27,6 +27,25 @@ namespace College.Entities.StudentContext.Entities
             Validation();
         }
 
+        public Student(Guid id, Guid courseId, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password, string salt, bool active) : base(email, password, salt, active)
+        {
+            Id = id;
+            Email = new Email(email);
+            Notifications.Add("Email", Email.Notification);
+            CPF = new CPF(cpf);
+            Notifications.Add("CPF", Email.Notification);
+            Course = new Course(courseId);
+            Birthdate = birthdate;
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Gender = gender;
+            Country = country;
+            City = city;
+            Address = address;
+            Validation();
+        }
+
         public Course Course { get; private set; }
 
         public DateTime Birthdate { get; private set; }
@@ -69,7 +88,24 @@ namespace College.Entities.StudentContext.Entities
             Address = address;
             Validation();
         }
+        public void UpdateEntity(Course course, DateTime birthdate, string firstName, string lastName, string email, string phone, string gender, string country, string city, string address, Guid id) 
+        {
+            Id = id;
+            Email = new Email(email);
+            Notifications.Remove("Email");
+            Notifications.Add("Email", Email.Notification);
 
+            Course = course;
+            Birthdate = birthdate;
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Gender = gender;
+            Country = country;
+            City = city;
+            Address = address;
+            Validation();
+        }
         private void Validation()
         {
             if (string.IsNullOrEmpty(FirstName) || FirstName.Length < 3)

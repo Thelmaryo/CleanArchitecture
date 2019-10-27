@@ -30,18 +30,22 @@ namespace College.Infra.EvaluationContext
         public Activity GetByStudent(Guid studentId, Guid activityId)
         {
             using var db = _db.GetCon();
-            sql = "SELECT * FROM StudentActivity sa INNER JOIN Student s ON (s.Id = sa.StudentId) WHERE sa.StudentId = @StudentId AND sa.ActivityId = @ActivityId";
-            return db.Query<Activity, Student, Activity>(sql,
-                param: new
-                {
-                    ActivityId = activityId,
-                    StudentId = studentId
-                },
+            sql = " SELECT [ActivityId] as Id, 										  " +
+                " [Grade], 															  " +
+                " [Value], 															  " +
+                " [StudentId] as Id 												  " +
+                " FROM StudentActivity st INNER JOIN Student s on s.Id = st.StudentId " +
+                " INNER JOIN Activity a on a.Id = st.ActivityId 					  " +
+                " WHERE st.ActivityId = @ActivityId AND s.Id = @StudentId			  ";
+            var activity = db.Query<Activity, Student, Activity>(sql,
+                param: new { ActivityId = activityId, StudentId = studentId },
                 map: (activity, student) =>
                 {
-                    activity.UpdateStudent(student);
+                    activity = new Activity(activity.Id, student.Id, activity.Grade, activity.Value);
                     return activity;
-                }, splitOn: "Id").SingleOrDefault();
+                }, splitOn: "Id, Id");
+
+            return activity.SingleOrDefault();
         }
 
         public void Update(Activity activity)

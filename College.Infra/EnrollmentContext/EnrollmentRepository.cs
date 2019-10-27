@@ -49,24 +49,23 @@ namespace College.Infra.EnrollmentContext
         public Enrollment Get(Guid id)
         {
             using var db = _db.GetCon();
-            sql = " SELECT [Id]		  " +
-                "       ,[Begin]	  " +
-                "       ,[End]		  " +
-                "       ,[Status]	  " +
-                "       ,[StudentId]  " +
+            sql = " SELECT [Id]				  " +
+                " ,[Begin]					  " +
+                " ,[End]					  " +
+                " ,[Status]					  " +
+                " ,[StudentId] as Id		  " +
                 "   FROM [Enrollment] " +
                 "   WHERE Id = @Id	  ";
             var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
                 param: new { Id = id },
                 map: (enrollment, eStatusEnrollment, student) =>
                 {
-                    eStatusEnrollment = (EStatusEnrollment)eStatusEnrollment;
-                    student = new Student(enrollment.Student.Id);
-                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, eStatusEnrollment);
+                    student = new Student(student.Id);
+                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, eStatusEnrollment, enrollment.Id);
 
                     return enrollment;
                 },
-            splitOn: "Id, Status, Enrollment");
+            splitOn: "Id, Status, Id");
 
             return enrollments.SingleOrDefault();
         }
@@ -74,23 +73,23 @@ namespace College.Infra.EnrollmentContext
         public IEnumerable<Enrollment> GetByStudent(Guid studentId)
         {
             using var db = _db.GetCon();
-            sql = " SELECT [Id]		  " +
-                "       ,[Begin]	  " +
-                "       ,[End]		  " +
-                "       ,[Status]	  " +
-                "       ,[StudentId]  " +
+            sql = " SELECT [Id]				  " +
+                " ,[Begin]					  " +
+                " ,[End]					  " +
+                " ,[Status]					  " +
+                " ,[StudentId] as Id		  " +
                 "   FROM [Enrollment] " +
                 "   WHERE studentId = @studentId";
-            var enrollments = db.Query<Enrollment, Student, Enrollment>(sql,
-                param: new { studentId = studentId },
-                map: (enrollment, student) =>
+            var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
+                param: new { studentId },
+                map: (enrollment, eStatusEnrollment, student) =>
                 {
-                    student = new Student(enrollment.Student.Id);
-                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, enrollment.Status);
+                    student = new Student(student.Id);
+                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, eStatusEnrollment, enrollment.Id);
 
                     return enrollment;
                 },
-            splitOn: "Id, Status, Enrollment");
+            splitOn: "Id, Status, Id");
 
             return enrollments;
         }
@@ -98,24 +97,23 @@ namespace College.Infra.EnrollmentContext
         public Enrollment GetCurrent(Guid studentId)
         {
             using var db = _db.GetCon();
-            sql = " SELECT [Id]		  " +
-                "       ,[Begin]	  " +
-                "       ,[End]		  " +
-                "       ,[Status]	  " +
-                "       ,[StudentId]  " +
-                "   FROM [Enrollment] " +
-                "   WHERE studentId = @studentId";
+            sql = " SELECT [Id]				  " +
+                " ,[Begin]					  " +
+                " ,[End]					  " +
+                " ,[Status]					  " +
+                " ,[StudentId] as Id		  " +
+                " FROM [Enrollment]			  " +
+                " WHERE studentId = @studentId";
             var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
-                param: new { studentId = studentId },
+                param: new { studentId },
                 map: (enrollment, eStatusEnrollment, student) =>
                 {
-                    eStatusEnrollment = (EStatusEnrollment)eStatusEnrollment;
-                    student = new Student(enrollment.Student.Id);
-                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, eStatusEnrollment);
+                    student = new Student(student.Id);
+                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, eStatusEnrollment, enrollment.Id);
 
                     return enrollment;
                 },
-            splitOn: "Id, Status, Enrollment");
+            splitOn: "Id, Status, Id");
 
             return enrollments.SingleOrDefault();
         }
@@ -123,24 +121,23 @@ namespace College.Infra.EnrollmentContext
         public IEnumerable<Enrollment> GetPreEnrollments()
         {
             using var db = _db.GetCon();
-            sql = " SELECT [Id]		  " +
-                "       ,[Begin]	  " +
-                "       ,[End]		  " +
-                "       ,[Status]	  " +
-                "       ,[StudentId]  " +
-                "   FROM [Enrollment] " +
-                "   WHERE [Status] = @Status";
+            sql = " SELECT [Id]				  " +
+                " ,[Begin]					  " +
+                " ,[End]					  " +
+                " ,[Status]					  " +
+                " ,[StudentId] as Id		  " +
+                "   FROM [Enrollment]         " +
+                "   WHERE [Status] = @Status  ";
             var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
                 param: new { Status = EStatusEnrollment.PreEnrollment },
-                map: (enrollment, eStatusEnrollment, student) =>
+                map: (enrollment, Status, student) =>
                 {
-                    eStatusEnrollment = (EStatusEnrollment)eStatusEnrollment;
-                    student = new Student(enrollment.Student.Id);
-                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, eStatusEnrollment);
+                    student = new Student(student.Id);
+                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, Status, enrollment.Id);
 
                     return enrollment;
                 },
-            splitOn: "Id, Status, Enrollment");
+            splitOn: "Id, Status, Id");
 
             return enrollments;
         }

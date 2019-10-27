@@ -25,7 +25,15 @@ namespace College.Entities.EvaluationContext.Entities
             Grade = grade;
             Value = value;
         }
-
+        // System.Guid Id, System.Decimal Grade, System.Decimal Value
+        public Activity(Guid id, Decimal grade, Decimal value)
+        {
+            if (grade > value)
+                Notifications.Add("Grade", $"A nota deve estar entre 0 e {value} pontos.");
+            Id = id;
+            Grade = grade;
+            Value = value;
+        }
         public void UpdateStudent(Student student)
         {
             Student = student;

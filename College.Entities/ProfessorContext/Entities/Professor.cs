@@ -22,7 +22,23 @@ namespace College.Entities.ProfessorContext.Entities
             Degree = degree;
             Validation();
         }
-        
+
+        public Professor(Guid id, string firstName, string lastName, string cpf, string email, string phone, EDegree degree, string password, string salt, bool active) : base(email, password, salt, active)
+        {
+            Id = id;
+            if (password != string.Empty) Password = password;
+            Email = new Email(email);
+            Notifications.Add("Email", Email.Notification);
+            CPF = new CPF(cpf);
+            Notifications.Add("CPF", Email.Notification);
+
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Degree = degree;
+            Validation();
+        }
+
         public Professor(Guid id, string firstName, string lastName, string email, string phone, EDegree degree) : base(email)
         {
             Id = id;
@@ -54,8 +70,10 @@ namespace College.Entities.ProfessorContext.Entities
         public void UpdateEntity(string firstName, string lastName, string cpf, string email, string phone, EDegree degree)
         {
             Email = new Email(email);
+            Notifications.Remove("Email");
             Notifications.Add("Email", Email.Notification);
             CPF = new CPF(cpf);
+            Notifications.Remove("CPF");
             Notifications.Add("CPF", Email.Notification);
 
             FirstName = firstName;

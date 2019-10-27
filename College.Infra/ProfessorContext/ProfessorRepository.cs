@@ -21,7 +21,7 @@ namespace College.Infra.ProfessorContext
         public void Create(Professor professor)
         {
             using var db = _db.GetCon();
-            sql = "INSERT INTO [User] (Id, UserName, Password, Active, Salt, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
+            sql = "INSERT INTO [User] (Id, UserName, Password, Salt, Active, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
             db.Execute(sql, param: new
             {
                 professor.Id,
@@ -87,24 +87,27 @@ namespace College.Infra.ProfessorContext
         public IEnumerable<Professor> List()
         {
             using var db = _db.GetCon();
-            sql = " SELECT [Id]		 " +
-                "       ,[FirstName] " +
-                "       ,[LastName]	 " +
-                "       ,[Phone]	 " +
-                "       ,[CPF]		 " +
-                "       ,[Email]	 " +
-                "       ,[Degree]	 " +
-                "   FROM [Professor] ";
+            sql = " SELECT p.[Id]			 " +
+                    " ,[UserName]			 " +
+                    " ,[Password]			 " +
+                    " ,[Salt]				 " +
+                    " ,[Role]				 " +
+                    " ,[Active]				 " +
+                    " ,[FirstName]			 " +
+                    " ,[LastName]			 " +
+                    " ,[Phone]				 " +
+                    " ,[CPF] as Number		 " +
+                    " ,[Email] as [Address]	 " +
+                    " ,[Degree]				 " +
+                    " FROM [Professor] as p	 " +
+                    " inner join [User] as u " +
+                    " on p.Id = u.Id		 ";
             var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
                 map: (professor, cpf, email, eDegree) =>
                 {
-                    cpf = new CPF(cpf.Number);
-                    email = new Email(email.Address);
-                    eDegree = (EDegree)professor.Degree;
-                    professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, professor.Email.Address, professor.Phone, eDegree);
-
+                    professor = new Professor(professor.Id, professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, professor.Degree, professor.Password, professor.Salt, professor.Active);
                     return professor;
-                }, splitOn: "Id, CPF, Email, Degree");
+                }, splitOn: "Id, Number, Address, Degree");
             return professors;
         }
 
@@ -116,8 +119,8 @@ namespace College.Infra.ProfessorContext
             {
                 professor.FirstName,
                 professor.LastName,
-                professor.CPF,
-                professor.Email,
+                CPF = professor.CPF.Number,
+                Email = professor.Email.Address,
                 professor.Phone,
                 professor.Degree,
                 professor.Id

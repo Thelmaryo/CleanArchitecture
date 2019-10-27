@@ -20,11 +20,13 @@ namespace College.Infra.Tests.ActivityContext
     [TestClass]
     public class ActivityRepositoryTest
     {
-        private Discipline Discipline;
-        private List<Guid> Activities;
-        private Guid CourseId;
-        private IActivityRepository _AREP;
-        private IDisciplineRepository _DREP;
+        Discipline Discipline;
+        List<Guid> Activities;
+        Guid CourseId;
+        Professor professor;
+        string sql;
+        IActivityRepository _AREP;
+        IDisciplineRepository _DREP;
         [TestInitialize]
         public void Init()
         {
@@ -33,7 +35,7 @@ namespace College.Infra.Tests.ActivityContext
             _DREP = new DisciplineRepository(new MSSQLDB(new DBConfiguration())); 
             Activities = new List<Guid>();
             var _PREP = new ProfessorRepository(new MSSQLDB(new DBConfiguration()));
-            var professor = new Professor("Thelmaryo", "Vieira Lima", "034.034.034-00", "thelmaryo@hotmail.com", "123", EDegree.Master, "123", "123");
+            professor = new Professor("Thelmaryo", "Vieira Lima", "034.034.034-00", "thelmaryo@hotmail.com", "123", EDegree.Master, "123", "123");
             _PREP.Create(professor);
             
             var course = new Entities.CourseContext.Entities.Course("Sistemas de Informação");
@@ -65,7 +67,17 @@ namespace College.Infra.Tests.ActivityContext
                 _AREP.Delete(id);
             _DREP.Delete(Discipline.Id);
             var db = new SqlConnection(new DBConfiguration().StringConnection);
+
+            // Delete Course
             db.Execute("DELETE FROM Course WHERE Id = @Id", new { Id = CourseId });
+
+            // Delete Professor
+            sql = "DELETE FROM [Professor] WHERE Id = @Id";
+            db.Execute(sql, param: new { professor.Id });
+
+            // Delete User
+            sql = "DELETE FROM [User] WHERE Id = @Id";
+            db.Execute(sql, param: new { professor.Id });
         }
     }
 }

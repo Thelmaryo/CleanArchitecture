@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace College.Presenters.ProfessorContext
 {
-    public class ProfessorViewModelEdit
+    public class ProfessorViewModelCreate
     {
 
         [Display(Name = "Nome")]
