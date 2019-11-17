@@ -1,9 +1,9 @@
 ﻿using College.Presenters.Shared;
 using System.Collections.Generic;
 
-namespace College.Presenters.EvaluationContext
+namespace College.Presenters.ActivityContext
 {
-    public class EvaluationMainMenuViewModel
+    public class ActivityMainMenuViewModel
     {
         public IEnumerable<DisciplineMainMenuItem> Disciplines { get; set; }
     }

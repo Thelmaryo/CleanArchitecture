@@ -1,11 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using College.Presenters.Shared;
+using System.Collections.Generic;
 
 namespace College.Presenters.ProfessorContext
 {
-    public class ProfessorViewModel
+    public class CreateProfessorViewModel
     {
-        public Guid Id { get; set; }
+
         [Display(Name = "Nome")]
         public string FirstName { get; set; }
 
@@ -18,5 +19,10 @@ namespace College.Presenters.ProfessorContext
 
         [Display(Name = "Telefone")]
         public string Phone { get; set; }
+
+        [Display(Name = "Titulação")]
+        public IEnumerable<ComboboxItem> Degree { get; set; }
+        public SaveButton SaveButton => new SaveButton();
+        public BackButton BackButton => new BackButton();
     }
 }

@@ -1,9 +1,12 @@
 ﻿using College.Presenters.Shared;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
-namespace College.Presenters.EvaluationContext
+namespace College.Presenters.ActivityContext
 {
-    public class DeleteActivityViewModel
+    public class ActivityDetailsViewModel
     {
         public string Id { get; set; }
         [Display(Name = "Disciplina")]
@@ -16,6 +19,6 @@ namespace College.Presenters.EvaluationContext
         [Display(Name = "Data")]
         public string Date { get; set; }
         public BackButton SaveButton => new BackButton();
-        public DeleteButton DeleteButton => new DeleteButton();
+        public LinkButton EditButton => new LinkButton("Editar");
     }
 }

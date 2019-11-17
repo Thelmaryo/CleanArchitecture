@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using College.Presenters.Shared;
 
 namespace College.Presenters.StudentContext
 {
-    public class StudentViewModelDetails
+    public class DeleteStudentViewModel
     {
         public Guid Id { get; set; }
         [Display(Name = "Data de Nascimento")]
@@ -12,7 +13,6 @@ namespace College.Presenters.StudentContext
         public string FirstName { get; set; }
         [Display(Name = "Sobrenome")]
         public string LastName { get; set; }
-        public string CPF { get; set; }
         public string Email { get; set; }
         [Display(Name = "Telefone")]
         public string Phone { get; set; }
@@ -26,5 +26,7 @@ namespace College.Presenters.StudentContext
         public string Address { get; set; }
         [Display(Name = "Curso")]
         public string Course { get; set; }
+        public BackButton BackButton => new BackButton();
+        public DeleteButton DeleteButton => new DeleteButton();
     }
 }

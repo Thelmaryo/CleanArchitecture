@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using College.Presenters.Shared;
 
 namespace College.Presenters.ProfessorContext
 {
-    public class ProfessorViewModelCreate
+    public class DeleteProfessorViewModel
     {
-
+        public string Id { get; set; }
         [Display(Name = "Nome")]
         public string FirstName { get; set; }
 
@@ -19,7 +20,9 @@ namespace College.Presenters.ProfessorContext
         [Display(Name = "Telefone")]
         public string Phone { get; set; }
 
-        [Display(Name = "Grau")]
-        public SelectList Degree { get; set; }
+        [Display(Name = "Titulação")]
+        public string Degree { get; set; }
+        public BackButton BackButton => new BackButton();
+        public DeleteButton DeleteButton => new DeleteButton();
     }
 }

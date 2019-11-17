@@ -1,10 +1,11 @@
-﻿using System;
+﻿using College.Presenters.Shared;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+using System.Collections.Generic;
+using System;
 
 namespace College.Presenters.StudentContext
 {
-    public class StudentViewModelCreate
+    public class CreateStudentViewModel
     {
         [Display(Name = "Data de Nascimento")]
         public DateTime Birthdate { get; set; }
@@ -12,7 +13,6 @@ namespace College.Presenters.StudentContext
         public string FirstName { get; set; }
         [Display(Name = "Sobrenome")]
         public string LastName { get; set; }
-        public string CPF { get; set; }
         public string Email { get; set; }
         [Display(Name = "Telefone")]
         public string Phone { get; set; }
@@ -25,6 +25,8 @@ namespace College.Presenters.StudentContext
         [Display(Name = "Endereço")]
         public string Address { get; set; }
         [Display(Name = "Curso")]
-        public SelectList Course { get; set; }
+        public IEnumerable<ComboboxItem> Courses { get; set; }
+        public SaveButton SaveButton => new SaveButton();
+        public BackButton BackButton => new BackButton();
     }
 }

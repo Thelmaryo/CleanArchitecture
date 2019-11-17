@@ -157,7 +157,7 @@ namespace College.Infra.StudentContext
                     " WHERE sd.DisciplineId = @Id												   " +
                     " AND e.Status = @EnrollmentSatus											   " +
                     " AND e.Id = (SELECT ee.Id FROM Enrollment ee WHERE ee.StudentId = e.StudentId " +
-                    " AND GETDATE() BETWEEN ee.[Begin] AND ee.[End])							   ";
+                    " AND GETDATE() BETWEEN ee.[Begin] AND ee.[End] AND ee.[Status] = @EnrollmentSatus)							   ";
             var students = db.Query<Student, Course, Email, CPF, Student>(sql,
                 param: new { Id = id, EnrollmentSatus = EStatusEnrollment.Confirmed },
                 map: (student, course, email, cpf) =>
