@@ -79,9 +79,10 @@ namespace College.Infra.EnrollmentContext
                 " ,[Status]					  " +
                 " ,[StudentId] as Id		  " +
                 "   FROM [Enrollment] " +
-                "   WHERE studentId = @studentId";
+                "   WHERE studentId = @studentId " +
+                 "AND [Status] = @Status";
             var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
-                param: new { studentId },
+                param: new { studentId, Status = EStatusEnrollment.Confirmed },
                 map: (enrollment, eStatusEnrollment, student) =>
                 {
                     student = new Student(student.Id);
@@ -103,9 +104,10 @@ namespace College.Infra.EnrollmentContext
                 " ,[Status]					  " +
                 " ,[StudentId] as Id		  " +
                 " FROM [Enrollment]			  " +
-                " WHERE studentId = @studentId";
+                " WHERE studentId = @studentId " +
+                "AND [Status] = @Status";
             var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
-                param: new { studentId },
+                param: new { studentId, Status = EStatusEnrollment.Confirmed },
                 map: (enrollment, eStatusEnrollment, student) =>
                 {
                     student = new Student(student.Id);

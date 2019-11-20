@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace College.Presenters.EvaluationContext
+namespace College.Presenters.ActivityContext
 {
     public class ExamListViewModel
     {

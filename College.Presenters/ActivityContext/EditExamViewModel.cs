@@ -1,7 +1,7 @@
 ﻿using College.Presenters.Shared;
 using System.ComponentModel.DataAnnotations;
 
-namespace College.Presenters.EvaluationContext
+namespace College.Presenters.ActivityContext
 {
     public class EditExamViewModel
     {
