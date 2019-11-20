@@ -1,9 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace College.Infra.DataSource
 {
-    public class MSSQLDB : IDB
+    public class MSSQLDB : IDB, IDisposable
     {
         SqlConnection DB;
         readonly string strcon;
@@ -11,17 +12,16 @@ namespace College.Infra.DataSource
         {
             strcon = config.StringConnection;
         }
-        public void Dispose()
-        {
-            if (DB.State == ConnectionState.Open)
-                DB.Close();
-            DB.Dispose();
-        }
-
         public IDbConnection GetCon()
         {
             DB = new SqlConnection(strcon);
             return DB;
+        }
+
+        public void Dispose()
+        {
+            DB.Close();
+            DB.Dispose();
         }
     }
 }

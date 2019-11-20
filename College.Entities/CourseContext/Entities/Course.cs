@@ -1,5 +1,4 @@
 ﻿using College.Entities.Shared;
-using System.ComponentModel.DataAnnotations;
 
 namespace College.Entities.CourseContext.Entities
 {

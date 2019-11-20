@@ -6,12 +6,12 @@ namespace College.UseCases.StudentContext.Repositories
 {
     public interface IStudentRepository
     {
-        public void Create(Student student);
-        public void Update(Student student);
-        public void Delete(Guid id);
-        public Student Get(Guid id);
-        public Student Get(string CPF);
-        public IEnumerable<Student> GetByDiscipline(Guid id);
-        public IEnumerable<Student> List();
+        void Create(Student student);
+        void Update(Student student);
+        void Delete(Guid id);
+        Student Get(Guid id);
+        Student Get(string CPF);
+        IEnumerable<Student> GetByDiscipline(Guid id);
+        IEnumerable<Student> List();
     }
 }

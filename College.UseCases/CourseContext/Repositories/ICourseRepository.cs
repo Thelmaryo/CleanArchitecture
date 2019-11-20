@@ -5,6 +5,6 @@ namespace College.UseCases.CourseContext.Repositories
 {
     public interface ICourseRepository
     {
-        public IEnumerable<Course> List();
+        IEnumerable<Course> List();
     }
 }

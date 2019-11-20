@@ -27,7 +27,7 @@ namespace College.Models
         [Display(Name = "Titulação")]
         public EDegree Degree { get; set; }
 
-        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-N1T1LL1; database=College; User Id=sa; Password=123");
+        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-23IN36H; database=College; User Id=sa; Password=123");
 
         public void Create()
         {

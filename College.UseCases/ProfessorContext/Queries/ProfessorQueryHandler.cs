@@ -7,7 +7,7 @@ namespace College.UseCases.ProfessorContext.Queries
 {
     public class ProfessorQueryHandler : IQueryHandler<ProfessorInputGet, ProfessorResultQueryGet>
     {
-        private readonly IProfessorRepository _PREP;
+        private IProfessorRepository _PREP;
 
         public ProfessorQueryHandler(IProfessorRepository PREP)
         {
@@ -21,7 +21,7 @@ namespace College.UseCases.ProfessorContext.Queries
             return result;
         }
 
-        public ProfessorResultQueryList Handle(ProfessorInputList command)
+        public ProfessorResultQueryList Handle()
         {
             var result = new ProfessorResultQueryList();
             result.Professor = _PREP.List();

@@ -1,6 +1,8 @@
 ﻿using College.Enumerators;
 using College.Helpers;
 using College.Models;
+using College.UseCases.ProfessorContext.Handlers;
+using College.UseCases.ProfessorContext.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +14,21 @@ namespace College.Controllers
 {
     public class ProfessorController : ControllerBase
     {
+        private ProfessorQueryHandler _professorQuery;
+
+        public ProfessorController(ProfessorQueryHandler professorQuery)
+        {
+            _professorQuery = professorQuery;
+        }
+
         // GET: Professor
         public ActionResult Index()
         {
             if (!User.IsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            var professor = new Professor();
-            return View(professor.List());
+            //var professor = new Professor();
+            //return View(professor.List());
+            return View(_professorQuery.Handle());
         }
 
         // GET: Professor/Details/5

@@ -7,10 +7,10 @@ namespace College.UseCases.ActivityContext.Repositories
 {
     public interface IActivityRepository
     {
-        public void Create(Activity activity);
-        public void Update(Activity activity);
-        public void Delete(Guid id);
-        public Activity Get(Guid id);
-        public IEnumerable<Activity> GetByDiscipline(Guid id, Semester semester);
+        void Create(Activity activity);
+        void Update(Activity activity);
+        void Delete(Guid id);
+        Activity Get(Guid id);
+        IEnumerable<Activity> GetByDiscipline(Guid id, Semester semester);
     }
 }

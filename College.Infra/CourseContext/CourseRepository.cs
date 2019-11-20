@@ -16,11 +16,12 @@ namespace College.Infra.EnrollmentContext
         }
         public IEnumerable<Course> List()
         {
-            using var db = _db.GetCon();
-            sql = " SELECT [Id], [Name]	FROM [Course] ";
-            var courses = db.Query<Course>(sql);
-
-            return courses;
+            using (var db = _db.GetCon())
+            {
+                sql = " SELECT [Id], [Name]	FROM [Course] ";
+                var courses = db.Query<Course>(sql);
+                return courses;
+            }
         }
     }
 }

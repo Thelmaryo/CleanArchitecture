@@ -2,6 +2,6 @@
 {
     public interface IQueryHandler<T, R> where T: ICommand where R : IQueryResult
     {
-        public R Handle(T command);
+        R Handle(T command);
     }
 }

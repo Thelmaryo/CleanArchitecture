@@ -3,7 +3,7 @@ using System.Data;
 
 namespace College.Infra.DataSource
 {
-    public interface IDB : IDisposable
+    public interface IDB 
     {
         IDbConnection GetCon();
     }
