@@ -90,8 +90,8 @@ namespace College.Infra.ProfessorContext
                 var workload = db.QuerySingleOrDefault<int>(sql, param: new { Id = professorId });
                 return workload;
             }
-        
 
+        }
         public IEnumerable<Professor> List()
         {
             using (var db = _db.GetCon())

@@ -3,6 +3,7 @@ using College.Helpers;
 using College.Models;
 using College.UseCases.ProfessorContext.Handlers;
 using College.UseCases.ProfessorContext.Queries;
+using College.UseCases.ProfessorContext.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,15 @@ namespace College.Controllers
             _professorQuery = professorQuery;
         }
 
+
         // GET: Professor
         public ActionResult Index()
         {
             if (!User.IsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            //var professor = new Professor();
-            //return View(professor.List());
-            return View(_professorQuery.Handle());
+            //var teste = _professorQuery.Handle();
+            var professor = new Professor();
+            return View(professor.List());
         }
 
         // GET: Professor/Details/5
