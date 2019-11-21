@@ -263,6 +263,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\College.Entities\College.Entities.csproj">
+      <Project>{bc617097-03ff-45c8-944c-3d41027f8f72}</Project>
+      <Name>College.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\College.Infra\College.Infra.csproj">
       <Project>{51fcd018-da02-4045-8a4a-7763c3705e1e}</Project>
       <Name>College.Infra</Name>

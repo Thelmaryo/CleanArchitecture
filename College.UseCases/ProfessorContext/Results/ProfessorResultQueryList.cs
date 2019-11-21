@@ -6,6 +6,6 @@ namespace College.UseCases.ProfessorContext.Result
 {
     public class ProfessorResultQueryList : IQueryResult
     {
-        public IEnumerable<Professor> Professor { get; set; }
+        public IEnumerable<Professor> Professors { get; set; }
     }
 }

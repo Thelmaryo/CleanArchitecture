@@ -24,7 +24,7 @@ namespace College.UseCases.ProfessorContext.Queries
         public ProfessorResultQueryList Handle()
         {
             var result = new ProfessorResultQueryList();
-            result.Professor = _PREP.List();
+            result.Professors = _PREP.List();
 
             return result;
         }

@@ -4,7 +4,7 @@ using College.UseCases.CourseContext.Repositories;
 using Dapper;
 using System.Collections.Generic;
 
-namespace College.Infra.EnrollmentContext
+namespace College.Infra.CourseContext
 {
     public class CourseRepository : ICourseRepository
     {

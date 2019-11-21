@@ -1,6 +1,7 @@
 ﻿using College.Enumerators;
 using College.Helpers;
 using College.Models;
+using College.Presenters.ProfessorContext;
 using College.UseCases.ProfessorContext.Handlers;
 using College.UseCases.ProfessorContext.Queries;
 using College.UseCases.ProfessorContext.Repositories;
@@ -28,9 +29,19 @@ namespace College.Controllers
         {
             if (!User.IsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            //var teste = _professorQuery.Handle();
-            var professor = new Professor();
-            return View(professor.List());
+            var professors = _professorQuery.Handle().Professors.Select(x=> 
+                new ProfessorListItem {
+                    CPF = x.CPF.Number,
+                    Email = x.Email.Address,
+                    FirstName = x.FirstName,
+                    Id = x.Id,
+                    LastName = x.LastName,
+                    Phone = x.Phone
+                });
+            var professor = new ProfessorListViewModel {
+                Professors = professors
+            };
+            return View(professor);
         }
 
         // GET: Professor/Details/5
