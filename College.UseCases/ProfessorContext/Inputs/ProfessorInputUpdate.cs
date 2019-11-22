@@ -1,4 +1,5 @@
-﻿using College.UseCases.Shared.Commands;
+﻿using College.Entities.ProfessorContext.Enumerators;
+using College.UseCases.Shared.Commands;
 using System;
 
 namespace College.UseCases.ProfessorContext.Inputs
@@ -14,6 +15,6 @@ namespace College.UseCases.ProfessorContext.Inputs
 
         public string Phone { get; set; }
 
-        public int Degree { get; set; }
+        public EDegree Degree { get; set; }
     }
 }

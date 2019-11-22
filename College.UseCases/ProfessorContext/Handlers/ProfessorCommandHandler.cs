@@ -20,10 +20,13 @@ namespace College.UseCases.ProfessorContext.Handlers
         }
         public ICommandResult Handle(ProfessorInputRegister command)
         {
-            string password = _encryptor.Encrypt(command.CPF.Replace("-", "").Replace(".", ""), out string salt);
+            string password = string.Empty;
+            string salt = string.Empty;
+            if (!string.IsNullOrEmpty(command.CPF))
+                password = _encryptor.Encrypt(command.CPF.Replace("-", "").Replace(".", ""), out salt);
 
             var professor = new Professor(command.FirstName, command.LastName, command.CPF,
-                command.Email, command.Phone, (EDegree)command.Degree, password, salt);
+                command.Email, command.Phone, command.Degree, password, salt);
 
             var result = new StandardResult();
             result.AddRange(professor.Notifications);
@@ -37,10 +40,8 @@ namespace College.UseCases.ProfessorContext.Handlers
 
         public ICommandResult Handle(ProfessorInputUpdate command)
         {
-            EDegree degree = (EDegree)command.Degree;
-
             var professor = new Professor(command.ProfessorId, command.FirstName, command.LastName,
-                command.Email, command.Phone, degree);
+                command.Email, command.Phone, command.Degree);
             var result = new StandardResult();
             result.AddRange(professor.Notifications);
             if (result.Notifications.Count == 0)

@@ -1,15 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using College.Presenters.Shared;
+﻿using College.Presenters.Shared;
+using System;
 using System.Collections.Generic;
-using College.Entities.ProfessorContext.Enumerators;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace College.Presenters.ProfessorContext
 {
-    public class EditProfessorViewModel
+    public class ProfessorDetailsViewModel
     {
-        public string Id { get; set; }
-
+        public Guid Id { get; set; }
         [Display(Name = "Nome")]
         public string FirstName { get; set; }
 
@@ -22,11 +21,7 @@ namespace College.Presenters.ProfessorContext
 
         [Display(Name = "Telefone")]
         public string Phone { get; set; }
-
-        [Display(Name = "Titulação")]
-        public EDegree SelectedDegree { get; set; }
-        public IEnumerable<ComboboxItem> Degrees { get; set; }
-        public SaveButton SaveButton => new SaveButton();
+        public LinkButton EditButton => new LinkButton("Editar");
         public BackButton BackButton => new BackButton();
     }
 }

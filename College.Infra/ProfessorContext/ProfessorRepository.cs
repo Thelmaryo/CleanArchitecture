@@ -110,7 +110,7 @@ namespace College.Infra.ProfessorContext
                     " ,[Degree]				 " +
                     " FROM [Professor] as p	 " +
                     " inner join [User] as u " +
-                    " on p.Id = u.Id		 ";
+                    " on p.Id = u.Id	WHERE u.Active = 1	 ";
                 var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
                     map: (professor, cpf, email, eDegree) =>
                     {
@@ -125,12 +125,11 @@ namespace College.Infra.ProfessorContext
         {
             using (var db = _db.GetCon())
             {
-                sql = "UPDATE Professor SET FirstName = @FirstName, LastName = @LastName, CPF = @CPF, Email = @Email, Phone = @Phone, Degree = @Degree WHERE Id = @Id";
+                sql = "UPDATE Professor SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Phone = @Phone, Degree = @Degree WHERE Id = @Id";
                 db.Execute(sql, param: new
                 {
                     professor.FirstName,
                     professor.LastName,
-                    CPF = professor.CPF.Number,
                     Email = professor.Email.Address,
                     professor.Phone,
                     professor.Degree,

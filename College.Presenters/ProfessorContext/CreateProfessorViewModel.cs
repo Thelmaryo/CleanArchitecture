@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using College.Presenters.Shared;
 using System.Collections.Generic;
+using College.Entities.ProfessorContext.Enumerators;
 
 namespace College.Presenters.ProfessorContext
 {
@@ -21,7 +22,8 @@ namespace College.Presenters.ProfessorContext
         public string Phone { get; set; }
 
         [Display(Name = "Titulação")]
-        public IEnumerable<ComboboxItem> Degree { get; set; }
+        public EDegree SelectedDegree { get; set; }
+        public IEnumerable<ComboboxItem> Degrees { get; set; }
         public SaveButton SaveButton => new SaveButton();
         public BackButton BackButton => new BackButton();
     }
