@@ -1,4 +1,4 @@
-﻿@model College.Models.Student
+﻿@model College.Presenters.StudentContext.DeleteStudentViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -21,12 +21,19 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="@Model.DeleteButton.Text" class="btn" style="background-color: @Model.DeleteButton.Color; color: @Model.DeleteButton.FontColor; border: 1px solid black" /> |
+            @Html.ActionLink(Model.BackButton.Text, "Index", null, new
+        {
+        @class = "btn",
+        style = $"background-color: {Model.BackButton.Color}; " +
+        $"color: {Model.BackButton.FontColor}; " +
+        $"border: 1px solid black"
+        })
         </div>
     }
 </div>

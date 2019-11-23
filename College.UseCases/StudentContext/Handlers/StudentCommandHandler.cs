@@ -21,7 +21,10 @@ namespace College.UseCases.StudentContext.Handlers
         public ICommandResult Handle(StudentInputRegister command)
         {
             var course = new Course(command.CourseId);
-            string password = _encryptor.Encrypt(command.CPF.Replace("-", "").Replace(".", ""), out string salt);
+            string password = string.Empty;
+            string salt = string.Empty;
+            if (!string.IsNullOrEmpty(command.CPF))
+                password = _encryptor.Encrypt(command.CPF.Replace("-", "").Replace(".", ""), out salt);
 
             var student = new Student(course, command.Birthdate, command.FirstName, command.LastName, command.CPF, command.Email, command.Phone, command.Gender, command.Country, command.City, command.Address, password, salt);
 

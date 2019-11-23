@@ -26,6 +26,7 @@ namespace College.Presenters.StudentContext
         [Display(Name = "Endereço")]
         public string Address { get; set; }
         [Display(Name = "Curso")]
+        public Guid SelectedCourse { get; set; }
         public IEnumerable<ComboboxItem> Courses { get; set; }
         public SaveButton SaveButton => new SaveButton();
         public BackButton BackButton => new BackButton();

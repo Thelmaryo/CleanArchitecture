@@ -8,8 +8,6 @@ namespace College.UseCases.StudentContext.Inputs
         public Guid StudentId { get; set; }
         // Id Course
         public Guid CourseId { get; set; }
-        // Name Course
-        public string Name { get; set; }
 
         public DateTime Birthdate { get; set; }
 

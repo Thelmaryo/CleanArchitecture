@@ -2,6 +2,7 @@
 using College.UseCases.CourseContext.Inputs;
 using College.UseCases.CourseContext.Repositories;
 using College.UseCases.CourseContext.Result;
+using System.Linq;
 
 namespace College.UseCases.CourseContext.Queries
 {
@@ -20,7 +21,7 @@ namespace College.UseCases.CourseContext.Queries
         public CourseResultQueryList Handle()
         {
             var result = new CourseResultQueryList();
-            result.Course = _CREP.List();
+            result.Courses = _CREP.List().OrderBy(x=>x.Name);
             return result;
         }
     }

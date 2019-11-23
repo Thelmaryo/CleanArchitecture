@@ -6,6 +6,6 @@ namespace College.UseCases.CourseContext.Result
 {
     public class CourseResultQueryList : IQueryResult
     {
-        public IEnumerable<Course> Course { get; set; }
+        public IEnumerable<Course> Courses { get; set; }
     }
 }

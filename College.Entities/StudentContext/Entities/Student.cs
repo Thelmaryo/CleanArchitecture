@@ -12,9 +12,11 @@ namespace College.Entities.StudentContext.Entities
         public Student(Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password, string salt) : base(email, password, salt, true)
         {
             Email = new Email(email);
-            Notifications.Add("Email", Email.Notification);
+            if (!string.IsNullOrWhiteSpace(Email.Notification))
+                Notifications.Add("Email", Email.Notification);
             CPF = new CPF(cpf);
-            Notifications.Add("CPF", Email.Notification);
+            if (!string.IsNullOrWhiteSpace(CPF.Notification))
+                Notifications.Add("CPF", CPF.Notification);
             Course = course;
             Birthdate = birthdate;
             FirstName = firstName;
@@ -27,14 +29,16 @@ namespace College.Entities.StudentContext.Entities
             Validation();
         }
 
-        public Student(Guid id, Guid courseId, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password, string salt, bool active) : base(email, password, salt, active)
+        public Student(Guid id, Course course, DateTime birthdate, string firstName, string lastName, string cpf, string email, string phone, string gender, string country, string city, string address, string password, string salt, bool active) : base(email, password, salt, active)
         {
             Id = id;
             Email = new Email(email);
-            Notifications.Add("Email", Email.Notification);
+            if(!string.IsNullOrWhiteSpace(Email.Notification))
+                Notifications.Add("Email", Email.Notification);
             CPF = new CPF(cpf);
-            Notifications.Add("CPF", Email.Notification);
-            Course = new Course(courseId);
+            if (!string.IsNullOrWhiteSpace(CPF.Notification))
+                Notifications.Add("CPF", CPF.Notification);
+            Course = course;
             Birthdate = birthdate;
             FirstName = firstName;
             LastName = lastName;
@@ -75,7 +79,8 @@ namespace College.Entities.StudentContext.Entities
                 Id = (Guid)id;
 
             Email = new Email(email);
-            Notifications.Add("Email", Email.Notification);
+            if (!string.IsNullOrWhiteSpace(Email.Notification))
+                Notifications.Add("Email", Email.Notification);
 
             Course = course;
             Birthdate = birthdate;
@@ -93,7 +98,8 @@ namespace College.Entities.StudentContext.Entities
             Id = id;
             Email = new Email(email);
             Notifications.Remove("Email");
-            Notifications.Add("Email", Email.Notification);
+            if (!string.IsNullOrWhiteSpace(Email.Notification))
+                Notifications.Add("Email", Email.Notification);
 
             Course = course;
             Birthdate = birthdate;

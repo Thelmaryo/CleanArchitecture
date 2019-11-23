@@ -8,6 +8,6 @@ namespace College.UseCases.StudentContext.Result
     {
         public IDictionary<string, string> Notifications { get; set; }
 
-        public IEnumerable<Student> Student { get; set; }
+        public IEnumerable<Student> Students { get; set; }
     }
 }

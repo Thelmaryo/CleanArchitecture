@@ -24,7 +24,7 @@ namespace College.UseCases.StudentContext.Queries
         public StudentResultQueryList Handle(StudentInputList command)
         {
             var result = new StudentResultQueryList();
-            result.Student = _SREP.List();
+            result.Students = _SREP.List();
 
             return result;
         }
@@ -40,7 +40,7 @@ namespace College.UseCases.StudentContext.Queries
         public StudentResultQueryList Handle(StudentInputListByDiscipline command)
         {
             var result = new StudentResultQueryList();
-            result.Student = _SREP.GetByDiscipline(command.DisciplineId);
+            result.Students = _SREP.GetByDiscipline(command.DisciplineId);
 
             return result;
         }
