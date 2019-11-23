@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using College.Models;
+using College.UseCases.AccountContext.Queries;
 
 namespace College.Controllers
 {
@@ -17,7 +18,7 @@ namespace College.Controllers
         private ProfessorQueryHandler _professorQuery;
         private ProfessorCommandHandler _professorCommand;
 
-        public ProfessorController(ProfessorQueryHandler professorQuery, ProfessorCommandHandler professorCommand)
+        public ProfessorController(ProfessorQueryHandler professorQuery, ProfessorCommandHandler professorCommand, UserQueryHandler userQuery) : base(userQuery)
         {
             _professorQuery = professorQuery;
             _professorCommand = professorCommand;
@@ -26,7 +27,7 @@ namespace College.Controllers
         // GET: Professor
         public ActionResult Index()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var professors = _professorQuery.Handle().Professors.Select(x =>
                 new ProfessorListItem
@@ -48,7 +49,7 @@ namespace College.Controllers
         // GET: Professor/Details/5
         public ActionResult Details(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var result = _professorQuery.Handle(new ProfessorInputGet { ProfessorId = id });
             var professor = new ProfessorDetailsViewModel
@@ -66,7 +67,7 @@ namespace College.Controllers
         // GET: Professor/Create
         public ActionResult Create()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var professor = new CreateProfessorViewModel
             {
@@ -79,7 +80,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Create(CreateProfessorViewModel professor)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var professorInput = new ProfessorInputRegister
             {
@@ -104,7 +105,7 @@ namespace College.Controllers
         // GET: Professor/Edit/5
         public ActionResult Edit(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var result = _professorQuery.Handle(new ProfessorInputGet { ProfessorId = id });
             var professor = new EditProfessorViewModel
@@ -125,7 +126,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Edit(EditProfessorViewModel professor)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var professorInput = new ProfessorInputUpdate
             {
@@ -150,7 +151,7 @@ namespace College.Controllers
         // GET: Professor/Delete/5
         public ActionResult Delete(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var result = _professorQuery.Handle(new ProfessorInputGet { ProfessorId = id });
             var professor = new DeleteProfessorViewModel
@@ -165,7 +166,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Delete(DeleteProfessorViewModel professor)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             _professorCommand.Handle(new ProfessorInputDelete { ProfessorId = Guid.Parse(professor.Id) });
             return RedirectToAction("Index");

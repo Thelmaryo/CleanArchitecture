@@ -1,5 +1,6 @@
 ﻿using College.Helpers;
 using College.Models;
+using College.UseCases.AccountContext.Queries;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -8,9 +9,13 @@ namespace College.Controllers
 {
     public class EnrollmentController : ControllerBase
     {
+        public EnrollmentController(UserQueryHandler userQuery) : base(userQuery)
+        {
+        }
+
         public ActionResult Index()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Enrollment enrollment = new Enrollment();
             var enrollments = enrollment.GetPreEnrollments();
@@ -21,7 +26,7 @@ namespace College.Controllers
 
         public ActionResult ChooseStudent()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Course course = new Course();
             ViewBag.Courses = new SelectList(course.List().Select(x => new ComboboxItem(x.Name, x.Id.ToString())), "Value", "Text");
@@ -33,7 +38,7 @@ namespace College.Controllers
         // GET: Enrollment/Create
         public ActionResult Create(string CPF, Guid courseId)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Student student = new Student();
             student.Get(CPF);
@@ -54,7 +59,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Create(DisciplinePortfolio disciplines, Guid studentId)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             // TODO: Add insert logic here
             if (!disciplines.Options.Any(x => x.Checked))
@@ -79,7 +84,7 @@ namespace College.Controllers
 
         public ActionResult Confirm(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Enrollment enrollment = new Enrollment
             {
@@ -100,7 +105,7 @@ namespace College.Controllers
         }
         public ActionResult Deny(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Enrollment enrollment = new Enrollment
             {

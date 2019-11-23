@@ -1,6 +1,7 @@
 ﻿using College.Models;
 using College.Presenters.Shared;
 using College.Presenters.StudentContext;
+using College.UseCases.AccountContext.Queries;
 using College.UseCases.CourseContext.Queries;
 using College.UseCases.StudentContext.Handlers;
 using College.UseCases.StudentContext.Inputs;
@@ -20,7 +21,7 @@ namespace College.Controllers
         private readonly StudentCommandHandler _studentCommand;
         private readonly CourseQueryHandler _courseQuery;
 
-        public StudentController(StudentQueryHandler studentQuery, StudentCommandHandler studentCommand, CourseQueryHandler courseQuery)
+        public StudentController(StudentQueryHandler studentQuery, StudentCommandHandler studentCommand, CourseQueryHandler courseQuery, UserQueryHandler userQuery) : base(userQuery)
         {
             _studentQuery = studentQuery;
             _studentCommand = studentCommand;
@@ -31,7 +32,7 @@ namespace College.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var result = _studentQuery.Handle(new StudentInputList());
             StudentListViewModel students = new StudentListViewModel()
@@ -53,7 +54,7 @@ namespace College.Controllers
         // GET: Student/Details/5
         public ActionResult Details(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var result = _studentQuery.Handle(new StudentInputGetById { StudentId = id });
             var student = new StudentDetailsViewModel
@@ -77,7 +78,7 @@ namespace College.Controllers
         // GET: Student/Create
         public ActionResult Create()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var student = new CreateStudentViewModel
             {
@@ -118,7 +119,7 @@ namespace College.Controllers
         // GET: Student/Edit/5
         public ActionResult Edit(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var result = _studentQuery.Handle(new StudentInputGetById { StudentId = id });
             var student = new EditStudentViewModel
@@ -171,7 +172,7 @@ namespace College.Controllers
         // GET: Student/Delete/5
         public ActionResult Delete(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var result = _studentQuery.Handle(new StudentInputGetById { StudentId = id });
             var student = new DeleteStudentViewModel
@@ -186,7 +187,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Delete(DeleteStudentViewModel student)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             _studentCommand.Handle(new StudentInputDelete { StudentId = student.Id });
             return RedirectToAction("Index");

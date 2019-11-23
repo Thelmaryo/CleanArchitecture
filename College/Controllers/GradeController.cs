@@ -1,4 +1,6 @@
-﻿using College.Models;
+﻿using College.Helpers;
+using College.Models;
+using College.UseCases.AccountContext.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +10,18 @@ namespace College.Controllers
 {
     public class GradeController : ControllerBase
     {
+        public GradeController(UserQueryHandler userQuery) : base(userQuery)
+        {
+        }
+
         // GET: Grade
         public ActionResult Index(Guid? enrollmentId)
         {
-            if (!User.IsInRole("Student"))
+            if (!UserIsInRole("Student"))
                 return RedirectToAction("Index", "Home");
             Enrollment enrollment = new Enrollment();
             if (enrollmentId == null)
-                enrollment.GetCurrent(User.Id);
+                enrollment.GetCurrent(Authentication.UserId);
             else
                 enrollment.Get((Guid)enrollmentId);
             Discipline discipline = new Discipline();
@@ -34,7 +40,7 @@ namespace College.Controllers
                 foreach (var a in activities)
                 {
                     ActivityGrade activityGrade = new ActivityGrade();
-                    activityGrade.GetByStudent(User.Id, a.Id);
+                    activityGrade.GetByStudent(Authentication.UserId, a.Id);
                     activityGrades.Add(activityGrade);
                 }
                 grade.Value += activityGrades.Sum(x => x.Grade);
@@ -66,7 +72,7 @@ namespace College.Controllers
 
         public ActionResult ShowGrades(Guid disciplineId, Guid enrollmentId)
         {
-            if (!User.IsInRole("Student"))
+            if (!UserIsInRole("Student"))
                 return RedirectToAction("Index", "Home");
             Enrollment enrollment = new Enrollment();
             enrollment.Get(enrollmentId);
@@ -76,7 +82,7 @@ namespace College.Controllers
             foreach (var a in activities)
             {
                 ActivityGrade activityGrade = new ActivityGrade();
-                activityGrade.GetByStudent(User.Id, a.Id);
+                activityGrade.GetByStudent(Authentication.UserId, a.Id);
                 if (activityGrade.Id == Guid.Empty)
                     activityGrade.ActivityId = a.Id;
                 activityGrades.Add(activityGrade);

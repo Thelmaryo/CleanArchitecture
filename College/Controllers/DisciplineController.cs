@@ -1,5 +1,6 @@
 ﻿using College.Enumerators;
 using College.Models;
+using College.UseCases.AccountContext.Queries;
 using System;
 using System.Web.Mvc;
 
@@ -7,10 +8,14 @@ namespace College.Controllers
 {
     public class DisciplineController : ControllerBase
     {
+        public DisciplineController(UserQueryHandler userQuery) : base(userQuery)
+        {
+        }
+
         // GET: Discipline
         public ActionResult Index()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Course course = new Course();
             Professor professor = new Professor();
@@ -23,7 +28,7 @@ namespace College.Controllers
         // GET: Discipline/Details/5
         public ActionResult Details(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var discipline = new Discipline();
             discipline.Get(id);
@@ -33,7 +38,7 @@ namespace College.Controllers
         // GET: Discipline/Create
         public ActionResult Create()
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Course course = new Course();
             Professor professor = new Professor();
@@ -46,7 +51,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Create(Discipline discipline)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             try
             {
@@ -89,7 +94,7 @@ namespace College.Controllers
         // GET: Discipline/Edit/5
         public ActionResult Edit(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             Course course = new Course();
             Professor professor = new Professor();
@@ -104,7 +109,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Edit(Discipline discipline)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             try
             {
@@ -147,7 +152,7 @@ namespace College.Controllers
         // GET: Discipline/Delete/5
         public ActionResult Delete(Guid id)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             var discipline = new Discipline();
             discipline.Get(id);
@@ -158,7 +163,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Delete(Discipline discipline)
         {
-            if (!User.IsInRole("Admin"))
+            if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
             try
             {

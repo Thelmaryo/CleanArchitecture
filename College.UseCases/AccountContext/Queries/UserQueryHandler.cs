@@ -20,7 +20,7 @@ namespace College.UseCases.AccountContext.Queries
         public UserResultQueryLogin Handle(UserInputLogin command)
         {
             var result = new UserResultQueryLogin();
-            var password = _encryptor.Encrypt(command.UserName, command.Password);
+            var password = _encryptor.Encrypt(command.Password, _UREP.GetSalt(command.UserName));
             var user = new User(command.UserName, password);
 
             result.UserId = _UREP.Login(user);
@@ -31,13 +31,6 @@ namespace College.UseCases.AccountContext.Queries
         {
             var result = new UserResultQueryIsInRole();
             result.IsInRole = _UREP.IsInRole(command.UserId, command.Role);
-
-            return result;
-        }
-        public UserResultQueryGetSalt Handle(UserInputGetSalt command)
-        {
-            var result = new UserResultQueryGetSalt();
-            result.Salt = _UREP.GetSalt(command.UserName);
 
             return result;
         }

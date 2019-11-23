@@ -1,4 +1,5 @@
 ﻿using College.Models;
+using College.UseCases.AccountContext.Queries;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -7,10 +8,14 @@ namespace College.Controllers
 {
     public class ActivityController : ControllerBase
     {
+        public ActivityController(UserQueryHandler userQuery) : base(userQuery)
+        {
+        }
+
         // GET: Activity
         public ActionResult Index(Guid disciplineId)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             Discipline discipline = new Discipline();
             discipline.Get(disciplineId);
@@ -22,7 +27,7 @@ namespace College.Controllers
 
         public ActionResult Grades(Guid activityId)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             Activity activity = new Activity();
             activity.Get(activityId);
@@ -44,7 +49,7 @@ namespace College.Controllers
 
         public ActionResult GiveGrade(Guid studentId, Guid activityId)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             Student student = new Student();
             student.Get(studentId);
@@ -59,7 +64,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult GiveGrade(ActivityGrade activityGrade)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             Activity activity = new Activity();
             activity.Get(activityGrade.ActivityId);
@@ -78,7 +83,7 @@ namespace College.Controllers
         // GET: Activity/Details/5
         public ActionResult Details(Guid id)
         {
-            if (!User.IsInRole("Docente"))
+            if (!UserIsInRole("Docente"))
                 return RedirectToAction("Index", "Home");
             var activity = new Activity();
             activity.Get(id);
@@ -88,7 +93,7 @@ namespace College.Controllers
         // GET: Activity/Create
         public ActionResult Create(Guid disciplineId)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             return View(new Activity { DisciplineId = disciplineId, Date = DateTime.Now.Date });
         }
@@ -97,7 +102,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Create(Activity activity)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             try
             {
@@ -114,7 +119,7 @@ namespace College.Controllers
         // GET: Activity/Edit/5
         public ActionResult Edit(Guid id)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             var activity = new Activity();
             activity.Get(id);
@@ -125,7 +130,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Edit(Activity activity)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             try
             {
@@ -142,7 +147,7 @@ namespace College.Controllers
         // GET: Activity/Delete/5
         public ActionResult Delete(Guid id)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             var activity = new Activity();
             activity.Get(id);
@@ -153,7 +158,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult Delete(Activity activity)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             try
             {
