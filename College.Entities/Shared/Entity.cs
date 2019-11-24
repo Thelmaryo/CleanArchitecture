@@ -12,5 +12,19 @@ namespace College.Entities.Shared
             Id = Guid.NewGuid();
             Notifications = new Dictionary<string, string>();
         }
+
+        public bool IsValid()
+        {
+            bool valid = false;
+            valid = (Notifications.Count == 0);
+            foreach (var value in Notifications.Values)
+            {
+                if (value == null)
+                    valid = true;
+                if (value != null)
+                    return false;
+            }
+            return valid;
+        }
     }
 }

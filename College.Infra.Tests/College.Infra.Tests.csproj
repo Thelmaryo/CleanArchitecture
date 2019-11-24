@@ -14,11 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AccountContext\" />
-    <Folder Include="CourseContext\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\College.Entities\College.Entities.csproj" />
     <ProjectReference Include="..\College.Infra\College.Infra.csproj" />
     <ProjectReference Include="..\College.UseCases\College.UseCases.csproj" />

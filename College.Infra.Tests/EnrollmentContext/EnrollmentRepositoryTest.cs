@@ -11,6 +11,7 @@ using Dapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace College.Infra.Tests.EnrollmentContext
 {
@@ -51,7 +52,7 @@ namespace College.Infra.Tests.EnrollmentContext
         {
             _EREP.Cancel(enrollment.Id);
 
-            var enrollmentDB = _EREP.GetCurrent(enrollment.Student.Id);
+            var enrollmentDB = GetEnrollmentCanceled(enrollment.Student.Id);
             Assert.IsNotNull(enrollmentDB);
             Assert.AreEqual(enrollment.Id, enrollmentDB.Id);
             Assert.AreEqual(enrollment.Student.Id, enrollmentDB.Student.Id);
@@ -75,7 +76,8 @@ namespace College.Infra.Tests.EnrollmentContext
         [TestMethod]
         public void ShouldGetCurrentAEnrollment()
         {
-            var enrollmentDB = _EREP.GetCurrent(enrollment.Student.Id);
+            var enrollmentDB = GetEnrollmentPreEnrollment(enrollment.Student.Id);
+
             Assert.IsNotNull(enrollmentDB);
             Assert.AreEqual(enrollment.Id, enrollmentDB.Id);
             Assert.AreEqual(enrollment.Student.Id, enrollmentDB.Student.Id);
@@ -98,7 +100,7 @@ namespace College.Infra.Tests.EnrollmentContext
         {
             var enrollmentsDB = _EREP.GetByStudent(enrollment.Student.Id);
             Assert.IsNotNull(enrollmentsDB);
-            foreach(var enrollmentDB in enrollmentsDB)
+            foreach (var enrollmentDB in enrollmentsDB)
             {
                 Assert.AreEqual(enrollment.Status, EStatusEnrollment.PreEnrollment);
             }
@@ -113,6 +115,43 @@ namespace College.Infra.Tests.EnrollmentContext
                 Assert.AreEqual(enrollment.Status, EStatusEnrollment.PreEnrollment);
             }
         }
+
+        private Enrollment GetEnrollmentCanceled(Guid studentId)
+        {
+            var db = new SqlConnection(new DBConfiguration().StringConnection);
+            var sql = "SELECT [Id], [Begin], [End], [Status], [StudentId] as Id FROM [Enrollment] WHERE studentId = @studentId AND [Status] = @Status";
+            var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
+                param: new { studentId = studentId, Status = EStatusEnrollment.Canceled },
+                map: (enrollment, Status, student) =>
+                {
+                    student = new Student(student.Id);
+                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, Status, enrollment.Id);
+
+                    return enrollment;
+                },
+            splitOn: "Id, Status, Id");
+
+            return enrollments.SingleOrDefault();
+        }
+
+        private Enrollment GetEnrollmentPreEnrollment(Guid studentId)
+        {
+            var db = new SqlConnection(new DBConfiguration().StringConnection);
+            var sql = "SELECT [Id], [Begin], [End], [Status], [StudentId] as Id FROM [Enrollment] WHERE studentId = @studentId AND [Status] = @Status";
+            var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
+                param: new { studentId = studentId, Status = EStatusEnrollment.PreEnrollment },
+                map: (enrollment, Status, student) =>
+                {
+                    student = new Student(student.Id);
+                    enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, Status, enrollment.Id);
+
+                    return enrollment;
+                },
+            splitOn: "Id, Status, Id");
+
+            return enrollments.SingleOrDefault();
+        }
+
         [TestCleanup]
         public void Clean()
         {

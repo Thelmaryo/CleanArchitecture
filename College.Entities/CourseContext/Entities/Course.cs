@@ -1,10 +1,13 @@
 ﻿using College.Entities.Shared;
-using System.ComponentModel.DataAnnotations;
 
 namespace College.Entities.CourseContext.Entities
 {
     public class Course : Entity
     {
+        public Course()
+        {
+
+        }
         public Course(string name)
         {
             Name = name;
