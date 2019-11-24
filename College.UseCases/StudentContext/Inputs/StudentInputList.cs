@@ -5,6 +5,5 @@ namespace College.UseCases.StudentContext.Inputs
 {
     public class StudentInputList : ICommand
     {
-        public Guid StudentId { get; set; }
     }
 }

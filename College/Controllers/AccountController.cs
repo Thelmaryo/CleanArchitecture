@@ -1,5 +1,8 @@
 ﻿using College.Helpers;
 using College.Models;
+using College.Presenters.AccountContext;
+using College.UseCases.AccountContext.Inputs;
+using College.UseCases.AccountContext.Queries;
 using System;
 using System.Security.Cryptography;
 using System.Web.Mvc;
@@ -8,38 +11,31 @@ namespace College.Controllers
 {
     public class AccountController : ControllerBase
     {
+        private readonly UserQueryHandler _userQuery;
+
+        public AccountController(UserQueryHandler userQuery) : base (userQuery)
+        {
+            _userQuery = userQuery;
+        }
+
         // GET: Account
         public ActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
-        public ActionResult Login(User user)
+        public ActionResult Login(LoginViewModel user)
         {
-            string _salt = user.GetSalt(user.UserName);
-            if (string.IsNullOrEmpty(_salt))
+            var result = _userQuery.Handle(new UserInputLogin { Password = user.Password, UserName = user.UserName });
+            if(result.UserId != Guid.Empty)
             {
-                ViewBag.Error = "O Usuario não existe.";
-                return View(user);
+                Authentication.UserAuthenticated = true;
+                Authentication.UserId = result.UserId;
             }
-            // DESCRIPTOGRAFA
-            byte[] SALT = new byte[8];
-            int i = 0;
-            var salt = _salt.Split(',');
-            foreach (var stringSalt in salt)
+            else
             {
-                SALT[i] = Convert.ToByte(stringSalt);
-                i++;
-            }
-            int myIterations = 100000;
-            Rfc2898DeriveBytes k = new Rfc2898DeriveBytes(user.Password, SALT, myIterations);
-            user.Password = Convert.ToBase64String(k.GetBytes(32));
-
-            user.Login();
-            if (!Authentication.UserAuthenticated)
-            {
-                ViewBag.Error = "Não foi possivel efetuar o Login.";
+                user.Feedback = "Não foi possivel efetuar o Login.";
                 return View(user);
             }
             return RedirectToAction("Index", "Home");

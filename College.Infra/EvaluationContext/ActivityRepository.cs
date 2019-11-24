@@ -17,47 +17,54 @@ namespace College.Infra.EvaluationContext
         }
         public void Create(Activity activity)
         {
-            using var db = _db.GetCon();
-            sql = "INSERT INTO StudentActivity (Id, StudentId, ActivityId, Grade) VALUES (@Id, @StudentId, @ActivityId, @Grade)";
-            db.Execute(sql, new { 
-                Id = Guid.NewGuid(),
-                ActivityId = activity.Id,
-                StudentId = activity.Student.Id,
-                activity.Grade
-            });
+            using (var db = _db.GetCon())
+            {
+                sql = "INSERT INTO StudentActivity (Id, StudentId, ActivityId, Grade) VALUES (@Id, @StudentId, @ActivityId, @Grade)";
+                db.Execute(sql, new
+                {
+                    Id = Guid.NewGuid(),
+                    ActivityId = activity.Id,
+                    StudentId = activity.Student.Id,
+                    activity.Grade
+                });
+            }
         }
 
         public Activity GetByStudent(Guid studentId, Guid activityId)
         {
-            using var db = _db.GetCon();
-            sql = " SELECT [ActivityId] as Id, 										  " +
+            using (var db = _db.GetCon())
+            {
+                sql = " SELECT [ActivityId] as Id, 										  " +
                 " [Grade], 															  " +
                 " [Value], 															  " +
-                " [StudentId] as Id 												  " +
+                " [StudentId] as Id, s.FirstName + ' ' + s.LastName AS Name			" +
                 " FROM StudentActivity st INNER JOIN Student s on s.Id = st.StudentId " +
                 " INNER JOIN Activity a on a.Id = st.ActivityId 					  " +
                 " WHERE st.ActivityId = @ActivityId AND s.Id = @StudentId			  ";
-            var activity = db.Query<Activity, Student, Activity>(sql,
-                param: new { ActivityId = activityId, StudentId = studentId },
-                map: (activity, student) =>
-                {
-                    activity = new Activity(activity.Id, student.Id, activity.Grade, activity.Value);
-                    return activity;
-                }, splitOn: "Id, Id");
+                var activity = db.Query<Activity, Student, Activity>(sql,
+                    param: new { ActivityId = activityId, StudentId = studentId },
+                    map: (_activity, student) =>
+                    {
+                        _activity = new Activity(_activity.Id, new Student(student.Id, student.Name), _activity.Grade, _activity.Value);
+                        return _activity;
+                    }, splitOn: "Id, Id");
 
-            return activity.SingleOrDefault();
+                return activity.SingleOrDefault();
+            }
         }
 
         public void Update(Activity activity)
         {
-            using var db = _db.GetCon();
-            sql = "UPDATE StudentActivity SET Grade = @Grade WHERE StudentId = @StudentId AND ActivityId = @ActivityId";
-            db.Execute(sql, new
+            using (var db = _db.GetCon())
             {
-                ActivityId = activity.Id,
-                StudentId = activity.Student.Id,
-                activity.Grade
-            });
+                sql = "UPDATE StudentActivity SET Grade = @Grade WHERE StudentId = @StudentId AND ActivityId = @ActivityId";
+                db.Execute(sql, new
+                {
+                    ActivityId = activity.Id,
+                    StudentId = activity.Student.Id,
+                    activity.Grade
+                });
+            }
         }
     }
 }

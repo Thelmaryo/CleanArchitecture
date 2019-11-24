@@ -1,4 +1,4 @@
-﻿@model College.Models.Activity
+﻿@model College.Presenters.ActivityContext.ActivityDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.DisciplineId)
+            Discipline
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DisciplineId)
+            @Html.DisplayFor(model => model.Discipline)
         </dd>
 
         <dt>
@@ -45,6 +45,18 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index", new { disciplineId = Model.DisciplineId })
+    @Html.ActionLink(Model.EditButton.Text, "Edit", new { id = Model.Id }, new
+    {
+        @class = "btn",
+        style = $"background-color: {Model.EditButton.Color}; " +
+        $"color: {Model.EditButton.FontColor}; " +
+        $"border: 1px solid black"
+    })
+    @Html.ActionLink(Model.BackButton.Text, "Index", new { disciplineId = Model.DisciplineId }, new
+{
+    @class = "btn",
+    style = $"background-color: {Model.BackButton.Color}; " +
+         $"color: {Model.BackButton.FontColor}; " +
+         $"border: 1px solid black"
+})
 </p>

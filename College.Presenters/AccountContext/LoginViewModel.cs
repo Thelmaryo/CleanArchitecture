@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using College.Presenters.Shared;
+using System.ComponentModel.DataAnnotations;
 
 namespace College.Presenters.AccountContext
 {
@@ -8,6 +9,7 @@ namespace College.Presenters.AccountContext
         public string UserName { get; set; }
         [Display(Name = "Senha")]
         public string Password { get; set; }
+        public LinkButton SubmitButton => new LinkButton("Entrar");
         public string Feedback { get; set; }
     }
 }

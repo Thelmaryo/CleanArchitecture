@@ -1,4 +1,4 @@
-﻿@model College.Models.Student
+﻿@model College.Presenters.StudentContext.CreateStudentViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -95,21 +95,27 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CourseId, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.SelectedCourse, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CourseId, (ViewBag.ListarCurso as SelectList), "Selecione um Curso", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            @Html.DropDownListFor(model => model.SelectedCourse, new SelectList(Model.Courses, "Value", "Text"), "Selecione um Curso", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SelectedCourse, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" value="@Model.SaveButton.Text" class="btn" style="background-color: @Model.SaveButton.Color; color: @Model.SaveButton.FontColor; border: 1px solid black" />
         </div>
     </div>
 </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(Model.BackButton.Text, "Index", null, new
+ {
+     @class = "btn",
+     style = $"background-color: {Model.BackButton.Color}; " +
+     $"color: {Model.BackButton.FontColor}; " +
+     $"border: 1px solid black"
+ })
 </div>

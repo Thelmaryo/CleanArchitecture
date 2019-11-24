@@ -5,7 +5,8 @@ namespace College.Presenters.ActivityContext
 {
     public class EditActivityViewModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
+        public Guid DisciplineId { get; set; }
         [Display(Name = "Activity")]
         public string Description { get; set; }
         [Display(Name = "Valor")]

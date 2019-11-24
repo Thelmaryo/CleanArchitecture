@@ -1,4 +1,5 @@
 ﻿using College.Models;
+using College.UseCases.AccountContext.Queries;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -7,9 +8,13 @@ namespace College.Controllers
 {
     public class ExamController : ControllerBase
     {
+        public ExamController(UserQueryHandler userQuery) : base(userQuery)
+        {
+        }
+
         public ActionResult Index(Guid disciplineId)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             var exam = new Exam();
             IEnumerable<Exam> exams = exam.GetByDiscipline(disciplineId);
@@ -33,7 +38,7 @@ namespace College.Controllers
         // GET: Exam/Details/5
         public ActionResult Details(Guid id)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             var exam = new Exam();
             exam.Get(id);
@@ -42,7 +47,7 @@ namespace College.Controllers
 
         public ActionResult GiveGrade(Guid id)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             var exam = new Exam();
             exam.Get(id);
@@ -57,7 +62,7 @@ namespace College.Controllers
         [HttpPost]
         public ActionResult GiveGrade(Exam exam)
         {
-            if (!User.IsInRole("Professor"))
+            if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             if (exam.Exam1 > 20)
                 ModelState.AddModelError("Exam1", "A Prova 1 vale 20 pontos.");

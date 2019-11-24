@@ -4,7 +4,7 @@ using College.UseCases.CourseContext.Repositories;
 using Dapper;
 using System.Collections.Generic;
 
-namespace College.Infra.EnrollmentContext
+namespace College.Infra.CourseContext
 {
     public class CourseRepository : ICourseRepository
     {
@@ -16,11 +16,12 @@ namespace College.Infra.EnrollmentContext
         }
         public IEnumerable<Course> List()
         {
-            using var db = _db.GetCon();
-            sql = " SELECT [Id], [Name]	FROM [Course] ";
-            var courses = db.Query<Course>(sql);
-
-            return courses;
+            using (var db = _db.GetCon())
+            {
+                sql = " SELECT [Id], [Name]	FROM [Course] ";
+                var courses = db.Query<Course>(sql);
+                return courses;
+            }
         }
     }
 }

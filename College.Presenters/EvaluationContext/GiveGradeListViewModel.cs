@@ -8,16 +8,17 @@ namespace College.Presenters.EvaluationContext
 {
     public class GiveGradeListViewModel
     {
+        public Guid DisciplineId { get; set; }
         public string ActivityName { get; set; }
         public decimal ActivityValue { get; set; }
-        public IEnumerable<GiveGradeListItem> Students { get; set; }
+        public List<GiveGradeListItem> Students = new List<GiveGradeListItem>();
         public BackButton BackButton => new BackButton();
     }
 
     public class GiveGradeListItem
     {
-        public string ActivityId { get; set; }
-        public string StudentId { get; set; }
+        public Guid ActivityId { get; set; }
+        public Guid StudentId { get; set; }
         [Display(Name = "Acadêmico")]
         public string Student { get; set; }
         [Display(Name = "Nota")]

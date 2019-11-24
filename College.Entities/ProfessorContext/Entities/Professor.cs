@@ -12,9 +12,11 @@ namespace College.Entities.ProfessorContext.Entities
         {
             if (password != string.Empty) Password = password;
             Email = new Email(email);
-            Notifications.Add("Email", Email.Notification);
+            if(!string.IsNullOrEmpty(Email.Notification))
+                Notifications.Add("Email", Email.Notification);
             CPF = new CPF(cpf);
-            Notifications.Add("CPF", Email.Notification);
+            if (!string.IsNullOrEmpty(CPF.Notification))
+                Notifications.Add("CPF", CPF.Notification);
 
             FirstName = firstName;
             LastName = lastName;
@@ -28,9 +30,11 @@ namespace College.Entities.ProfessorContext.Entities
             Id = id;
             if (password != string.Empty) Password = password;
             Email = new Email(email);
-            Notifications.Add("Email", Email.Notification);
+            if (!string.IsNullOrEmpty(Email.Notification))
+                Notifications.Add("Email", Email.Notification);
             CPF = new CPF(cpf);
-            Notifications.Add("CPF", Email.Notification);
+            if (!string.IsNullOrEmpty(CPF.Notification))
+                Notifications.Add("CPF", CPF.Notification);
 
             FirstName = firstName;
             LastName = lastName;
@@ -43,7 +47,8 @@ namespace College.Entities.ProfessorContext.Entities
         {
             Id = id;
             Email = new Email(email);
-            Notifications.Add("Email", Email.Notification);
+            if (!string.IsNullOrEmpty(Email.Notification))
+                Notifications.Add("Email", Email.Notification);
 
             FirstName = firstName;
             LastName = lastName;

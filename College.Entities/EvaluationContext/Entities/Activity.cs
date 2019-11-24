@@ -16,12 +16,12 @@ namespace College.Entities.EvaluationContext.Entities
             Value = value;
         }
 
-        public Activity(Guid id, Guid studentId, decimal grade, decimal value)
+        public Activity(Guid id, Student student, decimal grade, decimal value)
         {
             if (grade > value)
                 Notifications.Add("Grade", $"A nota deve estar entre 0 e {value} pontos.");
             Id = id;
-            Student = new Student(studentId);
+            Student = student;
             Grade = grade;
             Value = value;
         }

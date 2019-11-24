@@ -12,8 +12,8 @@ namespace College.Presenters.Shared
         }
 
         public string Text { get; private set; }
-        public string Color => "White";
+        public string Color => "Blue";
         public string Font => "Arial";
-        public string FontColor => "Black";
+        public string FontColor => "White";
     }
 }

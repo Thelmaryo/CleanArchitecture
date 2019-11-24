@@ -1,4 +1,4 @@
-﻿@model College.Models.Activity
+﻿@model College.Presenters.ActivityContext.CreateActivityViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -42,12 +42,18 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="@Model.SaveButton.Text" class="btn" style="background-color: @Model.SaveButton.Color; color: @Model.SaveButton.FontColor; border: 1px solid black" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(Model.BackButton.Text, "Index", new { disciplineId = Model.DisciplineId }, new
+{
+    @class = "btn",
+    style = $"background-color: {Model.BackButton.Color}; " +
+     $"color: {Model.BackButton.FontColor}; " +
+     $"border: 1px solid black"
+})
 </div>

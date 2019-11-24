@@ -1,39 +1,48 @@
-﻿@model IEnumerable<College.Models.ActivityGrade>
+﻿@model College.Presenters.EvaluationContext.GiveGradeListViewModel
 
 @{
     ViewBag.Title = "Grades";
 }
 
-    <h2>Atividade: @ViewBag.Activity.Description - @ViewBag.Activity.Value pontos</h2>
+    <h2>Atividade: @Model.ActivityName - @Model.ActivityValue pontos</h2>
 
-<p>
-    @Html.ActionLink("Voltar", "Index", new { disciplineId = ViewBag.Activity.DisciplineId })
-</p>
+    <p>
+        @Html.ActionLink(Model.BackButton.Text, "Index", new { disciplineId = Model.DisciplineId }, new
+     {
+         @class = "btn",
+         style = $"background-color: {Model.BackButton.Color}; " +
+         $"color: {Model.BackButton.FontColor}; " +
+         $"border: 1px solid black"
+     })
+    </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.StudentId)
+            Acadêmico
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Grade)
+            Nota
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model)
+@foreach (var item in Model.Students)
 {
     <tr>
         <td>
-            @{
-                var student = (ViewBag.Students as IEnumerable<College.Models.Student>).Single(x => x.Id == item.StudentId);
-            }
-            @student.FirstName @student.LastName
+            @item.Student
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Grade)
+            @item.Grade
         </td>
         <td>
-            @Html.ActionLink("Edit", "GiveGrade", new { studentId = item.StudentId, activityId = item.ActivityId }, new { @class = "btn btn-default" })
+            @Html.ActionLink(item.EditButton.Text, "GiveGrade", new { studentId = item.StudentId, activityId = item.ActivityId }, new
+            {
+                @class = "btn",
+                style = $"background-color: {item.EditButton.Color}; " +
+                $"color: {item.EditButton.FontColor}; " +
+                $"border: 1px solid black"
+            })
         </td>
     </tr>
 }

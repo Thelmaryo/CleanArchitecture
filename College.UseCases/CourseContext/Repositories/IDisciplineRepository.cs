@@ -6,14 +6,14 @@ namespace College.UseCases.CourseContext.Repositories
 {
     public interface IDisciplineRepository
     {
-        public void Create(Discipline discipline);
-        public void Update(Discipline discipline);
-        public void Delete(Guid id);
-        public Discipline Get(Guid id);
-        public IEnumerable<Discipline> List();
-        public IEnumerable<Discipline> GetByCourse(Guid id);
-        public IEnumerable<Discipline> GetByProfessor(Guid id);
-        public IEnumerable<Discipline> GetByEnrollment(Guid id);
-        public IEnumerable<Discipline> GetConcluded(Guid studentId);
+        void Create(Discipline discipline);
+        void Update(Discipline discipline);
+        void Delete(Guid id);
+        Discipline Get(Guid id);
+        IEnumerable<Discipline> List();
+        IEnumerable<Discipline> GetByCourse(Guid id);
+        IEnumerable<Discipline> GetByProfessor(Guid id);
+        IEnumerable<Discipline> GetByEnrollment(Guid id);
+        IEnumerable<Discipline> GetConcluded(Guid studentId);
     }
 }

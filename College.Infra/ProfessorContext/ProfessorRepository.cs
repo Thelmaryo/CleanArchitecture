@@ -20,43 +20,48 @@ namespace College.Infra.ProfessorContext
         }
         public void Create(Professor professor)
         {
-            using var db = _db.GetCon();
-            sql = "INSERT INTO [User] (Id, UserName, Password, Salt, Active, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
-            db.Execute(sql, param: new
+            using (var db = _db.GetCon())
             {
-                professor.Id,
-                professor.UserName,
-                professor.Password,
-                professor.Salt
-            });
+                sql = "INSERT INTO [User] (Id, UserName, Password, Salt, Active, Role) VALUES (@Id, @UserName, @Password, @Salt, 1, 'Professor')";
+                db.Execute(sql, param: new
+                {
+                    professor.Id,
+                    professor.UserName,
+                    professor.Password,
+                    professor.Salt
+                });
 
-            sql = "INSERT INTO Professor (Id, FirstName, LastName, Degree, CPF, Email, Phone) VALUES (@Id, @FirstName, @LastName, @Degree, @CPF, @Email, @Phone)";
-            db.Execute(sql, param: new
-            {
-                professor.Id,
-                professor.FirstName,
-                professor.LastName,
-                professor.Degree,
-                CPF = professor.CPF.Number,
-                Email = professor.Email.Address,
-                professor.Phone
-            });
+                sql = "INSERT INTO Professor (Id, FirstName, LastName, Degree, CPF, Email, Phone) VALUES (@Id, @FirstName, @LastName, @Degree, @CPF, @Email, @Phone)";
+                db.Execute(sql, param: new
+                {
+                    professor.Id,
+                    professor.FirstName,
+                    professor.LastName,
+                    professor.Degree,
+                    CPF = professor.CPF.Number,
+                    Email = professor.Email.Address,
+                    professor.Phone
+                });
+            }
         }
 
         public void Disable(Guid id)
         {
-            using var db = _db.GetCon();
-            sql = "UPDATE [User] Set Active = 0 WHERE Id = @Id";
-            db.Execute(sql, param: new
+            using (var db = _db.GetCon())
             {
-                Id = id
-            });
+                sql = "UPDATE [User] Set Active = 0 WHERE Id = @Id";
+                db.Execute(sql, param: new
+                {
+                    Id = id
+                });
+            }
         }
 
         public Professor Get(Guid id)
         {
-            using var db = _db.GetCon();
-            sql = " SELECT [Id]		 " +
+            using (var db = _db.GetCon())
+            {
+                sql = " SELECT [Id]		 " +
                 "       ,[FirstName] " +
                 "       ,[LastName]	 " +
                 "       ,[Phone]	 " +
@@ -65,29 +70,33 @@ namespace College.Infra.ProfessorContext
                 "       ,[Degree]	 " +
                 "   FROM [Professor] " +
                 "   WHERE Id = @Id	 ";
-            var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
-                param: new { Id = id },
-                map: (professor, cpf, email, eDegree) =>
-                {
-                    professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, eDegree);
-                    return professor;
-                },
-            splitOn: "Id, Number, Address, Degree");
-            return professors.SingleOrDefault();
+                var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
+                    param: new { Id = id },
+                    map: (professor, cpf, email, eDegree) =>
+                    {
+                        professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, eDegree);
+                        return professor;
+                    },
+                splitOn: "Id, Number, Address, Degree");
+                return professors.SingleOrDefault();
+            }
         }
 
         public int GetWorkload(Guid professorId)
         {
-            using var db = _db.GetCon();
-            var sql = "SELECT SUM(WeeklyWorkload) AS Workload FROM Discipline WHERE ProfessorId = @Id";
-            var workload = db.QuerySingleOrDefault<int>(sql, param: new { Id = professorId });
-            return workload;
-        }
+            using (var db = _db.GetCon())
+            {
+                var sql = "SELECT SUM(WeeklyWorkload) AS Workload FROM Discipline WHERE ProfessorId = @Id";
+                var workload = db.QuerySingleOrDefault<int>(sql, param: new { Id = professorId });
+                return workload;
+            }
 
+        }
         public IEnumerable<Professor> List()
         {
-            using var db = _db.GetCon();
-            sql = " SELECT p.[Id]			 " +
+            using (var db = _db.GetCon())
+            {
+                sql = " SELECT p.[Id]			 " +
                     " ,[UserName]			 " +
                     " ,[Password]			 " +
                     " ,[Salt]				 " +
@@ -101,30 +110,32 @@ namespace College.Infra.ProfessorContext
                     " ,[Degree]				 " +
                     " FROM [Professor] as p	 " +
                     " inner join [User] as u " +
-                    " on p.Id = u.Id		 ";
-            var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
-                map: (professor, cpf, email, eDegree) =>
-                {
-                    professor = new Professor(professor.Id, professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, professor.Degree, professor.Password, professor.Salt, professor.Active);
-                    return professor;
-                }, splitOn: "Id, Number, Address, Degree");
-            return professors;
+                    " on p.Id = u.Id	WHERE u.Active = 1	 ";
+                var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
+                    map: (professor, cpf, email, eDegree) =>
+                    {
+                        professor = new Professor(professor.Id, professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, professor.Degree, professor.Password, professor.Salt, professor.Active);
+                        return professor;
+                    }, splitOn: "Id, Number, Address, Degree");
+                return professors;
+            }
         }
 
         public void Update(Professor professor)
         {
-            using var db = _db.GetCon();
-            sql = "UPDATE Professor SET FirstName = @FirstName, LastName = @LastName, CPF = @CPF, Email = @Email, Phone = @Phone, Degree = @Degree WHERE Id = @Id";
-            db.Execute(sql, param: new
+            using (var db = _db.GetCon())
             {
-                professor.FirstName,
-                professor.LastName,
-                CPF = professor.CPF.Number,
-                Email = professor.Email.Address,
-                professor.Phone,
-                professor.Degree,
-                professor.Id
-            });
+                sql = "UPDATE Professor SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Phone = @Phone, Degree = @Degree WHERE Id = @Id";
+                db.Execute(sql, param: new
+                {
+                    professor.FirstName,
+                    professor.LastName,
+                    Email = professor.Email.Address,
+                    professor.Phone,
+                    professor.Degree,
+                    professor.Id
+                });
+            }
         }
     }
 }
