@@ -8,6 +8,7 @@ namespace College.Presenters.ActivityContext
 {
     public class CreateActivityViewModel
     {
+        public Guid DisciplineId { get; set; }
         [Display(Name = "Activity")]
         public string Description { get; set; }
         [Display(Name = "Valor")]
@@ -15,5 +16,6 @@ namespace College.Presenters.ActivityContext
         [Display(Name = "Data")]
         public string Date { get; set; }
         public SaveButton SaveButton => new SaveButton();
+        public BackButton BackButton => new BackButton();
     }
 }

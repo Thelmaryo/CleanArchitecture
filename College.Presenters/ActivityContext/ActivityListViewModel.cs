@@ -8,15 +8,15 @@ namespace College.Presenters.ActivityContext
 {
     public class ActivityListViewModel
     {
-        public string DisciplineId { get; set; }
+        public Guid DisciplineId { get; set; }
         public string DisciplineName { get; set; }
         public IEnumerable<ActivityListItem> Activities { get; set; }
-        
+        public LinkButton CreateButton => new LinkButton("Nova Atividade");
     }
 
     public class ActivityListItem
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         [Display(Name = "Atividade")]
         public string Name { get; set; }
         [Display(Name = "Valor")]
@@ -26,6 +26,6 @@ namespace College.Presenters.ActivityContext
         public LinkButton GradesButton => new LinkButton("Notas");
         public LinkButton DetailsButton => new LinkButton("Detalhes");
         public LinkButton EditButton => new LinkButton("Editar");
-        public LinkButton DeleteButton => new LinkButton("Excluir");
+        public DeleteButton DeleteButton => new DeleteButton();
     }
 }

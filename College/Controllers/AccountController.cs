@@ -1,5 +1,6 @@
 ﻿using College.Helpers;
 using College.Models;
+using College.Presenters.AccountContext;
 using College.UseCases.AccountContext.Inputs;
 using College.UseCases.AccountContext.Queries;
 using System;
@@ -20,11 +21,11 @@ namespace College.Controllers
         // GET: Account
         public ActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
-        public ActionResult Login(User user)
+        public ActionResult Login(LoginViewModel user)
         {
             var result = _userQuery.Handle(new UserInputLogin { Password = user.Password, UserName = user.UserName });
             if(result.UserId != Guid.Empty)
@@ -34,7 +35,7 @@ namespace College.Controllers
             }
             else
             {
-                ViewBag.Error = "Não foi possivel efetuar o Login.";
+                user.Feedback = "Não foi possivel efetuar o Login.";
                 return View(user);
             }
             return RedirectToAction("Index", "Home");

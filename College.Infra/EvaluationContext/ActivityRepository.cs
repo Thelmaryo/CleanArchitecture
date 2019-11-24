@@ -37,7 +37,7 @@ namespace College.Infra.EvaluationContext
                 sql = " SELECT [ActivityId] as Id, 										  " +
                 " [Grade], 															  " +
                 " [Value], 															  " +
-                " [StudentId] as Id 												  " +
+                " [StudentId] as Id, s.FirstName + ' ' + s.LastName AS Name			" +
                 " FROM StudentActivity st INNER JOIN Student s on s.Id = st.StudentId " +
                 " INNER JOIN Activity a on a.Id = st.ActivityId 					  " +
                 " WHERE st.ActivityId = @ActivityId AND s.Id = @StudentId			  ";
@@ -45,7 +45,7 @@ namespace College.Infra.EvaluationContext
                     param: new { ActivityId = activityId, StudentId = studentId },
                     map: (_activity, student) =>
                     {
-                        _activity = new Activity(_activity.Id, student.Id, _activity.Grade, _activity.Value);
+                        _activity = new Activity(_activity.Id, new Student(student.Id, student.Name), _activity.Grade, _activity.Value);
                         return _activity;
                     }, splitOn: "Id, Id");
 

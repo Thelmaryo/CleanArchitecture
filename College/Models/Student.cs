@@ -30,7 +30,7 @@ namespace College.Models
         [Display(Name = "Endereço")]
         public string Address { get; set; }
 
-        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-N1T1LL1; database=College; User Id=sa; Password=123");
+        private readonly SqlConnection _db = new SqlConnection("Server=DESKTOP-23IN36H; database=College; User Id=sa; Password=123");
 
         public void Create()
         {
@@ -201,7 +201,7 @@ namespace College.Models
             if (_db.State == ConnectionState.Closed)
                 _db.Open();
             var Students = new List<Student>();
-            var sql = "SELECT s.* FROM Student s INNER JOIN Enrollment e ON (s.Id = e.StudentId) INNER JOIN StudentDiscipline sd ON (e.Id = sd.EnrollmentId) WHERE sd.DisciplineId = @Id AND e.Status = @EnrollmentSatus AND e.Id = (SELECT ee.Id FROM Enrollment ee WHERE ee.StudentId = e.StudentId AND GETDATE() BETWEEN ee.[Begin] AND ee.[End])";
+            var sql = "SELECT s.* FROM Student s INNER JOIN Enrollment e ON (s.Id = e.StudentId) INNER JOIN StudentDiscipline sd ON (e.Id = sd.EnrollmentId) WHERE sd.DisciplineId = @Id AND e.Status = @EnrollmentSatus AND e.Id = (SELECT ee.Id FROM Enrollment ee WHERE ee.Status = 1 AND ee.StudentId = e.StudentId AND GETDATE() BETWEEN ee.[Begin] AND ee.[End])";
             SqlCommand command = new SqlCommand(sql, _db);
             command.Parameters.AddWithValue("@Id", id);
             command.Parameters.AddWithValue("@EnrollmentSatus", EStatusEnrollment.Confirmed);

@@ -39,7 +39,8 @@ namespace College.Infra.ActivityContext
         {
             using (var db = _db.GetCon())
             {
-                sql = "DELETE FROM Activity WHERE Id = @Id";
+                sql = "DELETE FROM StudentActivity WHERE ActivityId = @Id; " +
+                    "DELETE FROM Activity WHERE Id = @Id";
                 db.Execute(sql, new { Id = id });
             }
         }

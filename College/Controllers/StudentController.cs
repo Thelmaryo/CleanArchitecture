@@ -1,5 +1,4 @@
-﻿using College.Models;
-using College.Presenters.Shared;
+﻿using College.Presenters.Shared;
 using College.Presenters.StudentContext;
 using College.UseCases.AccountContext.Queries;
 using College.UseCases.CourseContext.Queries;
@@ -9,8 +8,6 @@ using College.UseCases.StudentContext.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -37,7 +34,7 @@ namespace College.Controllers
             var result = _studentQuery.Handle(new StudentInputList());
             StudentListViewModel students = new StudentListViewModel()
             {
-                Students = result.Students.ToList().Select(x => new StudentListItem
+                Students = result.Students.Select(x => new StudentListItem
                 {
                     City = x.City,
                     Course = x.Course.Name,

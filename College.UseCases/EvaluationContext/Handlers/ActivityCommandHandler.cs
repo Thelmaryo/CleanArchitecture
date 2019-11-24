@@ -17,7 +17,7 @@ namespace College.UseCases.EvaluationContext.Handlers
 
         public ICommandResult Handle(ActivityInputGiveGrade command)
         {
-            var activity = new Activity(command.ActivityId, command.StudentId, command.Grade, command.Value);
+            var activity = new Activity(command.ActivityId, new Student(command.StudentId), command.Grade, command.Value);
             var result = new StandardResult();
             result.AddRange(activity.Notifications);
             if (result.Notifications.Count == 0)
@@ -30,7 +30,7 @@ namespace College.UseCases.EvaluationContext.Handlers
 
         public ICommandResult Handle(ActivityInputUpdateGrade command)
         {
-            var activity = new Activity(command.ActivityId, command.StudentId, command.Grade, command.Value);
+            var activity = new Activity(command.ActivityId, new Student(command.StudentId), command.Grade, command.Value);
             var result = new StandardResult();
             result.AddRange(activity.Notifications);
             if (result.Notifications.Count == 0)
