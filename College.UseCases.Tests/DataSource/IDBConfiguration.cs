@@ -1,6 +1,6 @@
 ﻿using College.Infra.DataSource;
 
-namespace College.Infra.Tests.DataSource
+namespace College.UseCases.Tests.DataSource
 {
     public class DBConfiguration : IDBConfiguration
     {

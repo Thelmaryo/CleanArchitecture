@@ -72,14 +72,11 @@ namespace College.Entities.ProfessorContext.Entities
         public EDegree Degree { get; private set; }
 
         // Editar Professor
-        public void UpdateEntity(string firstName, string lastName, string cpf, string email, string phone, EDegree degree)
+        public void UpdateEntity(string firstName, string lastName, string email, string phone, EDegree degree)
         {
             Email = new Email(email);
             Notifications.Remove("Email");
             Notifications.Add("Email", Email.Notification);
-            CPF = new CPF(cpf);
-            Notifications.Remove("CPF");
-            Notifications.Add("CPF", Email.Notification);
 
             FirstName = firstName;
             LastName = lastName;

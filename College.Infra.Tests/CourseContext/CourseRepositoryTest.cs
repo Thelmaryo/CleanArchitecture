@@ -1,4 +1,5 @@
 ﻿using College.Entities.CourseContext.Entities;
+using College.Infra.CourseContext;
 using College.Infra.DataSource;
 using College.Infra.EnrollmentContext;
 using College.Infra.Tests.DataSource;

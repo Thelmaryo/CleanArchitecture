@@ -61,20 +61,24 @@ namespace College.Infra.ProfessorContext
         {
             using (var db = _db.GetCon())
             {
-                sql = " SELECT [Id]		 " +
-                "       ,[FirstName] " +
-                "       ,[LastName]	 " +
-                "       ,[Phone]	 " +
-                "       ,[CPF] AS Number		 " +
-                "       ,[Email] AS Address	 " +
-                "       ,[Degree]	 " +
-                "   FROM [Professor] " +
-                "   WHERE Id = @Id	 ";
+                sql = " SELECT [Professor].[Id]			   " +
+                    "       ,[FirstName]				   " +
+                    "       ,[LastName]					   " +
+                    "       ,[Phone]					   " +
+                    " 	    ,[Password]					   " +
+                    " 	    ,[Salt]						   " +
+                    " 	    ,[Active]					   " +
+                    "       ,[CPF] AS Number			   " +
+                    "       ,[Email] AS Address			   " +
+                    "       ,[Degree]					   " +
+                    "   FROM [Professor] inner join [User] " +
+                    "   on [Professor].Id = [User].Id	   " +
+                    "   WHERE [Professor].Id = @Id		   ";
                 var professors = db.Query<Professor, CPF, Email, EDegree, Professor>(sql,
                     param: new { Id = id },
                     map: (professor, cpf, email, eDegree) =>
                     {
-                        professor.UpdateEntity(professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, eDegree);
+                        professor = new Professor(professor.Id, professor.FirstName, professor.LastName, cpf.Number, email.Address, professor.Phone, eDegree, professor.Password, professor.Salt, professor.Active);
                         return professor;
                     },
                 splitOn: "Id, Number, Address, Degree");

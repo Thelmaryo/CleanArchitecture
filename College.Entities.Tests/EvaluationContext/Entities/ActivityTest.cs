@@ -9,10 +9,12 @@ namespace College.Entities.Tests.EvaluationContext.Entities
     public class ActivityTest
     {
         Activity activity;
+        Student student;
         [TestInitialize]
         public void Init()
         {
-            activity = new Activity(Guid.NewGuid(), Guid.NewGuid(), (decimal)2.2, (decimal)10.0);
+            student = new Student(Guid.NewGuid());
+            activity = new Activity(Guid.NewGuid(), student, (decimal)2.2, (decimal)10.0);
         }
         [TestMethod]
         public void InstanceActivityWithValuesCorrect()
@@ -24,7 +26,7 @@ namespace College.Entities.Tests.EvaluationContext.Entities
         [TestMethod]
         public void InstanceActivityWithValuesInCorrect()
         {
-            activity = new Activity(Guid.NewGuid(), Guid.NewGuid(), (decimal)10.2, (decimal)10.0);
+            activity = new Activity(Guid.NewGuid(), student, (decimal)10.2, (decimal)10.0);
             Assert.IsFalse(activity.IsValid());
             Assert.IsTrue(activity.Notifications.Any(x => x.Key == "Grade" && x.Value != null));
         }
