@@ -21,31 +21,31 @@ namespace College.UseCases.CourseContext.Queries
             return result;
         }
 
-        public DisciplineResultQueryList Handle(DisciplineInputListById command)
+        public DisciplineResultQueryList Handle(DisciplineInputList command)
         {
             var result = new DisciplineResultQueryList();
-            result.Discipline = _DREP.List();
+            result.Disciplines = _DREP.List();
 
             return result;
         }
         public DisciplineResultQueryList Handle(DisciplineInputListByStudent command)
         {
             var result = new DisciplineResultQueryList();
-            result.Discipline = _DREP.GetConcluded(command.StudentId);
+            result.Disciplines = _DREP.GetConcluded(command.StudentId);
 
             return result;
         }
         public DisciplineResultQueryList Handle(DisciplineInputListByCourse command)
         {
             var result = new DisciplineResultQueryList();
-            result.Discipline = _DREP.GetByCourse(command.CourseId);
+            result.Disciplines = _DREP.GetByCourse(command.CourseId);
 
             return result;
         }
         public DisciplineResultQueryList Handle(DisciplineInputListByEnrollment command)
         {
             var result = new DisciplineResultQueryList();
-            result.Discipline = _DREP.GetByEnrollment(command.EnrollmentId);
+            result.Disciplines = _DREP.GetByEnrollment(command.EnrollmentId);
 
             return result;
         }

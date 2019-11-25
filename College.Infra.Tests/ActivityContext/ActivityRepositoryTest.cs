@@ -33,7 +33,7 @@ namespace College.Infra.Tests.ActivityContext
             _AREP = new ActivityRepository(new MSSQLDB(new DBConfiguration()));
             _DREP = new DisciplineRepository(new MSSQLDB(new DBConfiguration())); 
             Activities = new List<Guid>();
-            var _PREP = new ProfessorRepository(new MSSQLDB(new DBConfiguration()));
+            var _PREP = new Infra.ProfessorContext.ProfessorRepository(new MSSQLDB(new DBConfiguration()));
             professor = new Professor("Thelmaryo", "Vieira Lima", "034.034.034-00", "thelmaryo@hotmail.com", "123", EDegree.Master, "123", "123");
             _PREP.Create(professor);
             
@@ -41,7 +41,7 @@ namespace College.Infra.Tests.ActivityContext
             db.Execute("INSERT INTO Course(Id, Name) VALUES (@Id, @Name)", course);
             CourseId = course.Id;
 
-            var discipline = new Entities.CourseContext.Entities.Discipline("Software Test", course.Id, professor.Id, 10, 1, null);
+            var discipline = new Entities.CourseContext.Entities.Discipline("Software Test", new Entities.CourseContext.Entities.Course(course.Id), new Entities.CourseContext.Entities.Professor(professor.Id), 10, 1, 0);
             _DREP.Create(discipline);
             Discipline = new Discipline(discipline.Id, discipline.Name);
 

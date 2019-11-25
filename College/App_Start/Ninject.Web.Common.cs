@@ -82,7 +82,8 @@ namespace College.App_Start
             kernel.Bind<IDBConfiguration>().To<MSSQLConfiguration>();
             kernel.Bind<IDB>().To<MSSQLDB>();
             kernel.Bind<IUserRepository>().To<UserRepository>();
-            kernel.Bind<IProfessorRepository>().To<ProfessorRepository>();
+            kernel.Bind<UseCases.CourseContext.Repositories.IProfessorRepository>().To<Infra.CourseContext.ProfessorRepository>();
+            kernel.Bind<UseCases.ProfessorContext.Repositories.IProfessorRepository>().To<Infra.ProfessorContext.ProfessorRepository>();
             kernel.Bind<IStudentRepository>().To<StudentRepository>();
             kernel.Bind<ICourseRepository>().To<CourseRepository>();
             kernel.Bind<IDisciplineRepository>().To<DisciplineRepository>();
@@ -90,7 +91,8 @@ namespace College.App_Start
             kernel.Bind<UseCases.ActivityContext.Repositories.IActivityRepository>().To<Infra.ActivityContext.ActivityRepository>();
             kernel.Bind<UseCases.EvaluationContext.Repositories.IActivityRepository>().To<Infra.EvaluationContext.ActivityRepository>();
             kernel.Bind<ProfessorCommandHandler>().To<ProfessorCommandHandler>();
-            kernel.Bind<ProfessorQueryHandler>().To<ProfessorQueryHandler>();
+            kernel.Bind<UseCases.CourseContext.Queries.ProfessorQueryHandler>().To<UseCases.CourseContext.Queries.ProfessorQueryHandler>();
+            kernel.Bind<UseCases.ProfessorContext.Queries.ProfessorQueryHandler>().To<UseCases.ProfessorContext.Queries.ProfessorQueryHandler>();
             kernel.Bind<StudentCommandHandler>().To<StudentCommandHandler>();
             kernel.Bind<StudentQueryHandler>().To<StudentQueryHandler>();
             kernel.Bind<UserQueryHandler>().To<UserQueryHandler>();

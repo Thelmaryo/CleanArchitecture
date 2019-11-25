@@ -3,8 +3,7 @@ using System;
 
 namespace College.UseCases.CourseContext.Inputs
 {
-    public class DisciplineInputListById : ICommand
+    public class DisciplineInputList : ICommand
     {
-        public Guid DisciplineId { get; set; }
     }
 }

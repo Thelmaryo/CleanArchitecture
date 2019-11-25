@@ -1,6 +1,7 @@
 ﻿using College.Presenters.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System;
 
 namespace College.Presenters.CourseContext
 {
@@ -12,7 +13,7 @@ namespace College.Presenters.CourseContext
 
     public class DisciplineListItem
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         [Display(Name = "Disciplina")]
         public string Name { get; set; }
         [Display(Name = "Curso")]

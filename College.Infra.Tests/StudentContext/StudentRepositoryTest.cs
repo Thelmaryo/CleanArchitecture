@@ -33,7 +33,7 @@ namespace College.Infra.Tests.StudentContext
         IStudentRepository _SREP;
         IEnrollmentRepository _EREP;
         IDisciplineRepository _DREP;
-        IProfessorRepository _PREP;
+        UseCases.ProfessorContext.Repositories.IProfessorRepository _PREP;
         Course course;
         // IEncryptor _encryptor;
         [TestInitialize]
@@ -42,7 +42,7 @@ namespace College.Infra.Tests.StudentContext
             _SREP = new StudentRepository(new MSSQLDB(new DBConfiguration()));
             _EREP = new EnrollmentRepository(new MSSQLDB(new DBConfiguration()));
             _DREP = new DisciplineRepository(new MSSQLDB(new DBConfiguration()));
-            _PREP = new ProfessorRepository(new MSSQLDB(new DBConfiguration()));
+            _PREP = new Infra.ProfessorContext.ProfessorRepository(new MSSQLDB(new DBConfiguration()));
             var db = new SqlConnection(new DBConfiguration().StringConnection);
 
             // Create Course
@@ -66,7 +66,7 @@ namespace College.Infra.Tests.StudentContext
             _PREP.Create(professor);
 
             // Create Discipline
-            discipline = new Entities.CourseContext.Entities.Discipline("Psicologia", course.CourseId, professor.Id, 20, 1);
+            discipline = new Entities.CourseContext.Entities.Discipline("Psicologia", new Entities.CourseContext.Entities.Course(course.CourseId), new Entities.CourseContext.Entities.Professor(professor.Id), 20, 1,0);
             _DREP.Create(discipline);
 
             // Create StudentDiscipline

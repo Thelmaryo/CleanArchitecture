@@ -85,17 +85,6 @@ namespace College.Infra.ProfessorContext
                 return professors.SingleOrDefault();
             }
         }
-
-        public int GetWorkload(Guid professorId)
-        {
-            using (var db = _db.GetCon())
-            {
-                var sql = "SELECT SUM(WeeklyWorkload) AS Workload FROM Discipline WHERE ProfessorId = @Id";
-                var workload = db.QuerySingleOrDefault<int>(sql, param: new { Id = professorId });
-                return workload;
-            }
-
-        }
         public IEnumerable<Professor> List()
         {
             using (var db = _db.GetCon())

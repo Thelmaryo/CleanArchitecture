@@ -9,7 +9,6 @@ namespace College.UseCases.ProfessorContext.Repositories
         void Create(Professor professor);
         void Update(Professor professor);
         void Disable(Guid id);
-        int GetWorkload(Guid professorId);
         Professor Get(Guid id);
         IEnumerable<Professor> List();
     }

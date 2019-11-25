@@ -1,4 +1,5 @@
 ﻿using College.Entities.Shared;
+using System;
 
 namespace College.Entities.CourseContext.Entities
 {
@@ -12,13 +13,11 @@ namespace College.Entities.CourseContext.Entities
         {
             Name = name;
         }
+        public Course(Guid id)
+        {
+            Id = id;
+        }
 
         public string Name { get; private set; }
-
-        // Editar Course
-        public void UpdateEntity(string name)
-        {
-            Name = name;
-        }
     }
 }

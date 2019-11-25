@@ -1,15 +1,32 @@
 ﻿using College.Enumerators;
 using College.Models;
+using College.Presenters.CourseContext;
+using College.Presenters.Shared;
 using College.UseCases.AccountContext.Queries;
+using College.UseCases.CourseContext.Handlers;
+using College.UseCases.CourseContext.Inputs;
+using College.UseCases.CourseContext.Queries;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace College.Controllers
 {
     public class DisciplineController : ControllerBase
     {
-        public DisciplineController(UserQueryHandler userQuery) : base(userQuery)
+        private readonly DisciplineCommandHandler _disciplineCommand;
+        private readonly DisciplineQueryHandler _disciplineQuery;
+        private readonly CourseQueryHandler _courseQuery;
+        private readonly ProfessorQueryHandler _professorQuery;
+
+        public DisciplineController(DisciplineCommandHandler disciplineCommand, DisciplineQueryHandler disciplineQuery, CourseQueryHandler courseQuery,
+            ProfessorQueryHandler professorQuery, UserQueryHandler userQuery) : base(userQuery)
         {
+            _disciplineCommand = disciplineCommand;
+            _disciplineQuery = disciplineQuery;
+            _courseQuery = courseQuery;
+            _professorQuery = professorQuery;
         }
 
         // GET: Discipline
@@ -17,12 +34,18 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Course course = new Course();
-            Professor professor = new Professor();
-            ViewBag.Courses = course.List();
-            ViewBag.Professors = professor.List();
-            Discipline discipline = new Discipline();
-            return View(discipline.List());
+            var result = _disciplineQuery.Handle(new DisciplineInputList()).Disciplines;
+            var disciplines = new DisciplineListViewModel { 
+                Disciplines = result.Select(x=> new DisciplineListItem { 
+                    Course = x.Course.Name,
+                    Id = x.Id,
+                    Name = x.Name,
+                    Period = x.Period,
+                    Professor = x.Professor.Name,
+                    WeeklyWorkload = x.WeeklyWorkload
+                })
+            };
+            return View(disciplines);
         }
 
         // GET: Discipline/Details/5
@@ -30,8 +53,16 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            var discipline = new Discipline();
-            discipline.Get(id);
+            var result = _disciplineQuery.Handle(new DisciplineInputGet { DisciplineId = id }).Discipline;
+            var discipline = new DisciplineDetailsViewModel
+            {
+                Id = result.Id,
+                Course = result.Course.Name,
+                Name = result.Name,
+                Period = result.Period,
+                Professor = result.Professor.Name,
+                WeeklyWorkload = result.WeeklyWorkload
+            };
             return View(discipline);
         }
 
@@ -40,55 +71,37 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Course course = new Course();
-            Professor professor = new Professor();
-            ViewBag.Courses = course.List();
-            ViewBag.Professors = professor.List();
-            return View();
+            var discipline = new CreateDisciplineViewModel
+            {
+                Courses = GetComboboxCourse(),
+                Professors = GetComboboxProfessor()
+            };
+            return View(discipline);
         }
 
         // POST: Discipline/Create
         [HttpPost]
-        public ActionResult Create(Discipline discipline)
+        public ActionResult Create(CreateDisciplineViewModel discipline)
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            try
+            var input = new DisciplineInputRegister { 
+                CourseId = discipline.SelectedCourse,
+                Name = discipline.Name,
+                Period = discipline.Period,
+                ProfessorId = discipline.SelectedProfessor,
+                WeeklyWorkload = discipline.WeeklyWorkload
+            };
+            var result = _disciplineCommand.Handle(input);
+            if (!result.IsValid)
             {
-                var professor = new Professor();
-                professor.Get(discipline.ProfessorId);
-                int professorWorkload = professor.GetWorkload() + discipline.WeeklyWorkload;
-                if (professor.Degree == EDegree.Bachelor)
-                {
-                    if (professorWorkload > 40)
-                    {
-                        ModelState.AddModelError("ProfessorId", "A carga horária máxima do professor (40h) não pode ser excedida");
-                        return View(discipline);
-                    }
-                }
-                else if (professor.Degree == EDegree.Master)
-                {
-                    if (professorWorkload > 30)
-                    {
-                        ModelState.AddModelError("ProfessorId", "A carga horária máxima do professor (30h) não pode ser excedida");
-                        return View(discipline);
-                    }
-                }
-                else if (professor.Degree == EDegree.Doctor)
-                {
-                    if (professorWorkload > 25)
-                    {
-                        ModelState.AddModelError("ProfessorId", "A carga horária máxima do professor (25h) não pode ser excedida");
-                        return View(discipline);
-                    }
-                }
-                discipline.Create();
-                return RedirectToAction("Index");
+                foreach (var n in result.Notifications)
+                    ModelState.AddModelError(n.Key, n.Value);
+                discipline.Courses = GetComboboxCourse();
+                discipline.Professors = GetComboboxProfessor();
+                return View(discipline);
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: Discipline/Edit/5
@@ -96,57 +109,46 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Course course = new Course();
-            Professor professor = new Professor();
-            ViewBag.Courses = course.List();
-            ViewBag.Professors = professor.List();
-            var discipline = new Discipline();
-            discipline.Get(id);
+            var result = _disciplineQuery.Handle(new DisciplineInputGet { DisciplineId = id }).Discipline;
+            var discipline = new EditDisciplineViewModel
+            {
+                Id = result.Id,
+                SelectedCourse = result.Course.Id,
+                Name = result.Name,
+                Period = result.Period,
+                SelectedProfessor = result.Professor.Id,
+                WeeklyWorkload = result.WeeklyWorkload,
+                Professors = GetComboboxProfessor(),
+                Courses = GetComboboxCourse()
+            };
             return View(discipline);
         }
 
         // POST: Discipline/Edit/5
         [HttpPost]
-        public ActionResult Edit(Discipline discipline)
+        public ActionResult Edit(EditDisciplineViewModel discipline)
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            try
+            var input = new DisciplineInputUpdate
             {
-                var professor = new Professor();
-                professor.Get(discipline.ProfessorId);
-                int professorWorkload = professor.GetWorkload();
-                if (professor.Degree == EDegree.Bachelor)
-                {
-                    if (professorWorkload > 40)
-                    {
-                        ModelState.AddModelError("ProfessorId", "A carga horária máxima do professor (40h) não pode ser excedida");
-                        return View(discipline);
-                    }
-                }
-                else if (professor.Degree == EDegree.Master)
-                {
-                    if (professorWorkload > 30)
-                    {
-                        ModelState.AddModelError("ProfessorId", "A carga horária máxima do professor (30h) não pode ser excedida");
-                        return View(discipline);
-                    }
-                }
-                else if (professor.Degree == EDegree.Doctor)
-                {
-                    if (professorWorkload > 25)
-                    {
-                        ModelState.AddModelError("ProfessorId", "A carga horária máxima do professor (25h) não pode ser excedida");
-                        return View(discipline);
-                    }
-                }
-                discipline.Edit();
-                return RedirectToAction("Index");
-            }
-            catch
+                DisciplineId = discipline.Id,
+                CourseId = discipline.SelectedCourse,
+                Name = discipline.Name,
+                Period = discipline.Period,
+                ProfessorId = discipline.SelectedProfessor,
+                WeeklyWorkload = discipline.WeeklyWorkload
+            };
+            var result = _disciplineCommand.Handle(input);
+            if (!result.IsValid)
             {
-                return View();
+                foreach (var n in result.Notifications)
+                    ModelState.AddModelError(n.Key, n.Value);
+                discipline.Courses = GetComboboxCourse();
+                discipline.Professors = GetComboboxProfessor();
+                return View(discipline);
             }
+            return RedirectToAction("Index");
         }
 
         // GET: Discipline/Delete/5
@@ -154,27 +156,39 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            var discipline = new Discipline();
-            discipline.Get(id);
+            var result = _disciplineQuery.Handle(new DisciplineInputGet { DisciplineId = id }).Discipline;
+            var discipline = new DeleteDisciplineViewModel
+            {
+                Id = result.Id,
+                Course = result.Course.Name,
+                Name = result.Name,
+                Period = result.Period,
+                Professor = result.Professor.Name,
+                WeeklyWorkload = result.WeeklyWorkload
+            };
             return View(discipline);
         }
 
         // POST: Discipline/Delete/5
         [HttpPost]
-        public ActionResult Delete(Discipline discipline)
+        public ActionResult Delete(DeleteDisciplineViewModel discipline)
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            try
-            {
-                // TODO: Add delete logic here
-                discipline.Delete();
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View(discipline);
-            }
+            _disciplineCommand.Handle(new DisciplineInputDelete { DisciplineId = discipline.Id });
+            return RedirectToAction("Index");
+        }
+
+        private IEnumerable<ComboboxItem> GetComboboxCourse()
+        {
+            var combobox = _courseQuery.Handle().Courses.Select(x => new ComboboxItem(x.Name, x.Id.ToString()));
+            return combobox;
+        }
+
+        private IEnumerable<ComboboxItem> GetComboboxProfessor()
+        {
+            var combobox = _professorQuery.Handle(new ProfessorInputList()).Professors.Select(x => new ComboboxItem(x.Name, x.Id.ToString()));
+            return combobox;
         }
     }
 }
