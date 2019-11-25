@@ -1,4 +1,5 @@
-﻿using College.Entities.Shared;
+﻿using College.Entities.CourseContext.Dictionaries;
+using College.Entities.Shared;
 using System;
 
 namespace College.Entities.CourseContext.Entities
@@ -7,31 +8,36 @@ namespace College.Entities.CourseContext.Entities
     {
         public Discipline() { }
         // Create
-        public Discipline(string name, Guid courseId, Guid professorId, int weeklyWorkload, int period)
+        public Discipline(string name, Course course, Professor professor, int weeklyWorkload, int period, int professorWorkload)
         {
             Name = name;
-            CourseId = courseId;
-            ProfessorId = professorId;
+            Course = course;
+            Professor = professor;
             WeeklyWorkload = weeklyWorkload;
             Period = period;
+            var maxWorkload = new ProfessorMaxWorkLoadDictionary().Get(Professor.Degree);
+            if (professorWorkload + WeeklyWorkload > maxWorkload)
+                Notifications.Add("WeeklyWorkload", $"A carga horária máxima do professor {maxWorkload} não pode ser excedida");
         }
 
         public string Name { get; private set; }
-        public Guid CourseId { get; private set; }
-        public Guid ProfessorId { get; private set; }
+        public Course Course { get; private set; }
+        public Professor Professor { get; private set; }
         public int WeeklyWorkload { get; private set; }
         public int Period { get; private set; }
 
         // Edit
-        public Discipline(string name, Guid courseId, Guid professorId, int weeklyWorkload, int period, Guid? id)
+        public Discipline(string name, Course course, Professor professor, int weeklyWorkload, int period, Guid id, int professorWorkload = 0)
         {
-            if (id != null)
-                Id = (Guid)id;
+            Id = id;
             Name = name;
-            CourseId = courseId;
-            ProfessorId = professorId;
+            Course = course;
+            Professor = professor;
             WeeklyWorkload = weeklyWorkload;
             Period = period;
+            var maxWorkload = new ProfessorMaxWorkLoadDictionary().Get(Professor.Degree);
+            if (professorWorkload != 0 && professorWorkload > maxWorkload)
+                Notifications.Add("WeeklyWorkload", $"A carga horária máxima do professor {maxWorkload} não pode ser excedida");
         }
     }
 }

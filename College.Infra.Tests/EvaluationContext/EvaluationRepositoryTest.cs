@@ -29,13 +29,13 @@ namespace College.Infra.Tests.EvaluationContext
         Student _student;
         Activity activityEC;
         Discipline disciplineCC;
-        Professor professor;
+        Entities.ProfessorContext.Entities.Professor professor;
         string sql;
         UseCases.EvaluationContext.Repositories.IActivityRepository _AREPEC;
         UseCases.ActivityContext.Repositories.IActivityRepository _AREPAC;
         IDisciplineRepository _DREP;
         IStudentRepository _SREP;
-        IProfessorRepository _PREP;
+        UseCases.ProfessorContext.Repositories.IProfessorRepository _PREP;
 
         [TestInitialize]
         public void Init()
@@ -43,7 +43,7 @@ namespace College.Infra.Tests.EvaluationContext
             _AREPEC = new Infra.EvaluationContext.ActivityRepository(new MSSQLDB(new DBConfiguration()));
             _AREPAC = new Infra.ActivityContext.ActivityRepository(new MSSQLDB(new DBConfiguration()));
             _DREP = new DisciplineRepository(new MSSQLDB(new DBConfiguration()));
-            _PREP = new ProfessorRepository(new MSSQLDB(new DBConfiguration()));
+            _PREP = new Infra.ProfessorContext.ProfessorRepository(new MSSQLDB(new DBConfiguration()));
             _SREP = new StudentRepository(new MSSQLDB(new DBConfiguration()));
             var db = new SqlConnection(new DBConfiguration().StringConnection);
 
@@ -53,11 +53,11 @@ namespace College.Infra.Tests.EvaluationContext
             db.Execute(sql, param: new { Id = course.CourseId });
 
             // Create Professor
-            professor = new Professor("Thelmaryo", "Vieira Lima", "034.034.034-00", "thelmaryoTest@hotmail.com", "123", EDegree.Master, "123", "123");
+            professor = new Entities.ProfessorContext.Entities.Professor("Thelmaryo", "Vieira Lima", "034.034.034-00", "thelmaryoTest@hotmail.com", "123", EDegree.Master, "123", "123");
             _PREP.Create(professor);
 
             // Create Discipline
-            disciplineCC = new Discipline("Psicologia", course.CourseId, professor.Id, 20, 1);
+            disciplineCC = new Discipline("Psicologia", new Entities.CourseContext.Entities.Course(course.CourseId), new Entities.CourseContext.Entities.Professor(professor.Id), 20, 1,0);
             _DREP.Create(disciplineCC);
 
             disciplineAC = new Entities.ActivityContext.Entities.Discipline(disciplineCC.Id, "Psicologia");

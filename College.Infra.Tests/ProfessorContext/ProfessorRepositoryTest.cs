@@ -18,30 +18,30 @@ namespace College.Infra.Tests.ProfessorContext
     [TestClass]
     public class ProfessorRepositoryTest
     {
-        Professor professor;
+        Entities.ProfessorContext.Entities.Professor professor;
         Discipline discipline;
         Course course;
         string sql;
-        IProfessorRepository _PREP;
+        UseCases.ProfessorContext.Repositories.IProfessorRepository _PREP;
         IDisciplineRepository _DREP;
         [TestInitialize]
         public void Init()
         {
-            _PREP = new ProfessorRepository(new MSSQLDB(new DBConfiguration()));
+            _PREP = new Infra.ProfessorContext.ProfessorRepository(new MSSQLDB(new DBConfiguration()));
             _DREP = new DisciplineRepository(new MSSQLDB(new DBConfiguration()));
             var db = new SqlConnection(new DBConfiguration().StringConnection);
 
 
             string CPF = "034.034.034-00";
             string password = new Encryptor().Encrypt(CPF.Replace("-", "").Replace(".", ""), out string salt);
-            professor = new Professor("Thelmaryo", "Vieira Lima", CPF, "thelmaryoTest@hotmail.com", "123", EDegree.Master, password, salt);
+            professor = new Entities.ProfessorContext.Entities.Professor("Thelmaryo", "Vieira Lima", CPF, "thelmaryoTest@hotmail.com", "123", EDegree.Master, password, salt);
             _PREP.Create(professor);
 
             course = new Course("Psicologia");
             sql = "INSERT INTO [Course] ([Id], [Name]) VALUES (@Id, @Name)";
             db.Execute(sql, param: new { course.Id, course.Name });
 
-            discipline = new Discipline("Psicologia", course.Id, professor.Id, 20, 1);
+            discipline = new Discipline("Psicologia", new Course(course.Id), new Entities.CourseContext.Entities.Professor(professor.Id), 20, 1, 0);
             _DREP.Create(discipline);
         }
 
@@ -106,14 +106,6 @@ namespace College.Infra.Tests.ProfessorContext
                 Assert.IsFalse(professorDBCPF == professorDB.CPF.Number);
                 professorDBCPF = professorDB.CPF.Number;
             }
-        }
-
-        [TestMethod]
-        public void ShouldGetWorkloadAProfessor()
-        {
-            var workload = _PREP.GetWorkload(professor.Id);
-            Assert.IsNotNull(workload);
-            Assert.AreEqual(workload, discipline.WeeklyWorkload);
         }
 
         [TestCleanup]

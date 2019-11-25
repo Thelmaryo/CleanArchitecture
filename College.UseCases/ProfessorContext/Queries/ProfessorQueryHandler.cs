@@ -28,13 +28,5 @@ namespace College.UseCases.ProfessorContext.Queries
 
             return result;
         }
-
-        public ProfessorResultQueryGetWorkload Handle(ProfessorInputGetWorkload command)
-        {
-            var result = new ProfessorResultQueryGetWorkload();
-            result.Workload = _PREP.GetWorkload(command.ProfessorId);
-
-            return result;
-        }
     }
 }

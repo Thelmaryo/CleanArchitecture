@@ -5,6 +5,7 @@ using College.UseCases.CourseContext.Repositories;
 using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace College.Infra.CourseContext
 {
@@ -27,11 +28,11 @@ namespace College.Infra.CourseContext
                     {
                         discipline.Id,
                         discipline.Name,
-                        discipline.CourseId,
-                        discipline.ProfessorId,
+                        CourseId = discipline.Course.Id,
+                        ProfessorId = discipline.Professor.Id,
                         discipline.WeeklyWorkload,
                         discipline.Period
-                    });
+                    }) ;
             }
         }
 
@@ -48,16 +49,15 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                sql = " SELECT [Id]			  " +
-                "       ,[CourseId]		  " +
-                "       ,[ProfessorId]	  " +
-                "       ,[Name]			  " +
-                "       ,[WeeklyWorkload] " +
-                "       ,[Period]		  " +
-                "   FROM [Discipline]	  " +
-                "   WHERE Id = @Id		  ";
-                var discipline = db.QuerySingleOrDefault<Discipline>(sql, param: new { Id = id });
-                return discipline;
+                sql = "SELECT *, p.FirstName +' '+ p.LastName AS Name FROM Discipline " +
+                " INNER JOIN Course c ON (c.Id = CourseId)  " +
+                " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
+                "   WHERE Discipline.Id = @Id";
+                return db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { Id = id }, map:
+                    (discipline, course, professor) => {
+                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
+                        return d;
+                    }, splitOn: "Id").SingleOrDefault();
             }
         }
 
@@ -65,15 +65,15 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                sql = " SELECT [Id]			  " +
-                "       ,[CourseId]		  " +
-                "       ,[ProfessorId]	  " +
-                "       ,[Name]			  " +
-                "       ,[WeeklyWorkload] " +
-                "       ,[Period]		  " +
-                "   FROM [Discipline]	  " +
+                sql = "SELECT *, p.FirstName +' '+ p.LastName AS Name FROM Discipline " +
+                " INNER JOIN Course c ON (c.Id = CourseId)  " +
+                " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
                 "   WHERE CourseId = @CourseId";
-                var disciplines = db.Query<Discipline>(sql, param: new { CourseId = id });
+                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { CourseId = id }, map:
+                    (discipline, course, professor) => {
+                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
+                        return d;
+                    }, splitOn: "Id");
                 return disciplines;
             }
         }
@@ -82,8 +82,17 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.Id = @Id";
-                var disciplines = db.Query<Discipline>(sql, param: new { Id = id });
+                sql = "SELECT d.*, c.*, p.Id, p.FirstName +' '+ p.LastName AS Name " +
+                    " FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) " +
+                    " INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) " +
+                    " INNER JOIN Course c ON (c.Id = CourseId)  " +
+                    " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
+                    "WHERE e.Id = @Id";
+                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { Id = id }, map:
+                    (discipline, course, professor) => {
+                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
+                        return d;
+                    }, splitOn: "Id");
                 return disciplines;
             }
         }
@@ -92,15 +101,15 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                sql = " SELECT [Id]			  " +
-                "       ,[CourseId]		  " +
-                "       ,[ProfessorId]	  " +
-                "       ,[Name]			  " +
-                "       ,[WeeklyWorkload] " +
-                "       ,[Period]		  " +
-                "   FROM [Discipline]	  " +
+                sql = "SELECT *, p.FirstName +' '+ p.LastName AS Name FROM Discipline " +
+                " INNER JOIN Course c ON (c.Id = CourseId)  " +
+                " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
                 "   WHERE ProfessorId = @ProfessorId";
-                var disciplines = db.Query<Discipline>(sql, param: new { ProfessorId = id });
+                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { ProfessorId = id }, map:
+                    (discipline, course, professor) => {
+                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
+                        return d;
+                    }, splitOn: "Id");
                 return disciplines;
             }
         }
@@ -108,8 +117,17 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                sql = "SELECT d.* FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) WHERE e.StudentId = @Id AND s.[Status] = @Status";
-                var disciplines = db.Query<Discipline>(sql, param: new { Id = studentId, Status = EStatusDiscipline.Pass });
+                sql = "SELECT d.*, c.*, p.Id, p.FirstName +' '+ p.LastName AS Name " +
+                    " FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) " +
+                    " INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) " +
+                    " INNER JOIN Course c ON (c.Id = CourseId)  " +
+                    " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
+                    " WHERE e.StudentId = @Id AND s.[Status] = @Status";
+                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { Id = studentId, Status = EStatusDiscipline.Pass }, map:
+                    (discipline, course, professor) => {
+                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
+                        return d;
+                    }, splitOn: "Id");
                 return disciplines;
             }
         }
@@ -118,14 +136,14 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                sql = " SELECT [Id]			  " +
-                "       ,[CourseId]		  " +
-                "       ,[ProfessorId]	  " +
-                "       ,[Name]			  " +
-                "       ,[WeeklyWorkload] " +
-                "       ,[Period]		  " +
-                "   FROM [Discipline]	  ";
-                var disciplines = db.Query<Discipline>(sql);
+                sql = "SELECT *, p.FirstName +' '+ p.LastName AS Name FROM Discipline " +
+                "INNER JOIN Course c ON (c.Id = CourseId)  " +
+                "INNER JOIN Professor p ON (p.Id = ProfessorId)";
+                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, map: 
+                    (discipline, course, professor) => {
+                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
+                        return d;
+                }, splitOn: "Id");
                 return disciplines;
             }
         }
@@ -139,7 +157,7 @@ namespace College.Infra.CourseContext
                     param: new
                     {
                         discipline.Name,
-                        discipline.ProfessorId,
+                        ProfessorId = discipline.Professor.Id,
                         discipline.WeeklyWorkload,
                         discipline.Period,
                         discipline.Id

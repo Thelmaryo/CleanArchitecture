@@ -9,16 +9,18 @@ namespace College.UseCases.CourseContext.Handlers
     public class DisciplineCommandHandler : ICommandHandler<DisciplineInputRegister>
     {
         private readonly IDisciplineRepository _DREP;
+        private readonly IProfessorRepository _PREP;
 
-        public DisciplineCommandHandler(IDisciplineRepository DREP)
+        public DisciplineCommandHandler(IDisciplineRepository dREP, IProfessorRepository pREP)
         {
-            _DREP = DREP;
+            _DREP = dREP;
+            _PREP = pREP;
         }
 
         public ICommandResult Handle(DisciplineInputRegister command)
         {
-            // TO DO: Cryptography
-            var discipline = new Discipline(command.Name, command.CourseId, command.ProfessorId, command.WeeklyWorkload, command.Period);
+            int professorWorkload = _PREP.GetWorkload(command.ProfessorId);
+            var discipline = new Discipline(command.Name, new Course(command.CourseId), new Professor(command.ProfessorId), command.WeeklyWorkload, command.Period, professorWorkload);
             var result = new StandardResult();
             result.AddRange(discipline.Notifications);
             if (result.Notifications.Count == 0)
@@ -31,7 +33,8 @@ namespace College.UseCases.CourseContext.Handlers
 
         public ICommandResult Handle(DisciplineInputUpdate command)
         {
-            var discipline = new Discipline(command.Name, command.CourseId, command.ProfessorId, command.WeeklyWorkload, command.Period);
+            int professorWorkload = _PREP.GetWorkload(command.ProfessorId);
+            var discipline = new Discipline(command.Name, new Course(command.CourseId), new Professor(command.ProfessorId), command.WeeklyWorkload, command.Period, command.DisciplineId, professorWorkload);
             var result = new StandardResult();
             result.AddRange(discipline.Notifications);
             if (result.Notifications.Count == 0)
