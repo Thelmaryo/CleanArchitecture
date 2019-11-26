@@ -59,14 +59,15 @@ namespace College.Infra.Tests.ProfessorContext
         [TestMethod]
         public void ShouldUpdateAProfessor()
         {
-            professor.UpdateEntity("Abmael", "Silva", "879.619.330-18", "thelmaryoTest@hotmail.com", "1234-1234", EDegree.Doctor);
+            professor.UpdateEntity("Abmael", "Silva", "thelmaryoTest@hotmail.com", "1234-1234", EDegree.Doctor);
 
             _PREP.Update(professor);
             var professorDB = _PREP.Get(professor.Id);
             Assert.IsNotNull(professorDB);
             Assert.AreEqual("Abmael", professorDB.FirstName);
-            Assert.AreEqual("879.619.330-18", professorDB.CPF.Number);
             Assert.AreEqual(professor.Id, professorDB.Id);
+            Assert.AreEqual(professor.Email.Address, professorDB.Email.Address);
+            Assert.AreEqual(professor.Phone, professorDB.Phone);
             Assert.IsTrue(professor.Active);
         }
 
