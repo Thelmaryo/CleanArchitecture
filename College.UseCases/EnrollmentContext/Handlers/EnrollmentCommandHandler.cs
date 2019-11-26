@@ -8,7 +8,7 @@ using College.UseCases.Shared.Result;
 
 namespace College.UseCases.EnrollmentContext.Handlers
 {
-    public class EnrollmentCommandHandler : ICommandHandler<EnrollmentInputRegister>
+    public class EnrollmentCommandHandler : ICommandHandler<EnrollmentInputRegister>, ICommandHandler<EnrollmentInputDeny>, ICommandHandler<EnrollmentInputConfirm>
     {
         private readonly IEnrollmentRepository _EREP;
 
@@ -30,6 +30,22 @@ namespace College.UseCases.EnrollmentContext.Handlers
                 _EREP.Create(enrollment);
                 result.Notifications.Add("Success", "A Matrícula foi efetuada e está aguardando confirmação.");
             }
+            return result;
+        }
+
+        public ICommandResult Handle(EnrollmentInputDeny command)
+        {
+            _EREP.Cancel(command.EnrollmentId);
+            var result = new StandardResult();
+            result.Notifications.Add("Success", "A Matrícula foi negada.");
+            return result;
+        }
+
+        public ICommandResult Handle(EnrollmentInputConfirm command)
+        {
+            _EREP.Confirm(command.EnrollmentId);
+            var result = new StandardResult();
+            result.Notifications.Add("Success", "A Matrícula foi confirmada.");
             return result;
         }
     }

@@ -12,7 +12,6 @@
     <Folder Include="CourseContext\Handlers\" />
     <Folder Include="EnrollmentContext\Handlers\" />
     <Folder Include="EvaluationContext\Handlers\" />
-    <Folder Include="EnrollmentContext\Results\" />
   </ItemGroup>
 
   <ItemGroup>

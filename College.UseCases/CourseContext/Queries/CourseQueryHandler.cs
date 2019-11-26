@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace College.UseCases.CourseContext.Queries
 {
-    public class CourseQueryHandler : IQueryHandler<CourseInputGet, CourseResultQueryList>
+    public class CourseQueryHandler : IQueryHandler<CourseInputList, CourseResultQueryList>
     {
         private readonly ICourseRepository _CREP;
 
@@ -14,11 +14,7 @@ namespace College.UseCases.CourseContext.Queries
         {
             _CREP = CREP;
         }
-        public CourseResultQueryList Handle(CourseInputGet command)
-        {
-            throw new System.NotImplementedException();
-        }
-        public CourseResultQueryList Handle()
+        public CourseResultQueryList Handle(CourseInputList command)
         {
             var result = new CourseResultQueryList();
             result.Courses = _CREP.List().OrderBy(x=>x.Name);

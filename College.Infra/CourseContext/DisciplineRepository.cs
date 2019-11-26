@@ -1,5 +1,4 @@
 ﻿using College.Entities.CourseContext.Entities;
-using College.Infra.CourseContext.Enumerators;
 using College.Infra.DataSource;
 using College.UseCases.CourseContext.Repositories;
 using Dapper;
@@ -61,23 +60,7 @@ namespace College.Infra.CourseContext
             }
         }
 
-        public IEnumerable<Discipline> GetByCourse(Guid id)
-        {
-            using (var db = _db.GetCon())
-            {
-                sql = "SELECT *, p.FirstName +' '+ p.LastName AS Name FROM Discipline " +
-                " INNER JOIN Course c ON (c.Id = CourseId)  " +
-                " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
-                "   WHERE CourseId = @CourseId";
-                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { CourseId = id }, map:
-                    (discipline, course, professor) => {
-                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
-                        return d;
-                    }, splitOn: "Id");
-                return disciplines;
-            }
-        }
-
+        
         public IEnumerable<Discipline> GetByEnrollment(Guid id)
         {
             using (var db = _db.GetCon())
@@ -123,7 +106,7 @@ namespace College.Infra.CourseContext
                     " INNER JOIN Course c ON (c.Id = CourseId)  " +
                     " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
                     " WHERE e.StudentId = @Id AND s.[Status] = @Status";
-                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { Id = studentId, Status = EStatusDiscipline.Pass }, map:
+                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { }, map:
                     (discipline, course, professor) => {
                         var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
                         return d;

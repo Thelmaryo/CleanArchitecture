@@ -13,6 +13,7 @@ namespace College.Entities.EnrollmentContext.Entities
             Begin = begin;
             End = end;
             Status = status;
+            _Disciplines = new List<Discipline>();
         }
         public Enrollment(Student student, DateTime begin, DateTime end, EStatusEnrollment status, Guid id)
         {
@@ -21,16 +22,18 @@ namespace College.Entities.EnrollmentContext.Entities
             Begin = begin;
             End = end;
             Status = status;
+            _Disciplines = new List<Discipline>();
         }
         public Enrollment(DateTime begin, DateTime end, EStatusEnrollment status)
         {
             Begin = begin;
             End = end;
             Status = status;
+            _Disciplines = new List<Discipline>();
         }
         public Enrollment()
         {
-
+            _Disciplines = new List<Discipline>();
         }
 
         public Student Student { get; private set; }
@@ -43,6 +46,11 @@ namespace College.Entities.EnrollmentContext.Entities
         public void AddDiscipline(Discipline discipline)
         {
             _Disciplines.Add(discipline);
+        }
+
+        public void AddDisciplines(IEnumerable<Discipline> disciplines)
+        {
+            _Disciplines.AddRange(disciplines);
         }
     }
 }

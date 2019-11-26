@@ -1,4 +1,4 @@
-﻿@model IEnumerable<College.Models.Enrollment>
+﻿@model College.Presenters.EnrollmentContext.EnrollmentListViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -7,25 +7,43 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "ChooseStudent")
+    @Html.ActionLink(Model.CreateButton.Text, "ChooseStudent", null, new
+    {
+        @class = "btn",
+        style = $"background-color: {Model.CreateButton.Color}; " +
+        $"color: {Model.CreateButton.FontColor}; " +
+              $"border: 1px solid black"
+    })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.StudentId)
+            Acadêmico
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Students) {
     <tr>
         <td>
-            @{ var student = (ViewBag.Students as IEnumerable<College.Models.Student>).Single(x => x.Id == item.StudentId); }
-            @student.FirstName @student.LastName
+            @item.Student
         </td>
         <td>
-            @Html.ActionLink("Confirm", "Confirm", new { id = item.Id }, new { @class = "btn btn-success" })
-            @Html.ActionLink("Deny", "Deny", new { id = item.Id }, new { @class = "btn btn-danger" })
+
+            @Html.ActionLink(item.ConfirmButton.Text, "Confirm", new { id = item.Id }, new
+            {
+                @class = "btn",
+                style = $"background-color: {item.ConfirmButton.Color}; " +
+                $"color: {item.ConfirmButton.FontColor}; " +
+                $"border: 1px solid black"
+            })
+            @Html.ActionLink(item.DenyButton.Text, "Deny", new { id = item.Id }, new
+            {
+                @class = "btn",
+                style = $"background-color: {item.DenyButton.Color}; " +
+                $"color: {item.DenyButton.FontColor}; " +
+                $"border: 1px solid black"
+            })
         </td>
     </tr>
 }

@@ -5,7 +5,8 @@ using College.UseCases.EnrollmentContext.Result;
 
 namespace College.UseCases.EnrollmentContext.Queries
 {
-    public class EnrollmentQueryHandler : IQueryHandler<EnrollmentInputGet, EnrollmentResultQueryGet>
+    public class EnrollmentQueryHandler : IQueryHandler<EnrollmentInputGet, EnrollmentResultQueryGet>, IQueryHandler<EnrollmentInputGetByStudent, EnrollmentResultQueryGet>,
+        IQueryHandler<EnrollmentInputListByStudent, EnrollmentResultQueryList>, IQueryHandler<EnrollmentInputGetPreEnrollments, EnrollmentResultQueryList>
     {
         private readonly IEnrollmentRepository _EREP;
 
@@ -21,7 +22,7 @@ namespace College.UseCases.EnrollmentContext.Queries
             return result;
         }
 
-        public EnrollmentResultQueryList Handle()
+        public EnrollmentResultQueryList Handle(EnrollmentInputGetPreEnrollments command)
         {
             var result = new EnrollmentResultQueryList();
             result.Enrollment = _EREP.GetPreEnrollments();

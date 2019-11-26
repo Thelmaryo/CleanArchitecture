@@ -181,7 +181,7 @@ namespace College.Controllers
 
         private IEnumerable<ComboboxItem> GetComboboxCourse()
         {
-            var combobox = _courseQuery.Handle().Courses.Select(x => new ComboboxItem(x.Name, x.Id.ToString()));
+            var combobox = _courseQuery.Handle(new CourseInputList()).Courses.Select(x => new ComboboxItem(x.Name, x.Id.ToString()));
             return combobox;
         }
 
