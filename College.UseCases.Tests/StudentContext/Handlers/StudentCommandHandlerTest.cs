@@ -15,7 +15,7 @@ using System.Linq;
 namespace College.UseCases.Tests.StudentContext.Handlers
 {
     [TestClass]
-    public class StudentCommandHandlerTest
+    public class StudentQueriesHandlerTest
     {
         StudentCommandHandler handler;
         StudentInputRegister commandRegister;

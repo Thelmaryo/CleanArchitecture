@@ -16,7 +16,7 @@ using College.Entities.ProfessorContext.Enumerators;
 namespace College.UseCases.Tests.ProfessorContext.Handlers
 {
     [TestClass]
-    public class ProfessorCommandHandlerTest
+    public class ProfessorQueryHandlerTest
     {
         ProfessorCommandHandler handler;
         ProfessorInputRegister commandRegister;

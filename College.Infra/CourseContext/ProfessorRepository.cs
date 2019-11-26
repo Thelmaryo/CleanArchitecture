@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using College.Entities.CourseContext.Entities;
 using College.Infra.DataSource;
 using College.UseCases.CourseContext.Repositories;
@@ -20,8 +21,9 @@ namespace College.Infra.CourseContext
         {
             using (var db = _db.GetCon())
             {
-                var sql = "SELECT SUM(WeeklyWorkload) AS Workload FROM Discipline WHERE ProfessorId = @Id";
-                var workload = db.QuerySingleOrDefault<int>(sql, param: new { Id = professorId });
+                var sql = "SELECT WeeklyWorkload AS Workload FROM Discipline WHERE ProfessorId = @Id";
+                var workloads = db.Query<int>(sql, param: new { Id = professorId });
+                int workload = workloads.Sum(x => x);
                 return workload;
             }
         }
