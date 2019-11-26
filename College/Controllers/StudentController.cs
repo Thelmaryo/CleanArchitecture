@@ -1,6 +1,7 @@
 ﻿using College.Presenters.Shared;
 using College.Presenters.StudentContext;
 using College.UseCases.AccountContext.Queries;
+using College.UseCases.CourseContext.Inputs;
 using College.UseCases.CourseContext.Queries;
 using College.UseCases.StudentContext.Handlers;
 using College.UseCases.StudentContext.Inputs;
@@ -191,7 +192,7 @@ namespace College.Controllers
         }
         private IEnumerable<ComboboxItem> GetComboboxCourse()
         {
-            var combobox = _courseQuery.Handle().Courses.Select(x => new ComboboxItem(x.Name, x.Id.ToString()));
+            var combobox = _courseQuery.Handle(new CourseInputList()).Courses.Select(x => new ComboboxItem(x.Name, x.Id.ToString()));
             return combobox;
         }
     }

@@ -32,7 +32,7 @@ namespace College.Infra.Tests.StudentContext
         Guid StudentDisciplineId;
         IStudentRepository _SREP;
         IEnrollmentRepository _EREP;
-        IDisciplineRepository _DREP;
+        UseCases.CourseContext.Repositories.IDisciplineRepository _DREP;
         UseCases.ProfessorContext.Repositories.IProfessorRepository _PREP;
         Course course;
         // IEncryptor _encryptor;
@@ -41,7 +41,7 @@ namespace College.Infra.Tests.StudentContext
         {
             _SREP = new StudentRepository(new MSSQLDB(new DBConfiguration()));
             _EREP = new EnrollmentRepository(new MSSQLDB(new DBConfiguration()));
-            _DREP = new DisciplineRepository(new MSSQLDB(new DBConfiguration()));
+            _DREP = new Infra.CourseContext.DisciplineRepository(new MSSQLDB(new DBConfiguration()));
             _PREP = new Infra.ProfessorContext.ProfessorRepository(new MSSQLDB(new DBConfiguration()));
             var db = new SqlConnection(new DBConfiguration().StringConnection);
 

@@ -28,20 +28,7 @@ namespace College.UseCases.CourseContext.Queries
 
             return result;
         }
-        public DisciplineResultQueryList Handle(DisciplineInputListByStudent command)
-        {
-            var result = new DisciplineResultQueryList();
-            result.Disciplines = _DREP.GetConcluded(command.StudentId);
-
-            return result;
-        }
-        public DisciplineResultQueryList Handle(DisciplineInputListByCourse command)
-        {
-            var result = new DisciplineResultQueryList();
-            result.Disciplines = _DREP.GetByCourse(command.CourseId);
-
-            return result;
-        }
+        
         public DisciplineResultQueryList Handle(DisciplineInputListByEnrollment command)
         {
             var result = new DisciplineResultQueryList();

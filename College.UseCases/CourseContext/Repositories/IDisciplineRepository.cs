@@ -11,9 +11,7 @@ namespace College.UseCases.CourseContext.Repositories
         void Delete(Guid id);
         Discipline Get(Guid id);
         IEnumerable<Discipline> List();
-        IEnumerable<Discipline> GetByCourse(Guid id);
         IEnumerable<Discipline> GetByProfessor(Guid id);
         IEnumerable<Discipline> GetByEnrollment(Guid id);
-        IEnumerable<Discipline> GetConcluded(Guid studentId);
     }
 }

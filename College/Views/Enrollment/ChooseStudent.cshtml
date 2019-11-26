@@ -1,31 +1,40 @@
-﻿
-@{
-    ViewBag.Title = "ChooseStudent";
-}
+﻿@model College.Presenters.EnrollmentContext.ChooseStudentViewModel
 
-<h4 class="text-danger">@ViewBag.Error</h4>
+<h4 class="text-danger">@Model.Feedback</h4>
 @using (Html.BeginForm("Create", "Enrollment", FormMethod.Get))
 {
     <div class="form-horizontal">
         <div class="form-group">
-            <label class="control-label col-md-2">Curso</label>
+            @Html.LabelFor(model => model.SelectedCourse, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("courseId", (SelectList)ViewBag.Courses, "-- Selecione --", new { @class = "form-control", required = "true" })
+                @Html.DropDownListFor(model => model.SelectedCourse, new SelectList(Model.Courses, "Value", "Text"), "Selecione um Curso", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SelectedCourse, "", new { @class = "text-danger" })
             </div>
         </div>
 
+
         <div class="form-group">
-            <label class="control-label col-md-2">Estudante (CPF)</label>
+            @Html.LabelFor(model => model.StudentCPF, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.Editor("CPF", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.StudentCPF, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StudentCPF, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Salvar" class="btn btn-success" />
+            <input type="submit" value="@Model.SaveButton.Text" class="btn" style="background-color: @Model.SaveButton.Color; color: @Model.SaveButton.FontColor; border: 1px solid black" />
         </div>
     </div>
 }
 
+<div>
+    @Html.ActionLink(Model.BackButton.Text, "Index", null, new
+   {
+       @class = "btn",
+       style = $"background-color: {Model.BackButton.Color}; " +
+       $"color: {Model.BackButton.FontColor}; " +
+       $"border: 1px solid black"
+   })
+</div>
 

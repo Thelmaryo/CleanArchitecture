@@ -5,6 +5,10 @@ namespace College.Entities.EnrollmentContext.Entities
 {
     public class Discipline : Entity
     {
+        public Discipline()
+        {
+                
+        }
         public Discipline(string name)
         {
             Name = name;

@@ -49,6 +49,16 @@ namespace College.Infra.EnrollmentContext
                         enrollment.End,
                         enrollment.Status
                     });
+                foreach (var discipline in enrollment.Disciplines)
+                {
+                    sql = "INSERT INTO StudentDiscipline (Id, EnrollmentId, DisciplineId, [Status]) VALUES (@Id, @EnrollmentId, @DisciplineId, 0)";
+                    db.Execute(sql, new
+                    {
+                        Id = Guid.NewGuid(),
+                        EnrollmentId = enrollment.Id,
+                        DisciplineId = discipline.Id
+                    });
+                }
             }
         }
 
@@ -136,24 +146,27 @@ namespace College.Infra.EnrollmentContext
         {
             using (var db = _db.GetCon())
             {
-                sql = " SELECT [Id]				  " +
+                sql = " SELECT Enrollment.[Id]				  " +
                 " ,[Begin]					  " +
                 " ,[End]					  " +
                 " ,[Status]					  " +
-                " ,[StudentId] as Id		  " +
-                "   FROM [Enrollment]         " +
+                " ,s.Id, s.FirstName +' '+ s.LastName AS Name		  " +
+                "   FROM [Enrollment]  INNER JOIN Student s ON (s.Id = StudentId)       " +
                 "   WHERE [Status] = @Status  ";
                 var enrollments = db.Query<Enrollment, EStatusEnrollment, Student, Enrollment>(sql,
                     param: new { Status = EStatusEnrollment.PreEnrollment },
                     map: (enrollment, Status, student) =>
                     {
-                        student = new Student(student.Id);
                         enrollment = new Enrollment(student, enrollment.Begin, enrollment.End, Status, enrollment.Id);
-
                         return enrollment;
                     },
-                splitOn: "Id, Status, Id");
-
+                splitOn: "Id, Status, Id").ToList();
+                foreach (var enrollment in enrollments)
+                {
+                    sql = "SELECT d.Id, d.Name FROM StudentDiscipline INNER JOIN Discipline d ON (d.Id = DisciplineId) WHERE EnrollmentId = @Id";
+                    var disciplines = db.Query<Discipline>(sql, new { Id = enrollment.Id });
+                    enrollment.AddDisciplines(disciplines);
+                }
                 return enrollments;
             }
         }

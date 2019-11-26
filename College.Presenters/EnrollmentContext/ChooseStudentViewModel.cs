@@ -9,6 +9,7 @@ namespace College.Presenters.EnrollmentContext
     public class ChooseStudentViewModel
     {
         [Display(Name = "Cursos")]
+        public Guid SelectedCourse { get; set; }
         public IEnumerable<ComboboxItem> Courses { get; set; }
         [Display(Name = "Acadêmico (CPF)")]
         public string StudentCPF { get; set; }

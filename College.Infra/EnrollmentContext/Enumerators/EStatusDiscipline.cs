@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace College.Infra.CourseContext.Enumerators
+namespace College.Infra.EnrollmentContext.Enumerators
 {
     public enum EStatusDiscipline
     {

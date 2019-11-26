@@ -1,26 +1,50 @@
-﻿using College.Helpers;
-using College.Models;
+﻿using College.Presenters.EnrollmentContext;
+using College.Presenters.Shared;
 using College.UseCases.AccountContext.Queries;
+using College.UseCases.CourseContext.Inputs;
+using College.UseCases.CourseContext.Queries;
+using College.UseCases.EnrollmentContext.Handlers;
+using College.UseCases.EnrollmentContext.Inputs;
+using College.UseCases.EnrollmentContext.Queries;
+using College.UseCases.StudentContext.Inputs;
+using College.UseCases.StudentContext.Queries;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using EnrollmentDisciplineQueryHandler = College.UseCases.EnrollmentContext.Queries.DisciplineQueryHandler;
 
 namespace College.Controllers
 {
     public class EnrollmentController : ControllerBase
     {
-        public EnrollmentController(UserQueryHandler userQuery) : base(userQuery)
+        private readonly EnrollmentQueryHandler _enrollmentQuery;
+        private readonly EnrollmentCommandHandler _enrollmentCommand;
+        private readonly CourseQueryHandler _courseQuery;
+        private readonly StudentQueryHandler _studentQuery;
+        private readonly EnrollmentDisciplineQueryHandler _disciplineQuery;
+        public EnrollmentController(EnrollmentQueryHandler enrollmentQuery, EnrollmentCommandHandler enrollmentCommand, CourseQueryHandler courseQuery,
+            StudentQueryHandler studentQuery, EnrollmentDisciplineQueryHandler disciplineQuery, UserQueryHandler userQuery) : base(userQuery)
         {
+            _enrollmentQuery = enrollmentQuery;
+            _enrollmentCommand = enrollmentCommand;
+            _courseQuery = courseQuery;
+            _studentQuery = studentQuery;
+            _disciplineQuery = disciplineQuery;
         }
 
         public ActionResult Index()
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Enrollment enrollment = new Enrollment();
-            var enrollments = enrollment.GetPreEnrollments();
-            Student student = new Student();
-            ViewBag.Students = student.List();
+            var result = _enrollmentQuery.Handle(new EnrollmentInputGetPreEnrollments()).Enrollment;
+            var enrollments = new EnrollmentListViewModel
+            {
+                Students = result.Select(x=> new EnrollmentListItem { 
+                    Id = x.Id,
+                    Student = x.Student.Name
+                })
+            };
             return View(enrollments);
         }
 
@@ -28,57 +52,48 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Course course = new Course();
-            ViewBag.Courses = new SelectList(course.List().Select(x => new ComboboxItem(x.Name, x.Id.ToString())), "Value", "Text");
-            if (TempData["Error"] != null)
-                ViewBag.Error = TempData["Error"];
-            return View();
+            var student = new ChooseStudentViewModel() { 
+                Courses = GetComboboxCourse()
+            };
+            return View(student);
         }
 
         // GET: Enrollment/Create
-        public ActionResult Create(string CPF, Guid courseId)
+        public ActionResult Create(ChooseStudentViewModel student)
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Student student = new Student();
-            student.Get(CPF);
-            if (student.Id == Guid.Empty)
+            var result = _studentQuery.Handle(new StudentInputGetByCPF { StudentCPF = student.StudentCPF }).Student;
+            if (result == null)
             {
-                TempData["Error"] = "CPF Inválido";
-                return RedirectToAction("ChooseStudent");
+                ModelState.AddModelError("StudentCPF", "CPF Inválido");
+                student.Courses = GetComboboxCourse();
+                return View("ChooseStudent", student);
             }
-            Discipline discipline = new Discipline();
-            var allDisciplines = discipline.GetByCourse(courseId);
-            var concludedDisciplines = discipline.GetConcluded(student.Id);
-            DisciplinePortfolio portfolio = new DisciplinePortfolio(allDisciplines.Where(x => !concludedDisciplines.Any(y => y.Id == x.Id)));
-            ViewBag.StudentId = student.Id;
+            var disciplines = _disciplineQuery.Handle(new DisciplineInputGetNotConcluded { CourseId = student.SelectedCourse, StudentId = result.Id }).Disciplines;
+            var portfolio = new CreateEnrollmentViewModel {
+                Disciplines = disciplines.Select(x=> new Checkbox { Text = x.Name, Value = x.Id.ToString() }),
+                StudentId = result.Id
+            };
             return View(portfolio);
         }
 
         // POST: Enrollment/Create
         [HttpPost]
-        public ActionResult Create(DisciplinePortfolio disciplines, Guid studentId)
+        public ActionResult Create(CreateEnrollmentViewModel enrollment)
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            // TODO: Add insert logic here
-            if (!disciplines.Options.Any(x => x.Checked))
-                return View(disciplines);
-            Enrollment enrollment = new Enrollment()
+            var result = _enrollmentCommand.Handle(new EnrollmentInputRegister {
+                StudentId = enrollment.StudentId,
+                Disciplines = enrollment.Disciplines.Where(x => x.Checked).Select(x => Guid.Parse(x.Value)).ToArray()
+            });
+            if (!result.IsValid)
             {
-                StudentId = studentId
-            };
-            if (DateTime.Now.Month <= 6)
-            {
-                enrollment.Begin = new DateTime(DateTime.Now.Year, 1, 1);
-                enrollment.End = new DateTime(DateTime.Now.Year, 6, 30);
+                foreach (var n in result.Notifications)
+                    ModelState.AddModelError(n.Key, n.Value);
+                return View(enrollment);
             }
-            else
-            {
-                enrollment.Begin = new DateTime(DateTime.Now.Year, 7, 1);
-                enrollment.End = new DateTime(DateTime.Now.Year, 12, 30);
-            }
-            enrollment.Create(disciplines.Options.Where(x => x.Checked));
             return RedirectToAction("Index");
         }
 
@@ -86,33 +101,21 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Enrollment enrollment = new Enrollment
-            {
-                Id = id
-            };
-            enrollment.Confirm();
-            Exam exam = new Exam
-            {
-                EnrollmentId = id
-            };
-            Discipline discipline = new Discipline();
-            foreach (var d in discipline.GetByEnrollment(id))
-            {
-                exam.DisciplineId = d.Id;
-                exam.Create();
-            }
+            _enrollmentCommand.Handle(new EnrollmentInputConfirm { EnrollmentId = id });
             return RedirectToAction("Index");
         }
         public ActionResult Deny(Guid id)
         {
             if (!UserIsInRole("Admin"))
                 return RedirectToAction("Index", "Home");
-            Enrollment enrollment = new Enrollment
-            {
-                Id = id
-            };
-            enrollment.Cancel();
+            _enrollmentCommand.Handle(new EnrollmentInputDeny { EnrollmentId = id });
             return RedirectToAction("Index");
+        }
+
+        private IEnumerable<ComboboxItem> GetComboboxCourse()
+        {
+            var combobox = _courseQuery.Handle(new CourseInputList()).Courses.Select(x => new ComboboxItem(x.Name, x.Id.ToString()));
+            return combobox;
         }
     }
 }

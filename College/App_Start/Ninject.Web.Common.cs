@@ -86,7 +86,8 @@ namespace College.App_Start
             kernel.Bind<UseCases.ProfessorContext.Repositories.IProfessorRepository>().To<Infra.ProfessorContext.ProfessorRepository>();
             kernel.Bind<IStudentRepository>().To<StudentRepository>();
             kernel.Bind<ICourseRepository>().To<CourseRepository>();
-            kernel.Bind<IDisciplineRepository>().To<DisciplineRepository>();
+            kernel.Bind<UseCases.CourseContext.Repositories.IDisciplineRepository>().To<Infra.CourseContext.DisciplineRepository>();
+            kernel.Bind<UseCases.EnrollmentContext.Repositories.IDisciplineRepository>().To<Infra.EnrollmentContext.DisciplineRepository>();
             kernel.Bind<IEnrollmentRepository>().To<EnrollmentRepository>();
             kernel.Bind<UseCases.ActivityContext.Repositories.IActivityRepository>().To<Infra.ActivityContext.ActivityRepository>();
             kernel.Bind<UseCases.EvaluationContext.Repositories.IActivityRepository>().To<Infra.EvaluationContext.ActivityRepository>();
@@ -97,7 +98,8 @@ namespace College.App_Start
             kernel.Bind<StudentQueryHandler>().To<StudentQueryHandler>();
             kernel.Bind<UserQueryHandler>().To<UserQueryHandler>();
             kernel.Bind<DisciplineCommandHandler>().To<DisciplineCommandHandler>();
-            kernel.Bind<DisciplineQueryHandler>().To<DisciplineQueryHandler>();
+            kernel.Bind<UseCases.CourseContext.Queries.DisciplineQueryHandler>().To<UseCases.CourseContext.Queries.DisciplineQueryHandler>();
+            kernel.Bind<UseCases.EnrollmentContext.Queries.DisciplineQueryHandler>().To<UseCases.EnrollmentContext.Queries.DisciplineQueryHandler>();
             kernel.Bind<CourseQueryHandler>().To<CourseQueryHandler>();
             kernel.Bind<EnrollmentCommandHandler>().To<EnrollmentCommandHandler>();
             kernel.Bind<EnrollmentQueryHandler>().To<EnrollmentQueryHandler>();
