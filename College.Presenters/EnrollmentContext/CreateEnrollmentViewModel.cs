@@ -1,7 +1,6 @@
-﻿using System;
+﻿using College.Presenters.Shared;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using College.Presenters.Shared;
 
 namespace College.Presenters.EnrollmentContext
 {

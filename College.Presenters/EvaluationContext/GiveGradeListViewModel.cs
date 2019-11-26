@@ -1,8 +1,6 @@
 ﻿using College.Presenters.Shared;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace College.Presenters.EvaluationContext
 {
@@ -19,9 +17,7 @@ namespace College.Presenters.EvaluationContext
     {
         public Guid ActivityId { get; set; }
         public Guid StudentId { get; set; }
-        [Display(Name = "Acadêmico")]
         public string Student { get; set; }
-        [Display(Name = "Nota")]
         public string Grade { get; set; }
         public LinkButton EditButton => new LinkButton("Editar");
     }

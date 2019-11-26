@@ -1,7 +1,5 @@
 ﻿using College.Presenters.Shared;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace College.Presenters.EvaluationContext
 {
@@ -14,11 +12,8 @@ namespace College.Presenters.EvaluationContext
 
     public class GradeDetailsActivity
     {
-        [Display(Name = "Atividade")]
         public string Activity { get; set; }
-        [Display(Name = "Valor")]
         public decimal Value { get; set; }
-        [Display(Name = "Nota")]
         public decimal Grade { get; set; }
     }
 }
