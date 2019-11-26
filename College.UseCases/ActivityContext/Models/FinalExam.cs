@@ -19,10 +19,11 @@ namespace College.UseCases.ActivityContext.Models
             {
                 int month = DateTime.Now.Month <= 7 ? 6 : 12;
                 int year = DateTime.Now.Year;
-                return new DateTime(8, month, year);
+                return new DateTime(year, month, 8);
             }
         }
         public string Description => "Exame Final";
         public decimal Value => 100;
+        public decimal MaxValue => Value;
     }
 }

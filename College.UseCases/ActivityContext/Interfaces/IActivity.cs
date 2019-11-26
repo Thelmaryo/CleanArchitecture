@@ -10,6 +10,7 @@ namespace College.UseCases.ActivityContext.Interfaces
         string Description { get; }
         Guid DisciplineId { get; }
         decimal Value { get; }
+        decimal MaxValue { get; }
         DateTime Date { get; }
     }
 }

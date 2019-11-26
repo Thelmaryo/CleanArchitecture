@@ -20,5 +20,6 @@ namespace College.UseCases.ActivityContext.Models
         public Guid DisciplineId { get; private set; }
         public decimal Value { get; private set; }
         public DateTime Date { get; private set; }
+        public decimal MaxValue => 15;
     }
 }

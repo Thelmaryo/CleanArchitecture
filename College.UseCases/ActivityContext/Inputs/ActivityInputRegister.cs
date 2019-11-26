@@ -6,6 +6,6 @@ namespace College.UseCases.ActivityContext.Inputs
     public class ActivityInputRegister : ICommand
     {
         public IActivity Activity { get; set; }
-        public decimal DistributedPoints { get; set; }
+        public bool ValidateTotalGrade { get; set; } = true;
     }
 }

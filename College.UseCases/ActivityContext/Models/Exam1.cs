@@ -19,10 +19,12 @@ namespace College.UseCases.ActivityContext.Models
             {
                 int month = DateTime.Now.Month <= 7 ? 4 : 10;
                 int year = DateTime.Now.Year;
-                return new DateTime(1, month, year);
+                return new DateTime(year, month, 1);
             }
         }
         public string Description => "Prova 1";
         public decimal Value => 20;
+
+        public decimal MaxValue => Value;
     }
 }

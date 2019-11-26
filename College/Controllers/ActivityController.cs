@@ -177,8 +177,7 @@ namespace College.Controllers
             if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             var result = _activityCommand.Handle(new ActivityInputRegister {
-               Activity = new UseCases.ActivityContext.Models.Activity(activity.Description, activity.DisciplineId, activity.Value, Convert.ToDateTime(activity.Date)),
-                DistributedPoints = 0
+               Activity = new UseCases.ActivityContext.Models.Activity(activity.Description, activity.DisciplineId, activity.Value, Convert.ToDateTime(activity.Date))
             });
             if (!result.IsValid)
             {
@@ -215,8 +214,7 @@ namespace College.Controllers
             var result = _activityCommand.Handle(new ActivityInputUpdate
             {
                 Id = activity.Id,
-                Activity = new UseCases.ActivityContext.Models.Activity(activity.Description, activity.DisciplineId, activity.Value, Convert.ToDateTime(activity.Date)),
-                DistributedPoints = 0
+                Activity = new UseCases.ActivityContext.Models.Activity(activity.Description, activity.DisciplineId, activity.Value, Convert.ToDateTime(activity.Date))
             });
             if (!result.IsValid)
             {

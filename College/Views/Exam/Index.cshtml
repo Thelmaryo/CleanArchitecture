@@ -1,4 +1,4 @@
-﻿@model IEnumerable<College.Models.Exam>
+﻿@model College.Presenters.EvaluationContext.ExamListViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,33 +6,32 @@
 
 <h2>Index</h2>
 
-<h4>Disciplina: @ViewBag.Discipline</h4>
+<h4>Disciplina: @Model.DisciplineName</h4>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.EnrollmentId)
+            Acadêmico
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Exam1)
+            Prova 1
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Exam2)
+            Prova 2
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Exam3)
+            Prova 3
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FinalExam)
+            Exame Final
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model)
+@foreach (var item in Model.Students)
 {
     <tr>
         <td>
-            @{string student = (ViewBag.Students as Dictionary<Guid, string>).SingleOrDefault(x=>x.Key == item.EnrollmentId).Value;}
-            @student
+            @item.Student
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Exam1)
@@ -47,7 +46,13 @@
             @Html.DisplayFor(modelItem => item.FinalExam)
         </td>
         <td>
-            @Html.ActionLink("Editar", "GiveGrade", new { id=item.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink(item.EditButton.Text, "GiveGrade", new { StudentId = item.StudentId, disciplineId = Model.DisciplineId, Exam1 = item.Exam1, Exam2 =item.Exam2, Exam3 = item.Exam3, FinalExam = item.FinalExam }, new
+            {
+                @class = "btn",
+                style = $"background-color: {item.EditButton.Color}; " +
+                $"color: {item.EditButton.FontColor}; " +
+                $"border: 1px solid black"
+            })
         </td>
     </tr>
 }

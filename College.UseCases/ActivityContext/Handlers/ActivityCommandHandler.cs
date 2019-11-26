@@ -19,8 +19,10 @@ namespace College.UseCases.ActivityContext.Handlers
 
         public ICommandResult Handle(ActivityInputRegister command)
         {
-            decimal points = _AREP.GetByDiscipline(command.Activity.DisciplineId, new Semester()).Sum(x => x.Value);
-            var activity = new Activity(new Discipline(command.Activity.DisciplineId), command.Activity.Description, command.Activity.Date, command.Activity.Value, command.DistributedPoints, null);
+            decimal points = 0;
+            if (command.ValidateTotalGrade)
+                points = _AREP.GetByDiscipline(command.Activity.DisciplineId, new Semester()).Sum(x => x.Value);
+            var activity = new Activity(new Discipline(command.Activity.DisciplineId), command.Activity.Description, command.Activity.Date, command.Activity.Value, points, command.Activity.MaxValue, null);
             var result = new StandardResult();
             result.AddRange(activity.Notifications);
             if (result.Notifications.Count == 0)
@@ -33,7 +35,8 @@ namespace College.UseCases.ActivityContext.Handlers
 
         public ICommandResult Handle(ActivityInputUpdate command)
         {
-            var activity = new Activity(new Discipline(command.Activity.DisciplineId), command.Activity.Description, command.Activity.Date, command.Activity.Value, command.DistributedPoints, command.Id);
+            decimal points = _AREP.GetByDiscipline(command.Activity.DisciplineId, new Semester()).Sum(x => x.Value);
+            var activity = new Activity(new Discipline(command.Activity.DisciplineId), command.Activity.Description, command.Activity.Date, command.Activity.Value, points, command.Activity.MaxValue, command.Id);
             var result = new StandardResult();
             result.AddRange(activity.Notifications);
             if (result.Notifications.Count == 0)

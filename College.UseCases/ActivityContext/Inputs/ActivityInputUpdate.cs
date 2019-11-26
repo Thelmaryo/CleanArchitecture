@@ -8,6 +8,5 @@ namespace College.UseCases.ActivityContext.Inputs
     {
         public Guid Id { get; set; }
         public IActivity Activity { get; set; }
-        public decimal DistributedPoints { get; set; }
     }
 }
