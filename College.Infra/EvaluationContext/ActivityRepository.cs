@@ -1,6 +1,7 @@
 ﻿using College.Entities.EvaluationContext.Entities;
 using College.Infra.DataSource;
 using College.UseCases.EvaluationContext.Repositories;
+using College.UseCases.Shared;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace College.Infra.EvaluationContext
             }
         }
 
-        public IEnumerable<Activity> GetByDiscipline(Guid studentId, Guid disciplineId)
+        public IEnumerable<Activity> GetByDiscipline(Guid studentId, Guid disciplineId, Semester semester)
         {
             using (var db = _db.GetCon())
             {
@@ -41,9 +42,14 @@ namespace College.Infra.EvaluationContext
                 " [StudentId] as Id, s.FirstName + ' ' + s.LastName AS Name			" +
                 " FROM StudentActivity st INNER JOIN Student s on s.Id = st.StudentId " +
                 " INNER JOIN Activity a on a.Id = st.ActivityId 					  " +
-                " WHERE a.DisciplineId = @DisciplineId AND s.Id = @StudentId			  ";
+                " WHERE a.DisciplineId = @DisciplineId AND s.Id = @StudentId AND a.[Date] BETWEEN @Begin AND @End ";
                 var activity = db.Query<Activity, Student, Activity>(sql,
-                    param: new { DisciplineId = disciplineId, StudentId = studentId },
+                    param: new { 
+                        DisciplineId = disciplineId, 
+                        StudentId = studentId,
+                        Begin = semester.Begin,
+                        End = semester.End
+                    },
                     map: (_activity, student) =>
                     {
                         _activity = new Activity(_activity.Id, new Student(student.Id, student.Name), _activity.Description, _activity.Date, _activity.Grade, _activity.Value);

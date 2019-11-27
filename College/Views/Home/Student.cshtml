@@ -12,20 +12,20 @@
                 <th></th>
                 <th></th>
             </tr>
-            @foreach (College.Models.Discipline discipline in ViewBag.Disciplines)
+            @foreach (College.Entities.EvaluationContext.Entities.Discipline discipline in ViewBag.Disciplines)
             {
                 <tr>
                     <td><h4>@discipline.Name</h4></td>
                     <td>
                         @switch (ViewBag.StatusEnrollment)
                         {
-                            case College.Enumerators.EStatusEnrollment.PreEnrollment:
+                            case College.Entities.EnrollmentContext.Enumerators.EStatusEnrollment.PreEnrollment:
                                 <label class="label label-warning">Pré-Matricula</label>
                                 break;
-                            case College.Enumerators.EStatusEnrollment.Canceled:
+                            case College.Entities.EnrollmentContext.Enumerators.EStatusEnrollment.Canceled:
                                 <label class="label label-danger">Matricula Rejeitada</label>
                                 break;
-                            case College.Enumerators.EStatusEnrollment.Confirmed:
+                            case College.Entities.EnrollmentContext.Enumerators.EStatusEnrollment.Confirmed:
                                 <label class="label label-success">Matriculado</label>
                                 break;
                         }
@@ -38,8 +38,8 @@
     </div>
 }
 
-@for (int cont = 1; cont <= (ViewBag.Enrollments as IEnumerable<College.Models.Enrollment>).Count(); cont++)
+@for (int cont = 1; cont <= (ViewBag.Enrollments as IEnumerable<College.Entities.EnrollmentContext.Entities.Enrollment>).Count(); cont++)
 {
-    @Html.ActionLink("Notas - Semestre " + cont, "Index", "Grade", new { enrollmentId = (ViewBag.Enrollments as IEnumerable<College.Models.Enrollment>).ElementAt(cont - 1).Id }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Notas - Semestre " + cont, "Index", "Grade", new { enrollmentId = (ViewBag.Enrollments as IEnumerable<College.Entities.EnrollmentContext.Entities.Enrollment>).ElementAt(cont - 1).Id }, new { @class = "btn btn-default" })
 }
 

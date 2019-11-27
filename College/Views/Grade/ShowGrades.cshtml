@@ -1,13 +1,13 @@
-﻿@model IEnumerable<College.Models.ActivityGrade>
+﻿@model College.Presenters.EvaluationContext.ShowGradesViewModel
 
 @{
     ViewBag.Title = "ShowGrades";
 }
 
 <h2>Notas</h2>
-<h5>Prova 1: @ViewBag.Exam1</h5>
-<h5>Prova 2: @ViewBag.Exam2</h5>
-<h5>Prova 3: @ViewBag.Exam3</h5>
+<h5>Prova 1: @Model.Exam1</h5>
+<h5>Prova 2: @Model.Exam2</h5>
+<h5>Prova 3: @Model.Exam3</h5>
 <table class="table">
     <tr>
         <th>
@@ -17,23 +17,28 @@
             Valor
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Grade)
+            Nota
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Activities)
     {
-        var activity = (ViewBag.Activities as IEnumerable<College.Models.Activity>).SingleOrDefault(x => x.Id == item.ActivityId); 
         <tr>
-            
-            <td>@activity.Description</td>
-            <td>@activity.Value</td>
+
+            <td>@item.Activity</td>
+            <td>@item.Value</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Grade)
+                @item.Grade
             </td>
         </tr>
     }
 
 </table>
 
-@Html.ActionLink("Voltar", "Index", new { enrollmentId = ViewBag.EnrollmentId }, new { @class = "btn btn-default" })
+@Html.ActionLink(Model.BackButton.Text, "Index", new { enrollmentId = Model.EnrollmentId }, new
+{
+    @class = "btn",
+    style = $"background-color: {Model.BackButton.Color}; " +
+         $"color: {Model.BackButton.FontColor}; " +
+         $"border: 1px solid black"
+})

@@ -12,7 +12,7 @@
                 <th>Disciplina</th>
                 <th>Ações</th>
             </tr>
-            @foreach (College.Models.Discipline discipline in ViewBag.Disciplines)
+            @foreach (College.Entities.CourseContext.Entities.Discipline discipline in ViewBag.Disciplines)
             {
                 <tr>
                     <td><h4>@discipline.Name</h4></td>

@@ -37,7 +37,7 @@
                 <span class="label" style="background-color: @item.StatusColor"> @item.Status </span>
             </td>
             <td>
-                @Html.ActionLink(item.GradesButton.Text, "ShowGrades", new { disciplineId = item.DisciplineId, enrollmentId = ViewBag.EnrollmentId }, new
+                @Html.ActionLink(item.GradesButton.Text, "ShowGrades", new { disciplineId = item.DisciplineId, enrollmentId = Model.EnrollmentId }, new
                 {
                     @class = "btn",
                     style = $"background-color: {item.GradesButton.Color}; " +

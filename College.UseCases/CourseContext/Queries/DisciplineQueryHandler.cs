@@ -5,7 +5,7 @@ using College.UseCases.CourseContext.Inputs;
 
 namespace College.UseCases.CourseContext.Queries
 {
-    public class DisciplineQueryHandler : IQueryHandler<DisciplineInputGet, DisciplineResultQueryGet>
+    public class DisciplineQueryHandler : IQueryHandler<DisciplineInputGet, DisciplineResultQueryGet>, IQueryHandler<DisciplineInputGetByProfessor, DisciplineResultQueryList>
     {
         private readonly IDisciplineRepository _DREP;
 
@@ -26,6 +26,13 @@ namespace College.UseCases.CourseContext.Queries
             var result = new DisciplineResultQueryList();
             result.Disciplines = _DREP.List();
 
+            return result;
+        }
+
+        public DisciplineResultQueryList Handle(DisciplineInputGetByProfessor command)
+        {
+            var result = new DisciplineResultQueryList();
+            result.Disciplines = _DREP.GetByProfessor(command.ProfessorId);
             return result;
         }
     }

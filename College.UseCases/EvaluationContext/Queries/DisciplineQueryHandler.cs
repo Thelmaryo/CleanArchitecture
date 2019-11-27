@@ -26,7 +26,7 @@ namespace College.UseCases.EvaluationContext.Queries
             var disciplines = _DREP.GetByEnrollment(command.EnrollmentId);
             foreach (var discipline in disciplines)
             {
-                var activities = _AREP.GetByDiscipline(command.StudentId, discipline.Id).ToList();
+                var activities = _AREP.GetByDiscipline(command.StudentId, discipline.Id, new Shared.Semester(command.SemesterBegin, command.SemesterEnd)).ToList();
                 var finalExam = new Activity();
                 if (activities.Count() > 0)
                 {

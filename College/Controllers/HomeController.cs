@@ -1,16 +1,29 @@
 ﻿using College.Helpers;
 using College.Models;
 using College.UseCases.AccountContext.Queries;
+using College.UseCases.CourseContext.Inputs;
+using Course = College.UseCases.CourseContext.Queries;
+using Evaluation = College.UseCases.EvaluationContext.Queries;
+using College.UseCases.EnrollmentContext.Queries;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using College.UseCases.EnrollmentContext.Inputs;
+using College.UseCases.EvaluationContext.Inputs;
 
 namespace College.Controllers
 {
     public class HomeController : ControllerBase
     {
-        public HomeController(UserQueryHandler userQuery) : base(userQuery)
+        private readonly Evaluation.DisciplineQueryHandler _disciplineEvaluationQuery;
+        private readonly Course.DisciplineQueryHandler _disciplineQuery;
+        private readonly EnrollmentQueryHandler _enrollmentQuery;
+        public HomeController(Course.DisciplineQueryHandler disciplineQuery, EnrollmentQueryHandler enrollmentQuery, Evaluation.DisciplineQueryHandler disciplineEvaluationQuery,
+            UserQueryHandler userQuery) : base(userQuery)
         {
+            _disciplineQuery = disciplineQuery;
+            _enrollmentQuery = enrollmentQuery;
+            _disciplineEvaluationQuery = disciplineEvaluationQuery;
         }
 
         public ActionResult Index()
@@ -30,8 +43,8 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
-            Discipline discipline = new Discipline();
-            ViewBag.Disciplines = discipline.GetByProfessor(Authentication.UserId);
+            ;
+            ViewBag.Disciplines = _disciplineQuery.Handle(new DisciplineInputGetByProfessor { ProfessorId = Authentication.UserId }).Disciplines;
             return View();
         }
 
@@ -39,12 +52,15 @@ namespace College.Controllers
         {
             if (!UserIsInRole("Student"))
                 return RedirectToAction("Index", "Home");
-            Discipline discipline = new Discipline();
-            Enrollment enrollment = new Enrollment();
-            enrollment.GetCurrent(Authentication.UserId);
-            ViewBag.Disciplines = discipline.GetByEnrollment(enrollment.Id);
+            var enrollment = _enrollmentQuery.Handle(new EnrollmentInputGetByStudent { StudentId = Authentication.UserId }).Enrollment;
+            ViewBag.Disciplines = _disciplineEvaluationQuery.Handle(new DisciplineInputListByEnrollment {
+                EnrollmentId = enrollment.Id,
+                StudentId = Authentication.UserId,
+                SemesterBegin = enrollment.Begin,
+                SemesterEnd = enrollment.End
+            }).Disciplines;
             ViewBag.StatusEnrollment = enrollment.Status;
-            List<Enrollment> enrollments = enrollment.GetByStudent(Authentication.UserId).OrderBy(x => x.Begin).ToList();
+            var enrollments = _enrollmentQuery.Handle(new EnrollmentInputListByStudent { StudentId = Authentication.UserId }).Enrollment.OrderBy(x => x.Begin).ToList(); 
             enrollments.RemoveAll(x => x.Id == enrollment.Id);
             ViewBag.Enrollments = enrollments;
             return View();

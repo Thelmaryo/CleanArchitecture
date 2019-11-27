@@ -7,5 +7,7 @@ namespace College.UseCases.EvaluationContext.Inputs
     {
         public Guid StudentId { get; set; }
         public Guid DisciplineId { get; set; }
+        public DateTime SemesterBegin { get; set; }
+        public DateTime SemesterEnd { get; set; }
     }
 }

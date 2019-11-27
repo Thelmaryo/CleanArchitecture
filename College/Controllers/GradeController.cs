@@ -11,6 +11,8 @@ using College.UseCases.EnrollmentContext.Inputs;
 using College.UseCases.EvaluationContext.Inputs;
 using College.Entities.EnrollmentContext.Entities;
 using College.Presenters.EvaluationContext;
+using College.UseCases.EvaluationContext.Queries;
+using College.UseCases.ActivityContext.Models;
 
 namespace College.Controllers
 {
@@ -18,10 +20,12 @@ namespace College.Controllers
     {
         private readonly Evaluation.DisciplineQueryHandler _disciplineQuery;
         private readonly EnrollmentQueryHandler _enrollmentQuery;
-        public GradeController(Evaluation.DisciplineQueryHandler disciplineQuery, EnrollmentQueryHandler enrollmentQuery, UserQueryHandler userQuery) : base(userQuery)
+        private readonly ActivityQueryHandler _activityQuery;
+        public GradeController(Evaluation.DisciplineQueryHandler disciplineQuery, EnrollmentQueryHandler enrollmentQuery, ActivityQueryHandler activityQuery, UserQueryHandler userQuery) : base(userQuery)
         {
             _disciplineQuery = disciplineQuery;
             _enrollmentQuery = enrollmentQuery;
+            _activityQuery = activityQuery;
         }
 
         // GET: Grade
@@ -48,31 +52,31 @@ namespace College.Controllers
             return View(grades);
         }
 
-        //public ActionResult ShowGrades(Guid disciplineId, Guid enrollmentId)
-        //{
-        //    if (!UserIsInRole("Student"))
-        //        return RedirectToAction("Index", "Home");
-        //    Enrollment enrollment = new Enrollment();
-        //    enrollment.Get(enrollmentId);
-        //    Activity activity = new Activity();
-        //    var activities = activity.GetByDiscipline(disciplineId, new Semester(enrollment.Begin, enrollment.End));
-        //    var activityGrades = new List<ActivityGrade>();
-        //    foreach (var a in activities)
-        //    {
-        //        ActivityGrade activityGrade = new ActivityGrade();
-        //        activityGrade.GetByStudent(Authentication.UserId, a.Id);
-        //        if (activityGrade.Id == Guid.Empty)
-        //            activityGrade.ActivityId = a.Id;
-        //        activityGrades.Add(activityGrade);
-        //    }
-        //    Exam exam = new Exam();
-        //    exam.GetByStudent(enrollment.Id, disciplineId);
-        //    ViewBag.Exam1 = exam.Exam1;
-        //    ViewBag.Exam2 = exam.Exam2;
-        //    ViewBag.Exam3 = exam.Exam3;
-        //    ViewBag.Activities = activities;
-        //    ViewBag.EnrollmentId = enrollment.Id;
-        //    return View(activityGrades);
-        //}
+        public ActionResult ShowGrades(Guid disciplineId, Guid enrollmentId)
+        {
+            if (!UserIsInRole("Student"))
+                return RedirectToAction("Index", "Home");
+            var enrollment = _enrollmentQuery.Handle(new EnrollmentInputGet { EnrollmentId = enrollmentId }).Enrollment;
+            var activities = _activityQuery.Handle(new ActivityInputGetByDiscipline { DisciplineId = disciplineId, StudentId = Authentication.UserId, SemesterBegin = enrollment.Begin, SemesterEnd = enrollment.End }).Activities.ToList();
+            var exam1 = activities.SingleOrDefault(x => x.Description == new Exam1(Guid.Empty).Description);
+            var exam2 = activities.SingleOrDefault(x => x.Description == new Exam2(Guid.Empty).Description);
+            var exam3 = activities.SingleOrDefault(x => x.Description == new Exam3(Guid.Empty).Description);
+            activities.Remove(exam1);
+            activities.Remove(exam2);
+            activities.Remove(exam3);
+            activities.RemoveAll(x => x.Value == 100);
+            var activityGrades = new ShowGradesViewModel { 
+                EnrollmentId = enrollmentId,
+                Exam1 = exam1 == null ? 0 : exam1.Grade,
+                Exam2 = exam2 == null ? 0 : exam2.Grade,
+                Exam3 = exam3 == null ? 0 : exam3.Grade,
+                Activities = activities.Select(x=>new ShowGradesItem { 
+                    Activity = x.Description,
+                    Grade = x.Grade,
+                    Value = x.Value
+                })
+            };
+            return View(activityGrades);
+        }
     }
 }

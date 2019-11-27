@@ -24,7 +24,7 @@ namespace College.UseCases.EvaluationContext.Queries
         public ActivityResultQueryList Handle(ActivityInputGetByDiscipline command)
         {
             var result = new ActivityResultQueryList();
-            result.Activities = _AREP.GetByDiscipline(command.StudentId, command.DisciplineId);
+            result.Activities = _AREP.GetByDiscipline(command.StudentId, command.DisciplineId, new Shared.Semester(command.SemesterBegin, command.SemesterEnd));
             return result;
         }
     }
