@@ -60,26 +60,6 @@ namespace College.Infra.CourseContext
             }
         }
 
-        
-        public IEnumerable<Discipline> GetByEnrollment(Guid id)
-        {
-            using (var db = _db.GetCon())
-            {
-                sql = "SELECT d.*, c.*, p.Id, p.FirstName +' '+ p.LastName AS Name " +
-                    " FROM Discipline d INNER JOIN StudentDiscipline s ON (s.DisciplineId = d.Id) " +
-                    " INNER JOIN Enrollment e ON (s.EnrollmentId = e.Id) " +
-                    " INNER JOIN Course c ON (c.Id = CourseId)  " +
-                    " INNER JOIN Professor p ON (p.Id = ProfessorId)" +
-                    "WHERE e.Id = @Id";
-                var disciplines = db.Query<Discipline, Course, Professor, Discipline>(sql, param: new { Id = id }, map:
-                    (discipline, course, professor) => {
-                        var d = new Discipline(discipline.Name, course, professor, discipline.WeeklyWorkload, discipline.Period, discipline.Id);
-                        return d;
-                    }, splitOn: "Id");
-                return disciplines;
-            }
-        }
-
         public IEnumerable<Discipline> GetByProfessor(Guid id)
         {
             using (var db = _db.GetCon())

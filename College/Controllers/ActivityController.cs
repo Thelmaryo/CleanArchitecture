@@ -44,7 +44,7 @@ namespace College.Controllers
             if (!UserIsInRole("Professor"))
                 return RedirectToAction("Index", "Home");
             var discipline = _disciplineQuery.Handle(new DisciplineInputGet { DisciplineId = disciplineId });
-            var result = _activityQuery.Handle(new ActivityInputGetByDiscipline { DisciplineId = disciplineId, Semester = new UseCases.Shared.Semester() });
+            var result = _activityQuery.Handle(new UseCases.ActivityContext.Inputs.ActivityInputGetByDiscipline { DisciplineId = disciplineId, Semester = new UseCases.Shared.Semester() });
             var activities = new ActivityListViewModel {
                 DisciplineId = disciplineId,
                 DisciplineName = discipline.Discipline.Name,

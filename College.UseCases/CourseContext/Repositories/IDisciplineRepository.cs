@@ -12,6 +12,5 @@ namespace College.UseCases.CourseContext.Repositories
         Discipline Get(Guid id);
         IEnumerable<Discipline> List();
         IEnumerable<Discipline> GetByProfessor(Guid id);
-        IEnumerable<Discipline> GetByEnrollment(Guid id);
     }
 }

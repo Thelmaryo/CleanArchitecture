@@ -5,7 +5,11 @@ namespace College.Entities.EvaluationContext.Entities
 {
     public class Activity : Entity
     {
-        public Activity(Guid id, Student student, string description, decimal grade, decimal value)
+        public Activity()
+        {
+                
+        }
+        public Activity(Guid id, Student student, string description, DateTime date, decimal grade, decimal value)
         {
             if (grade > value)
                 Notifications.Add("Grade", $"A nota deve estar entre 0 e {value} pontos.");
@@ -14,6 +18,7 @@ namespace College.Entities.EvaluationContext.Entities
             Description = description;
             Grade = grade;
             Value = value;
+            Date = date;
         }
 
         public Activity(Guid id, Student student, decimal grade, decimal value)
@@ -43,5 +48,6 @@ namespace College.Entities.EvaluationContext.Entities
         public string Description { get; private set; }
         public decimal Grade { get; private set; }
         public decimal Value { get; private set; }
+        public DateTime Date { get; private set; }
     }
 }

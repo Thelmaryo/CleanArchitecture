@@ -1,17 +1,18 @@
 ﻿using College.Presenters.Shared;
+using System;
 using System.Collections.Generic;
 
 namespace College.Presenters.EvaluationContext
 {
     public class GradeListViewModel
     {
-        public IEnumerable<GiveGradeListItem> Students { get; set; }
+        public Guid EnrollmentId { get; set; }
+        public IEnumerable<GradeListItem> Students { get; set; }
     }
 
     public class GradeListItem
     {
-        public string DisciplineId { get; set; }
-        public string EnrollmentId { get; set; }
+        public Guid DisciplineId { get; set; }
         public string Discipline { get; set; }
         public decimal Grade { get; set; }
         public decimal FinalExam { get; set; }

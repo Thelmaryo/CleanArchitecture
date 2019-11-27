@@ -3,6 +3,7 @@ using College.Infra.DataSource;
 using College.UseCases.EvaluationContext.Repositories;
 using Dapper;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace College.Infra.EvaluationContext
@@ -30,13 +31,36 @@ namespace College.Infra.EvaluationContext
             }
         }
 
+        public IEnumerable<Activity> GetByDiscipline(Guid studentId, Guid disciplineId)
+        {
+            using (var db = _db.GetCon())
+            {
+                sql = " SELECT [ActivityId] as Id, 										  " +
+                " [Grade], 	[Description],														  " +
+                " [Value], [Date],															  " +
+                " [StudentId] as Id, s.FirstName + ' ' + s.LastName AS Name			" +
+                " FROM StudentActivity st INNER JOIN Student s on s.Id = st.StudentId " +
+                " INNER JOIN Activity a on a.Id = st.ActivityId 					  " +
+                " WHERE a.DisciplineId = @DisciplineId AND s.Id = @StudentId			  ";
+                var activity = db.Query<Activity, Student, Activity>(sql,
+                    param: new { DisciplineId = disciplineId, StudentId = studentId },
+                    map: (_activity, student) =>
+                    {
+                        _activity = new Activity(_activity.Id, new Student(student.Id, student.Name), _activity.Description, _activity.Date, _activity.Grade, _activity.Value);
+                        return _activity;
+                    }, splitOn: "Id, Id");
+
+                return activity;
+            }
+        }
+
         public Activity GetByStudent(Guid studentId, Guid activityId)
         {
             using (var db = _db.GetCon())
             {
                 sql = " SELECT [ActivityId] as Id, 										  " +
-                " [Grade], 															  " +
-                " [Value], 															  " +
+                " [Grade], [Description],															  " +
+                " [Value], 	[Date],														  " +
                 " [StudentId] as Id, s.FirstName + ' ' + s.LastName AS Name			" +
                 " FROM StudentActivity st INNER JOIN Student s on s.Id = st.StudentId " +
                 " INNER JOIN Activity a on a.Id = st.ActivityId 					  " +
@@ -45,7 +69,7 @@ namespace College.Infra.EvaluationContext
                     param: new { ActivityId = activityId, StudentId = studentId },
                     map: (_activity, student) =>
                     {
-                        _activity = new Activity(_activity.Id, new Student(student.Id, student.Name), _activity.Grade, _activity.Value);
+                        _activity = new Activity(_activity.Id, new Student(student.Id, student.Name), _activity.Description, _activity.Date, _activity.Grade, _activity.Value);
                         return _activity;
                     }, splitOn: "Id, Id");
 

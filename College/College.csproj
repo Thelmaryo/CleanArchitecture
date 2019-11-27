@@ -160,6 +160,7 @@
     </Compile>
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Helpers\Checkbox.cs" />
+    <Compile Include="Helpers\DictionaryStudentStatus.cs" />
     <Compile Include="Helpers\MSSQLConfiguration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Helpers\ComboboxItem.cs" />

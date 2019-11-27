@@ -1,4 +1,4 @@
-﻿@model IEnumerable<College.Models.Grade>
+﻿@model College.Presenters.EvaluationContext.GradeListViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -7,42 +7,43 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Discipline)
+            Disciplina
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Value)
+            Nota
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FinalExam)
+            Exame Final
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            Status
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Students)
     {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Discipline)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Value)
+                @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FinalExam)
             </td>
             <td>
-                @switch (item.Status)
-                {
-                    case "Aprovado":<span class="label label-success"> Aprovado </span> break;
-                    case "Reprovado": <span class="label label-danger"> Reprovado </span>break;
-                    case "Matriculado": <span class="label label-primary"> Matriculado </span>break;
-                }
+                <span class="label" style="background-color: @item.StatusColor"> @item.Status </span>
             </td>
             <td>
-                @Html.ActionLink("Notas", "ShowGrades", new { disciplineId = item.DisciplineId, enrollmentId = ViewBag.EnrollmentId }, new { @class = "btn btn-default" })
+                @Html.ActionLink(item.GradesButton.Text, "ShowGrades", new { disciplineId = item.DisciplineId, enrollmentId = ViewBag.EnrollmentId }, new
+                {
+                    @class = "btn",
+                    style = $"background-color: {item.GradesButton.Color}; " +
+                    $"color: {item.GradesButton.FontColor}; " +
+                    $"border: 1px solid black"
+                })
             </td>
         </tr>
     }

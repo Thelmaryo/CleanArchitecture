@@ -107,7 +107,7 @@ namespace College.Models
             if (_db.State == ConnectionState.Closed)
                 _db.Open();
             var Enrollments = new List<Enrollment>();
-            var sql = "SELECT * FROM Enrollment WHERE StudentId = @StudentId";
+            var sql = "SELECT * FROM Enrollment WHERE StudentId = @StudentId AND Status = 1";
             SqlCommand command = new SqlCommand(sql, _db);
             command.Parameters.AddWithValue("@StudentId", studentId);
             SqlDataReader dataReader = command.ExecuteReader();

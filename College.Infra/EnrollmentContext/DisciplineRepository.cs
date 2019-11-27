@@ -1,6 +1,6 @@
 ﻿using College.Entities.EnrollmentContext.Entities;
+using College.Entities.Shared;
 using College.Infra.DataSource;
-using College.Infra.EnrollmentContext.Enumerators;
 using College.UseCases.EnrollmentContext.Repositories;
 using Dapper;
 using System;

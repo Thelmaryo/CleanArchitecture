@@ -5,7 +5,7 @@ using College.UseCases.Shared.Commands;
 
 namespace College.UseCases.EvaluationContext.Queries
 {
-    public class ActivityQueryHandler : IQueryHandler<ActivityInputGetByStudent, ActivityResultQueryGet>
+    public class ActivityQueryHandler : IQueryHandler<ActivityInputGetByStudent, ActivityResultQueryGet>, IQueryHandler<ActivityInputGetByDiscipline, ActivityResultQueryList>
     {
         private readonly IActivityRepository _AREP;
 
@@ -18,6 +18,13 @@ namespace College.UseCases.EvaluationContext.Queries
         {
             var result = new ActivityResultQueryGet();
             result.Activity = _AREP.GetByStudent(command.StudentId, command.ActivityId);
+            return result;
+        }
+
+        public ActivityResultQueryList Handle(ActivityInputGetByDiscipline command)
+        {
+            var result = new ActivityResultQueryList();
+            result.Activities = _AREP.GetByDiscipline(command.StudentId, command.DisciplineId);
             return result;
         }
     }
