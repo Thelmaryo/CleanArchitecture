@@ -1,6 +1,7 @@
-﻿using College.Presenters.ProfessorContext;
+﻿using College.Entities.ProfessorContext.Enumerators;
+using College.Presenters.ProfessorContext;
 using College.Presenters.Shared;
-using College.Entities.ProfessorContext.Enumerators;
+using College.UseCases.AccountContext.Queries;
 using College.UseCases.ProfessorContext.Handlers;
 using College.UseCases.ProfessorContext.Inputs;
 using College.UseCases.ProfessorContext.Queries;
@@ -8,8 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using College.Models;
-using College.UseCases.AccountContext.Queries;
 
 namespace College.Controllers
 {

@@ -1,6 +1,4 @@
-﻿using College.Enumerators;
-using College.Models;
-using College.Presenters.CourseContext;
+﻿using College.Presenters.CourseContext;
 using College.Presenters.Shared;
 using College.UseCases.AccountContext.Queries;
 using College.UseCases.CourseContext.Handlers;

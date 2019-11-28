@@ -1,18 +1,16 @@
-﻿using College.Helpers;
+﻿using College.Entities.EnrollmentContext.Entities;
+using College.Helpers;
+using College.Presenters.EvaluationContext;
 using College.UseCases.AccountContext.Queries;
+using College.UseCases.ActivityContext.Models;
+using College.UseCases.EnrollmentContext.Inputs;
 using College.UseCases.EnrollmentContext.Queries;
-using Evaluation =College.UseCases.EvaluationContext.Queries;
+using College.UseCases.EvaluationContext.Inputs;
+using College.UseCases.EvaluationContext.Queries;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using College.UseCases.EnrollmentContext.Result;
-using College.UseCases.EnrollmentContext.Inputs;
-using College.UseCases.EvaluationContext.Inputs;
-using College.Entities.EnrollmentContext.Entities;
-using College.Presenters.EvaluationContext;
-using College.UseCases.EvaluationContext.Queries;
-using College.UseCases.ActivityContext.Models;
+using Evaluation = College.UseCases.EvaluationContext.Queries;
 
 namespace College.Controllers
 {

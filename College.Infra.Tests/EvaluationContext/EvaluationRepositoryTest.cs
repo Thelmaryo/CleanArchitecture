@@ -28,7 +28,7 @@ namespace College.Infra.Tests.EvaluationContext
         Entities.StudentContext.Entities.Student studentEdit;
         Student _student;
         Activity activityEC;
-        Discipline disciplineCC;
+        Entities.CourseContext.Entities.Discipline disciplineCC;
         Entities.ProfessorContext.Entities.Professor professor;
         string sql;
         UseCases.EvaluationContext.Repositories.IActivityRepository _AREPEC;
@@ -57,7 +57,7 @@ namespace College.Infra.Tests.EvaluationContext
             _PREP.Create(professor);
 
             // Create Discipline
-            disciplineCC = new Discipline("Psicologia", new Entities.CourseContext.Entities.Course(course.CourseId), new Entities.CourseContext.Entities.Professor(professor.Id), 20, 1,0);
+            disciplineCC = new Entities.CourseContext.Entities.Discipline("Psicologia", new Entities.CourseContext.Entities.Course(course.CourseId), new Entities.CourseContext.Entities.Professor(professor.Id), 20, 1,0);
             _DREP.Create(disciplineCC);
 
             disciplineAC = new Entities.ActivityContext.Entities.Discipline(disciplineCC.Id, "Psicologia");
@@ -75,12 +75,12 @@ namespace College.Infra.Tests.EvaluationContext
             _SREP.Create(studentEdit);
 
             // Create Activity
-            activityAC = new Entities.ActivityContext.Entities.Activity(disciplineAC, "AtividadeTest", DateTime.Now, 10, 10, Guid.NewGuid());
+            activityAC = new Entities.ActivityContext.Entities.Activity(disciplineAC, "AtividadeTest", DateTime.Now, 10, 10, 15, Guid.NewGuid());
             _AREPAC.Create(activityAC);
 
             // Create Activity
             _student = new Student(student.Id);
-            activityEC = new Activity(activityAC.Id, _student, "AtividadeTest", 8, 10);
+            activityEC = new Activity(activityAC.Id, _student, "AtividadeTest", DateTime.Now, 8, 10);
             _AREPEC.Create(activityEC);
         }
         [TestMethod]
@@ -98,7 +98,7 @@ namespace College.Infra.Tests.EvaluationContext
             // Porque existe esse metodo ???
             // var _student = new Student(studentEdit.Id);
             //activityEC.UpdateStudent(_student);
-            var activityECEdit = new Activity(activityEC.Id, activityEC.Student, activityEC.Description, 6, activityEC.Value);
+            var activityECEdit = new Activity(activityEC.Id, activityEC.Student, activityEC.Description, DateTime.Now, 6, activityEC.Value);
 
             _AREPEC.Update(activityECEdit);
             var activityDB = _AREPEC.GetByStudent(student.Id, activityEC.Id);

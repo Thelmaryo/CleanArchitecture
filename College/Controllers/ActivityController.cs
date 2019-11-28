@@ -1,5 +1,4 @@
-﻿using College.Models;
-using College.Presenters.ActivityContext;
+﻿using College.Presenters.ActivityContext;
 using College.Presenters.EvaluationContext;
 using College.UseCases.AccountContext.Queries;
 using College.UseCases.ActivityContext.Handlers;
@@ -12,7 +11,6 @@ using College.UseCases.Shared.Commands;
 using College.UseCases.StudentContext.Inputs;
 using College.UseCases.StudentContext.Queries;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 

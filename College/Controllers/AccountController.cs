@@ -1,10 +1,8 @@
 ﻿using College.Helpers;
-using College.Models;
 using College.Presenters.AccountContext;
 using College.UseCases.AccountContext.Inputs;
 using College.UseCases.AccountContext.Queries;
 using System;
-using System.Security.Cryptography;
 using System.Web.Mvc;
 
 namespace College.Controllers
@@ -44,7 +42,7 @@ namespace College.Controllers
         public ActionResult Logout()
         {
             if (Authentication.UserAuthenticated)
-                new User().Logout();
+                Authentication.UserAuthenticated = false;
             return RedirectToAction("Login");
         }
     }

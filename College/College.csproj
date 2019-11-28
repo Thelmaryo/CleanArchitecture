@@ -152,30 +152,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfessorController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
-    <Compile Include="Enumerators\EDegree.cs" />
-    <Compile Include="Enumerators\EStatusDiscipline.cs" />
-    <Compile Include="Enumerators\EStatusEnrollment.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Authentication.cs" />
-    <Compile Include="Helpers\Checkbox.cs" />
     <Compile Include="Helpers\DictionaryStudentStatus.cs" />
     <Compile Include="Helpers\MSSQLConfiguration.cs" />
-    <Compile Include="Models\Activity.cs" />
-    <Compile Include="Helpers\ComboboxItem.cs" />
-    <Compile Include="Models\ActivityGrade.cs" />
-    <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Discipline.cs" />
-    <Compile Include="Models\DisciplinePortfolio.cs" />
-    <Compile Include="Models\Enrollment.cs" />
-    <Compile Include="Models\Exam.cs" />
-    <Compile Include="Models\Grade.cs" />
-    <Compile Include="Models\IRepository.cs" />
-    <Compile Include="Models\Professor.cs" />
-    <Compile Include="Models\Semester.cs" />
-    <Compile Include="Models\Student.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

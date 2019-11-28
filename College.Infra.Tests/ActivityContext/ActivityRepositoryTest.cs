@@ -50,7 +50,7 @@ namespace College.Infra.Tests.ActivityContext
         [TestMethod]
         public void ShouldCreateAnActivity()
         {
-            var activity = new Activity(Discipline, "Activity 1", DateTime.Now, 10, 50, null);
+            var activity = new Activity(Discipline, "Activity 1", DateTime.Now, 10, 50, 15, null);
             _AREP.Create(activity);
             var activityDB = _AREP.Get(activity.Id);
             Activities.Add(activity.Id);
