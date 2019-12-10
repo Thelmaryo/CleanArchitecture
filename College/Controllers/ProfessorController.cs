@@ -5,6 +5,7 @@ using College.UseCases.AccountContext.Queries;
 using College.UseCases.ProfessorContext.Handlers;
 using College.UseCases.ProfessorContext.Inputs;
 using College.UseCases.ProfessorContext.Queries;
+using EnumsNET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -173,13 +174,13 @@ namespace College.Controllers
 
         private List<ComboboxItem> GetComboboxDegree()
         {
-            var names = Enum.GetNames(typeof(EDegree));
             var values = Enum.GetValues(typeof(EDegree));
             var combobox = new List<ComboboxItem>();
-            for (int index = 0; index < names.Count(); index++)
+            for (int index = 0; index < values.Length; index++)
             {
                 var value = values.GetValue(index);
-                combobox.Add(new ComboboxItem(names[index], value.ToString()));
+                var name = ((EDegree)value).AsString(EnumFormat.Description);
+                combobox.Add(new ComboboxItem(name, value.ToString()));
             }
             return combobox;
         }
